@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DlgKeyBoard</class>
+ <widget class="QDialog" name="DlgKeyBoard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>180</width>
+    <height>213</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(140, 140, 140);
+border-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
+  </property>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>4</y>
+     <width>172</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>38</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_1">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_1
+{ 
+border-image: url(:/数字1normal.png);
+}
+QToolButton#toolButton_1:hover
+{
+border-image: url(:/数字1hover.png);    
+}
+QToolButton#toolButton_1:pressed
+{        
+	border-image: url(:/数字1press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>48</x>
+     <y>38</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_2">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_2
+{ 
+border-image: url(:/数字2normal.png);
+}
+QToolButton#toolButton_2:hover
+{
+border-image: url(:/数字2hover.png);    
+}
+QToolButton#toolButton_2:pressed
+{        
+	border-image: url(:/数字2press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>38</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_11">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_3">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_3
+{ 
+border-image: url(:/数字3normal.png);
+}
+QToolButton#toolButton_3:hover
+{
+border-image: url(:/数字3hover.png);    
+}
+QToolButton#toolButton_3:pressed
+{        
+	border-image: url(:/数字3press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>82</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_8">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_4">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_4
+{ 
+border-image: url(:/数字4normal.png);
+}
+QToolButton#toolButton_4:hover
+{
+border-image: url(:/数字4hover.png);    
+}
+QToolButton#toolButton_4:pressed
+{        
+	border-image: url(:/数字4press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_5" native="true">
+   <property name="geometry">
+    <rect>
+     <x>48</x>
+     <y>82</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_9">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_5">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_5
+{ 
+border-image: url(:/数字5normal.png);
+}
+QToolButton#toolButton_5:hover
+{
+border-image: url(:/数字5hover.png);    
+}
+QToolButton#toolButton_1:pressed
+{        
+	border-image: url(:/数字5press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_6" native="true">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>82</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_10">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_6">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_6
+{ 
+border-image: url(:/数字6normal.png);
+}
+QToolButton#toolButton_6:hover
+{
+border-image: url(:/数字6hover.png);    
+}
+QToolButton#toolButton_6:pressed
+{        
+	border-image: url(:/数字6press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_7" native="true">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>126</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_7">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_7
+{ 
+border-image: url(:/数字7normal.png);
+}
+QToolButton#toolButton_7:hover
+{
+border-image: url(:/数字7hover.png);    
+}
+QToolButton#toolButton_7:pressed
+{        
+	border-image: url(:/数字7press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_8" native="true">
+   <property name="geometry">
+    <rect>
+     <x>48</x>
+     <y>126</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_8">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_8
+{ 
+border-image: url(:/数字8normal.png);
+}
+QToolButton#toolButton_8:hover
+{
+border-image: url(:/数字8hover.png);    
+}
+QToolButton#toolButton_8:pressed
+{        
+	border-image: url(:/数字8press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_9" native="true">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>126</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_9">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_9
+{ 
+border-image: url(:/数字9normal.png);
+}
+QToolButton#toolButton_9:hover
+{
+border-image: url(:/数字9hover.png);    
+}
+QToolButton#toolButton_9:pressed
+{        
+	border-image: url(:/数字9press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_10" native="true">
+   <property name="geometry">
+    <rect>
+     <x>48</x>
+     <y>170</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_0">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_0
+{ 
+border-image: url(:/数字0normal.png);
+}
+QToolButton#toolButton_0:hover
+{
+border-image: url(:/数字0hover.png);    
+}
+QToolButton#toolButton_0:pressed
+{        
+	border-image: url(:/数字0press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_11" native="true">
+   <property name="geometry">
+    <rect>
+     <x>92</x>
+     <y>170</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButton_pt">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_pt
+{ 
+	border-image: url(:/小数点normal.png);
+}
+QToolButton#toolButton_pt:hover
+{
+	border-image: url(:/小数点hover.png);    
+}
+QToolButton#toolButton_pt:pressed
+{        
+	
+	border-image: url(:/小数点press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_12" native="true">
+   <property name="geometry">
+    <rect>
+     <x>136</x>
+     <y>126</y>
+     <width>40</width>
+     <height>84</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_12">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>19</width>
+        <height>13</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QToolButton" name="toolButton_enter">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>70</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButton_enter
+{ 
+	border-image: url(:/回车normal.png);
+}
+QToolButton#toolButton_enter:hover
+{
+	border-image: url(:/回车hover.png);
+}
+QToolButton#toolButton_enter:pressed
+{        
+	
+	border-image: url(:/回车press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>19</width>
+        <height>14</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_13" native="true">
+   <property name="geometry">
+    <rect>
+     <x>136</x>
+     <y>82</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_13">
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButtonBack">
+      <property name="minimumSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButtonBack
+{ 
+	border-image: url(:/退格normal.png);
+}
+QToolButton#toolButtonBack:hover
+{
+	border-image: url(:/退格hover.png);
+}
+QToolButton#toolButtonBack:pressed
+{        
+	border-image: url(:/退格press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_14" native="true">
+   <property name="geometry">
+    <rect>
+     <x>136</x>
+     <y>38</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_14">
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButtonExit">
+      <property name="minimumSize">
+       <size>
+        <width>36</width>
+        <height>36</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButtonExit
+{ 
+	
+	border-image: url(:/退出normal.png);
+}
+QToolButton#toolButtonExit:hover
+{
+	border-image: url(:/退出hover.png);
+}
+QToolButton#toolButtonExit:pressed
+{        
+	border-image: url(:/退出press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="widget_15" native="true">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>170</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+border:1px solid black
+</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_15">
+    <property name="leftMargin">
+     <number>4</number>
+    </property>
+    <property name="topMargin">
+     <number>4</number>
+    </property>
+    <item>
+     <widget class="QToolButton" name="toolButtonSub">
+      <property name="minimumSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QToolButton#toolButtonSub
+{ 
+	border-image: url(:/减号normal.png);
+}
+QToolButton#toolButtonSub:hover
+{
+border-image: url(:/减号hover.png);    
+}
+QToolButton#toolButtonSub:pressed
+{        
+	border-image: url(:/减号press.png);
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

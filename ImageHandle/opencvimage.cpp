@@ -1,0 +1,3 @@
+﻿#include "opencvimage.h"
+
+

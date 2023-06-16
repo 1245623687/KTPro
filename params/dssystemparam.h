@@ -1,0 +1,119 @@
+﻿#ifndef DSSYSTEMPARAM_H
+#define DSSYSTEMPARAM_H
+
+//#if defined(_MSC_VER) && (_MSC_VER >= 1600)
+//# pragma execution_character_set("utf-8")
+//#endif
+
+#include<QString>
+
+//班次
+enum ENUMSHIFT
+{
+    ENUMSHIFT_NULL=-1,
+    ENUMSHIFT_MORNING=0,
+    ENUMSHIFT_AFTERNOON=1,
+    ENUMSHIFT_NIGHT=2
+};
+
+//图像保存方式：0：不保存  1:保存所有   2：保存NG
+enum ENUMIMGSAVETYPE
+{
+    ENUMIMGSAVETYPE_NOSAVE=0,
+    ENUMIMGSAVETYPE_ALL=1,
+    ENUMIMGSAVETYPE_NG=2,
+};
+
+enum ENUMIMGSAVEFORMAT
+{
+    ENUMIMGSAVEFORMAT_BMP=0,
+    ENUMIMGSAVEFORMAT_JPG=1,
+
+};
+
+
+//相机类型
+enum ENUMCAMERATYPE
+{
+    ENUMCAMERATYPE_SIMU = -1,
+    ENUMCAMERATYPE_MER2=0,
+    ENUMCAMERATYPE_AVT = 1,
+    ENUMCAMERATYPE_HKUSB = 2,
+};
+
+//IO卡类型
+enum ENUMIOTYPE
+{
+
+    ENUMIOTYPE_YANHUAGPIO=0,
+    ENUMIOTYPE_AAEONGPIO=1,
+    ENUMIOTYPE_HUAHANGPIO=2,
+    ENUMIOTYPE_CED_BC09_2A_GPIO=3,
+    ENUMIOTYPE_FIT_GPIO=4,
+    ENUMIOTYPE_YANHUAHiGPIO=5,
+
+    // ENUMIOTYPE_YANHUAGPIO=0,
+
+};
+
+enum ENUMOUTPUTTYPE
+{
+    ENUMOUTPUTTYPE_OUT=0,
+    ENUMOUTPUTTYPE_NOOUT=1
+};
+
+enum ENUMDISPLAYTYPE
+{
+    ENUMDISPLAYTYPE_ALLAREA=0,
+    ENUMDISPLAYTYPE_DEFECTAREA=1,
+    ENUMDISPLAYTYPE_NODISPLAY=2,
+};
+
+enum ENUMCHECKMODETYPE
+{
+    ENUMCHECKMODETYPE_PIC=0,
+    ENUMCHECKMODETYPE_PHE=1,
+    ENUMCHECKMODETYPE_PICANDPHE=2,
+    ENUMCHECKMODETYPE_PICORPHE=3,
+
+};
+
+enum ENUMEPHDISPLAYTYPE
+{
+    ENUMEPHDISPLAYTYPE_NODISPLAY=0,
+    ENUMEPHDISPLAYTYPE_DISPLAY=1,
+
+};
+
+
+class DSSystemParam
+{
+public:
+    enum ENUMSYSTEMSTATE
+    {
+        ENUMSYSTEMSTATE_RUNNING,
+        ENUMSYSTEMSTATE_STOPPING
+    };
+
+
+
+public:
+    static QString AppPath;
+    static QString ParamsConfig;
+    static QString BrandName;
+    static QString BrandDirPath;
+    static ENUMSYSTEMSTATE SystemState;
+   // static ENUMSHIFT CurShift;
+    static int CameraNum;
+
+    static ENUMSHIFT getCurrentShift();
+
+
+
+private:
+    DSSystemParam(){}
+
+};
+
+
+#endif // PACKAGECHECKERSYSTEMPARAM_H
