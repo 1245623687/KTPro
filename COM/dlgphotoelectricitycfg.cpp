@@ -494,7 +494,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             if(retVec[i]<thresh)
             {
                 checkRet=true;
-                 PackageChecker::getInstance()-> RetMapPheQZ[i]=true;
+                 PackageChecker::getInstance()-> RetMapPheQZ[i-2]=true;
 
                 m_vecKickValQZ[i-2]++;
 
