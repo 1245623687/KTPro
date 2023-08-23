@@ -605,6 +605,9 @@ public:
 
         XmlHelper::GetElementTextFromParent("IsAssociated", pEleParent, temp);
         this->m_StuCheckOperatorBasic->IsAssociated = atoi(temp.c_str());
+
+        XmlHelper::GetElementTextFromParent("CamIdx", pEleParent, temp);
+        this->m_StuCheckOperatorBasic->CamIdx = atoi(temp.c_str());
         
         XMLElement * eleGrayConversion = XmlHelper::GetElementByParent("GrayConversion", pEleParent);
         StuGrayConversionControl *stuGrayConversionControl = new StuGrayConversionControl(this->m_StuCheckOperatorBasic->Basic_GrayConversion);
@@ -719,6 +722,9 @@ public:
         XMLElement* eleIsAssociated = doc.NewElement("IsAssociated");
         eleIsAssociated->SetText(this->m_StuCheckOperatorBasic->IsAssociated);
 
+        XMLElement* eleCamIdx = doc.NewElement("CamIdx");
+        eleCamIdx->SetText(this->m_StuCheckOperatorBasic->CamIdx);
+
         
         StuGrayConversionControl *  eleStuGrayConversionControl = new StuGrayConversionControl(this->m_StuCheckOperatorBasic->Basic_GrayConversion);
         XMLElement * eleGrayConversion = eleStuGrayConversionControl->generateXmlElementBlock(doc);
@@ -742,6 +748,8 @@ public:
         eleBasic->InsertEndChild(eleAsDir);
         eleBasic->InsertEndChild(eleAsContinusCheck);
         eleBasic->InsertEndChild(eleIsAssociated);
+        eleBasic->InsertEndChild(eleCamIdx);
+
 
         eleBasic->InsertEndChild(eleGrayConversion);
         return eleBasic;
@@ -1351,6 +1359,13 @@ public:
 
 
 
+    void fill_up(cv::Mat src, cv::Mat &dst)
+    {
+        dst = cv::Mat(src.size(), CV_8UC1, cv::Scalar(0));
+        vector<vector<cv::Point>> contours;
+        findContours(src, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
+        drawContours(dst, contours, -1, cv::Scalar(255), cv::FILLED);
+    }
     virtual int calculate(cv::Mat& ref, cv::Mat cur)
     {
 
@@ -1654,178 +1669,147 @@ public:
         //        }
         //wuzhong
         {
+
+            ClsCheckOperatorCircleInspect->PresOut;
+
+            int threshOutLow =ClsCheckOperatorCircleInspect->ThreshLowOut;
+            int threshOutHigh = ClsCheckOperatorCircleInspect->ThreshHighOut;
+            int ThreshInCirlVal = ClsCheckOperatorCircleInspect->ThreshInCirlVal;
+            int ThreshOutCirlVal =  ClsCheckOperatorCircleInspect->ThreshOutCirlVal;
+            int presOut = ClsCheckOperatorCircleInspect->PresOut;
+            int presIn = ClsCheckOperatorCircleInspect->PresIn;
+            int presCircle = ClsCheckOperatorCircleInspect->PresCircle;
+
+
             int ret=0;
             clock_t starttime=clock();
             cv::Mat areaImg=cv::Mat::zeros(cur.size(),CV_8UC1);
-            // cv::Mat dst=cur.clone();
+            //            cv::Mat tmp=cur.clone();
 
             cv::Mat imgBin;
-
-
-
-            cv::threshold(cur,imgBin,ClsCheckOperatorCircleInspect->ThreshInCirlVal,255,cv::THRESH_BINARY);
-
-            cv::Mat structureElementOpen = getStructuringElement(cv::MORPH_RECT, cv::Size(5,5), cv::Point(-1, -1));
+            cv::Mat structureElementOpen = getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5), cv::Point(-1, -1));
             cv::Mat structureElementOpen2 = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(-1, -1));
 
             cv::Mat structureElementClose = getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7), cv::Point(-1, -1));
 
-            cv::Mat structureElementERODE = getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6), cv::Point(-1, -1));//only wuzhong
+            cv::Mat structureElementERODE = getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6), cv::Point(-1, -1));
+            cv::Mat structureElementERODE2 = getStructuringElement(cv::MORPH_RECT, cv::Size(11, 11), cv::Point(-1, -1));
 
-            cv::Mat imgBinApt;
-            cv::morphologyEx(imgBin, imgBinApt, cv::MORPH_OPEN, structureElementOpen);
 
-            cv::morphologyEx(imgBinApt, imgBinApt, cv::MORPH_ERODE, structureElementERODE);
+            adaptiveThreshold(cur, imgBin, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 15, 0);
+            //            cv::threshold(tmp,imgBin,ThreshInCirlVal,255,cv::THRESH_BINARY);
 
+
+
+            cv::Mat imgBinApt, imgBinAptfillup;
             cv::Mat unit;
-            getLargestConnecttedComponent(imgBinApt, unit);
+            //填充
 
-            cv::morphologyEx(unit, unit, cv::MORPH_CLOSE, structureElementOpen);//only wuzhong
-            cv::morphologyEx(unit, unit, cv::MORPH_DILATE, structureElementERODE);
+            fill_up(imgBin, imgBinAptfillup);
+            cv::morphologyEx(imgBinAptfillup, imgBinAptfillup, cv::MORPH_OPEN, structureElementOpen);
+            cv::morphologyEx(imgBinAptfillup, imgBinAptfillup, cv::MORPH_ERODE, structureElementERODE);
+            cv::Mat unitfillup;
+            getLargestConnecttedComponent(imgBinAptfillup, unitfillup);
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_DILATE, structureElementERODE);
+
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_DILATE, structureElementERODE2);
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_ERODE, structureElementERODE2);
 
             {
-                int bobiArea=0;
-                for (int r = 0; r < unit.rows; ++r)
+                int bobiArea = 0;
+                for (int r = 0; r < imgBin.rows; ++r)
                 {
-                    for (int c = 0; c < unit.cols; ++c)
+                    for (int c = 0; c < imgBin.cols; ++c)
                     {
-                        if (unit.at<uchar>(r, c))
+                        if (unitfillup.at<uchar>(r, c)&& cur.at<uchar>(r, c)> ThreshInCirlVal)
                         {
                             bobiArea++;
+
                         }
                     }
                 }
-                if(bobiArea<ClsCheckOperatorCircleInspect->PresIn)
+                if (bobiArea > presIn  &&bobiArea<threshOutHigh)
                 {
-                    return  1;
+
                 }
-
-
-
+                else
+                {
+                    return 1;
+                }
             }
-
-
-
-
-
-
-            //先计算分割出的滤嘴边缘面积是否在合理的范围
-            int minCirleArea = 0;
-            int maxCirleArea=0;
-
 
 
             vector<vector<cv::Point>> contours;
             vector<cv::Vec4i> hierarchy;
-            cv::Vec<int,4> vec4;
-            cv::findContours(unit, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
-
-            //轮廓点少于50判定为异常轮廓，删除
-            std::vector<vector<cv::Point>>::iterator itConter;
-            for (itConter = contours.begin();itConter!=contours.end();)
+            cv::Vec<int, 4> vec4;
+            cv::findContours(unitfillup, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
+            if (contours.size()>=2)
             {
-
-                if (itConter->size()<70)//siping
-                {
-                    itConter = contours.erase(itConter);
-                }
-                else
-                {
-                    itConter++;
-                }
+                fill_up(unitfillup, unitfillup);
+                cv::findContours(unitfillup, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
             }
+
+            //轮廓点少于60判定为异常轮廓，删除
+//                        std::vector<vector<cv::Point>>::iterator itConter;
+//                        for (itConter = contours.begin(); itConter != contours.end();)
+//                        {
+//                            //if (itConter->size()<40)siping
+//                            if (itConter->size() < 100)//wuzhong
+//                            {
+//                                itConter = contours.erase(itConter);
+//                            }
+//                            else
+//                            {
+//                                itConter++;
+//                            }
+//                        }
 
 
             //先考虑轮廓为1的情况
-            //计算烟丝异常的面积
-            int yansiArea = 0;
-            cv::Mat yansiImg = cv::Mat::zeros(cur.size(), CV_8UC1);
             vector<vector<cv::Point>> yansiContours1;
             if (contours.size() == 1)
             {
-
-                //                return  1;
-
-                cv::Rect rect=cv::boundingRect(contours[0]);
-                int x = rect.x;
-                int y = rect.y;
-                for (int i=0;i<rect.height;i++)
-                {
-                    for (int j=0;j<rect.width;j++)
-                    {
-                        if (ClsCheckOperatorCircleInspect->ThreshLowOut <= cur.at<uchar>(y + i, x + j)&& cur.at<uchar>(y + i, x + j) <= ClsCheckOperatorCircleInspect->ThreshHighOut)
-                        {
-                            yansiImg.at<uchar>(y + i, x + j) = 255;
-                        }
-                    }
-                }
-                cv::morphologyEx(yansiImg, yansiImg, cv::MORPH_OPEN, structureElementOpen2);
-
-                getLargestConnecttedComponent(yansiImg, yansiImg);
-                for (int r = 0; r < yansiImg.rows; ++r)
-                {
-                    for (int c = 0; c < yansiImg.cols; ++c)
-                    {
-
-                        if(unit.at<uchar>(r, c))
-                        {
-                            minCirleArea++;
-                        }
-                        //                    if(cur.at<uchar>(r,c)>210)
-                        //                    {
-                        //                        maxCirleArea++;
-                        //                    }
-
-
-                        if (yansiImg.at<uchar>(r, c))
-                        {
-                            yansiArea++;
-                        }
-                    }
-                }
-
-
-                //                 if (minCirleArea < 0 || minCirleArea> 19000)//wuzhong
-                //                {
-                //                    ret = 1;
-                //                    return  ret;
-                //                }
-                //                // if (  maxCirleArea> ClsCheckOperatorCircleInspect->MaxCirleArea)
-
-                //                if (  maxCirleArea> 2000)
-                //                {
-                //                    ret = 1;
-                //                    return  ret;
-                //                }
-
-                //                if(yansiArea==yansiImg.cols*yansiImg.rows)
-                //                {
-                //                    yansiArea=0;
-                //                }
-
-                //                if (yansiArea>ClsCheckOperatorCircleInspect->PresOut)
-                //                {
-                //                    ret= 1;
-                //                    return ret;
-                //                }
-
-
-                //计算内圆长宽比
+                //计算外圆长宽比 wuzhong
                 cv::RotatedRect rotatedRect = minAreaRect(contours[0]);
                 int rWid = abs(rotatedRect.size.width);
                 int rHei = abs(rotatedRect.size.height);
                 if (rWid == 0 || rHei == 0) return 4;
                 double dwhscale = (double)min(rWid, rHei) / (double)max(rWid, rHei);
 
-
-                int whscale =min( round(dwhscale * 100),round(dwhscale * 100));
-
-                if (whscale <ClsCheckOperatorCircleInspect->PresCircle)
+                int whscale = round(dwhscale * 100);
+                if (whscale < presCircle)
                 {
-                    ret= 1;
-                    return ret;
+                    return  1;
+                }
+                else
+                {
+
                 }
 
+
+                cv::Mat fitInnerImg = cv::Mat::zeros(cur.size(), CV_8UC1);
+                int fitForegnare=0;
+
+                cv::RotatedRect rrt = cv::fitEllipse(contours[0]);
+                cv::ellipse(fitInnerImg, rrt, cv::Scalar(64), -1);
+
+
+
+                for (int r = 0; r < fitInnerImg.rows; ++r)
+                {
+                    for (int c = 0; c < fitInnerImg.cols; ++c)
+                    {
+                        if (fitInnerImg.at<uchar>(r, c) && cur.at<uchar>(r,c)<threshOutLow &&unitfillup.at<uchar>(r,c)==0)
+                        {
+                            fitForegnare++;
+                        }
+                    }
+                }
+
+                if (fitForegnare > presOut)
+                {
+                    return 1;
+                }
             }
 
             //轮廓为2的情况
@@ -1834,6 +1818,7 @@ public:
             vector<vector<cv::Point>> yansiContours2;
             if (contours.size() >= 2)
             {
+                return 1;
 
                 int minindex = contours[0].size() <= contours[1].size() ? 0 : 1;
                 int maxindex = contours[0].size() <= contours[1].size() ? 1 : 0;
@@ -1863,7 +1848,7 @@ public:
 
                         if(unit.at<uchar>(r, c))
                         {
-                            minCirleArea++;
+                            //                            minCirleArea++;
                         }
                         //                    if(cur.at<uchar>(r,c)>190)
                         //                    {
@@ -1878,8 +1863,8 @@ public:
                 }
 
 
-                //            if (minCirleArea < 1100 || minCirleArea> 1900)// siping
-                if (minCirleArea < 0 || minCirleArea> 19000)//wuzhong
+                //             if (minCirleArea < 1100 || minCirleArea> 1900)// siping
+                //                if (minCirleArea < 0 || minCirleArea> 19000)//wuzhong
                 {
                     ret = 1;
                     return ret;
@@ -2005,8 +1990,8 @@ public:
                 //内圆异常
                 if (sigleForegnArea >ClsCheckOperatorCircleInspect->PresIn)
                 {
-//                    ret= 1;
-//                    return ret;
+                    //                    ret= 1;
+                    //                    return ret;
                 }
 
 
@@ -2015,8 +2000,7 @@ public:
             //其他异常
             if(contours.size()==0||contours.size()>=3)
             {
-//                ret=1;
-//                return ret;
+                return 1;
 
             }
             if(ret>1)
@@ -2030,6 +2014,8 @@ public:
 
     }
     
+
+
 
 
     virtual int debugCalculator(cv::Mat& ref, cv::Mat cur,cv::Mat& dst, cv::Rect rect, int threshOutLow,int threshOutHigh,
@@ -2428,87 +2414,107 @@ public:
 
             cv::imwrite("./dst.bmp",dst);
 
-
-            cv::Mat imgBin;
-            //            adaptiveThreshold(tmp, imgBin, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 15, 0);
-            cv::threshold(tmp,imgBin,ThreshInCirlVal,255,cv::THRESH_BINARY);
-
-            cv::Mat structureElementOpen = getStructuringElement(cv::MORPH_RECT, cv::Size(5,5), cv::Point(-1, -1));
+            cv::Mat structureElementOpen = getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5), cv::Point(-1, -1));
             cv::Mat structureElementOpen2 = getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3), cv::Point(-1, -1));
 
             cv::Mat structureElementClose = getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7), cv::Point(-1, -1));
 
             cv::Mat structureElementERODE = getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6), cv::Point(-1, -1));
 
+            cv::Mat structureElementERODE2 = getStructuringElement(cv::MORPH_RECT, cv::Size(11, 11), cv::Point(-1, -1));
 
-            cv::Mat imgBinApt;
 
+            cv::Mat imgBin;
+            adaptiveThreshold(tmp, imgBin, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 15, 0);
+            //            cv::threshold(tmp,imgBin,ThreshInCirlVal,255,cv::THRESH_BINARY);
+
+
+
+            cv::Mat imgBinApt, imgBinAptfillup;
             cv::morphologyEx(imgBin, imgBinApt, cv::MORPH_OPEN, structureElementOpen);
-
             cv::morphologyEx(imgBinApt, imgBinApt, cv::MORPH_ERODE, structureElementERODE);
-
-
             cv::Mat unit;
             getLargestConnecttedComponent(imgBinApt, unit);
-
-
             cv::morphologyEx(unit, unit, cv::MORPH_CLOSE, structureElementOpen);//wuzhong
             cv::morphologyEx(unit, unit, cv::MORPH_DILATE, structureElementERODE);
 
+
+            //填充
+            fill_up(imgBin, imgBinAptfillup);
+            cv::morphologyEx(imgBinAptfillup, imgBinAptfillup, cv::MORPH_OPEN, structureElementOpen);
+            cv::morphologyEx(imgBinAptfillup, imgBinAptfillup, cv::MORPH_ERODE, structureElementERODE);
+            cv::Mat unitfillup;
+            getLargestConnecttedComponent(imgBinAptfillup, unitfillup);
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_DILATE, structureElementERODE);
+
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_DILATE, structureElementERODE2);
+            cv::morphologyEx(unitfillup, unitfillup, cv::MORPH_ERODE, structureElementERODE2);
+
+
+
+
             {
-                int bobiArea=0;
+                int bobiArea = 0;
                 for (int r = 0; r < unit.rows; ++r)
                 {
                     for (int c = 0; c < unit.cols; ++c)
                     {
-                        if (unit.at<uchar>(r, c))
+                        if (unitfillup.at<uchar>(r, c)&& cur.at<uchar>(r, c)> ThreshInCirlVal)
                         {
-                            dst.at<uchar>(r, c)=230;
+                            dst.at<uchar>(r, c) = 250;
                             bobiArea++;
 
                         }
                     }
                 }
-                *inerArea=bobiArea;
-                if(bobiArea<presIn)
+                *inerArea = bobiArea;
+
+
+
+                if (bobiArea > presIn  &&bobiArea<threshOutHigh)
+                {
+                    bInerArea = false;
+                }
+                else
                 {
                     ret = 1;
-                    bInerArea=true;
-
-                    //               *inerArea=bInerArea;
-                    return 1;
+                    bInerArea = true;
                 }
-
-
 
             }
 
 
             //先计算分割出的滤嘴边缘面积是否在合理的范围
             int mincirleArea = 0;
-            int maxCirleArea=0;
+            int maxCirleArea = 0;
 
 
 
             vector<vector<cv::Point>> contours;
             vector<cv::Vec4i> hierarchy;
-            cv::Vec<int,4> vec4;
-            cv::findContours(unit, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
+            cv::Vec<int, 4> vec4;
+            cv::findContours(unitfillup, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
+
+            if (contours.size()>=2)
+            {
+                fill_up(unitfillup, unitfillup);
+                cv::findContours(unitfillup, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
+            }
 
             //轮廓点少于60判定为异常轮廓，删除
-            std::vector<vector<cv::Point>>::iterator itConter;
-            for (itConter = contours.begin();itConter!=contours.end();)
-            {
-                //if (itConter->size()<40)siping
-                if (itConter->size()<70)//wuzhong
-                {
-                    itConter = contours.erase(itConter);
-                }
-                else
-                {
-                    itConter++;
-                }
-            }
+//            std::vector<vector<cv::Point>>::iterator itConter;
+//            for (itConter = contours.begin(); itConter != contours.end();)
+//            {
+//                //if (itConter->size()<40)siping
+//                if (itConter->size() < 100)//wuzhong
+//                {
+//                    itConter = contours.erase(itConter);
+//                }
+//                else
+//                {
+//                    itConter++;
+//                }
+//            }
 
 
             //先考虑轮廓为1的情况
@@ -2518,100 +2524,9 @@ public:
             vector<vector<cv::Point>> yansiContours1;
             if (contours.size() == 1)
             {
-                {
+                //                cv::drawContours(dst, contours, 0, cv::Scalar(255), 1, 8, vector<cv::Vec4i>(), 0, cv::Point());
+                //                cv::drawContours(unitfillup, contours, 0, cv::Scalar(255), 1, 8, vector<cv::Vec4i>(), 0, cv::Point());
 
-                    //                    bPresCircle=true;
-                    //                    bOuterArea =true;
-                    //                    bInerArea=true;
-                    //                    return  1;
-                }
-
-                //wuzhong
-
-                cv::Rect rect=cv::boundingRect(contours[0]);
-                int x = rect.x;
-                int y = rect.y;
-                for (int i=0;i<rect.height;i++)
-                {
-                    for (int j=0;j<rect.width;j++)
-                    {
-                        if (threshOutLow <= cur.at<uchar>(y + i, x + j)&& cur.at<uchar>(y + i, x + j) <= threshOutHigh)
-                        {
-                            yansiImg.at<uchar>(y + i, x + j) = 255;
-                        }
-                    }
-                }
-                cv::morphologyEx(yansiImg, yansiImg, cv::MORPH_OPEN, structureElementOpen2);
-
-                getLargestConnecttedComponent(yansiImg, yansiImg);
-                for (int r = 0; r < yansiImg.rows; ++r)
-                {
-                    for (int c = 0; c < yansiImg.cols; ++c)
-                    {
-
-                        if(unit.at<uchar>(r, c))
-                        {
-                            mincirleArea++;
-                        }
-
-                        if (yansiImg.at<uchar>(r, c))
-                        {
-                            yansiArea++;
-                        }
-                    }
-                }
-
-                //if (mincirleArea < ClsCheckOperatorCircleInspect->MinCirleArea)
-                //            if (mincirleArea < 1100)//四平
-                if (mincirleArea < 0)//吴中
-                {
-                    ret = 1;
-                    bPresCircle=true;
-                    bOuterArea =true;
-                    bInerArea=true;
-
-                    *outerArea=mincirleArea;
-                    return  ret;
-
-
-                }
-                // if (  maxCirleArea> ClsCheckOperatorCircleInspect->MaxCirleArea)
-
-                //            if (  mincirleArea> 1900)//四平
-                if (  mincirleArea> 19000)//吴中
-                {
-                    ret = 1;
-                    bPresCircle=true;
-                    bOuterArea =true;
-                    bInerArea=true;
-
-                    *outerArea=mincirleArea;
-                    return  ret;
-                }
-
-                if(yansiArea==yansiImg.cols*yansiImg.rows)
-                {
-                    yansiArea=0;
-                }
-
-                //                if (yansiArea>presOut)
-                //                {
-                //                    cv::findContours(yansiImg, yansiContours1, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
-                //                    for (int i = 0; i < yansiContours1.size(); i++)
-                //                    {
-                //                        cv::drawContours(dst, yansiContours1, i, cv::Scalar(64), 1, 8, vector<cv::Vec4i>(), 0, cv::Point());
-                //                    }
-                //                    bOuterArea=true;
-                //                    *outerArea=yansiArea;
-                //                    ret= 1;
-                //                    return ret;
-                //                }
-                //                else
-                //                {
-                //                    bOuterArea=false;
-                //                    *outerArea=yansiArea;
-                //                    return 0;
-                //                }
 
                 //计算外圆长宽比 wuzhong
                 cv::RotatedRect rotatedRect = minAreaRect(contours[0]);
@@ -2621,16 +2536,50 @@ public:
                 double dwhscale = (double)min(rWid, rHei) / (double)max(rWid, rHei);
 
                 int whscale = round(dwhscale * 100);
-                *score=whscale;
-
+                *score = whscale;
                 if (whscale < presCircle)
                 {
-                    ret= 1;
-                    bPresCircle=true;
+                    ret = 1;
+                    bPresCircle = true;
                 }
                 else
                 {
-                    bPresCircle=false;
+                    bPresCircle = false;
+                }
+
+
+                cv::Mat fitInnerImg = cv::Mat::zeros(cur.size(), CV_8UC1);
+                int fitForegnare=0;
+
+                cv::RotatedRect rrt = cv::fitEllipse(contours[0]);
+                cv::ellipse(fitInnerImg, rrt, cv::Scalar(64), -1);
+
+                vector<vector<cv::Point>> contours;
+                vector<cv::Vec4i> hierarchy;
+                cv::Vec<int, 4> vec4;
+                cv::findContours(fitInnerImg, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_NONE, cv::Point());
+                cv::drawContours(dst, contours, 0, cv::Scalar(255), 1, 8, vector<cv::Vec4i>(), 0, cv::Point());
+
+
+                for (int r = 0; r < fitInnerImg.rows; ++r)
+                {
+                    for (int c = 0; c < fitInnerImg.cols; ++c)
+                    {
+                        if (fitInnerImg.at<uchar>(r, c) && cur.at<uchar>(r,c)<threshOutLow &&unitfillup.at<uchar>(r,c)==0)
+
+
+                        {
+                            dst.at<uchar>(r,c)=200;
+                            fitForegnare++;
+                        }
+                    }
+                }
+
+                *outerArea = fitForegnare;
+                if (fitForegnare > presOut)
+                {
+                    bOuterArea = true;
+                    return 1;
                 }
             }
 
@@ -2641,6 +2590,12 @@ public:
             vector<vector<cv::Point>> yansiContours2;
             if (contours.size() >= 2)
             {
+                bPresCircle = true;
+                bOuterArea = true;
+                bInerArea = true;
+
+                return 1;
+
 
                 int minindex = contours[0].size() <= contours[1].size() ? 0 : 1;
                 int maxindex = contours[0].size() <= contours[1].size() ? 1 : 0;
@@ -2867,10 +2822,10 @@ public:
             //其他异常
             if(contours.size()==0||contours.size()>=3)
             {
-//                ret=1;
-//                bPresCircle=true;
-//                bOuterArea =true;
-//                bInerArea=true;
+                //                ret=1;
+                //                bPresCircle=true;
+                //                bOuterArea =true;
+                //                bInerArea=true;
             }
 
             return  ret;
@@ -3016,7 +2971,7 @@ public:
     virtual int calculate(cv::Mat& ref, cv::Mat cur,BBoxInfo& bboxInfo)
     {
 
-        int res=0;
+        int res=-1;
         {
             if((bboxInfo.prob>this->ClsCheckOperatorDLObjectDetect->m_iConfidence/100.0)&&bboxInfo.classId==0)
             {
@@ -3064,11 +3019,15 @@ public:
                 }
                 if((ktArea>=this->ClsCheckOperatorDLObjectDetect->m_iMinArea))
                 {
-                    res=1;
+                    res=0;
+                    return  res;
                 }
 
-                // res=1;
-
+            }
+            if((bboxInfo.prob>this->ClsCheckOperatorDLObjectDetect->m_iConfidence/100.0)&&bboxInfo.classId==1)
+            {
+                res=1;
+                return res;
             }
         }
         return res;
@@ -3077,8 +3036,6 @@ public:
     virtual int debugCalculator(cv::Mat& ref, cv::Mat cur,cv::Mat& dst, cv::Rect rect, int confidence,int minArea,int minGrayVal,int GrayValUpLimit,int accuracyType,int * pDefectNum,int *pKtArea,int *pKtPercent)
     {
         //cv::imwrite(".test.bmp",cur);
-
-
 
 
         int defectNum=0;
@@ -3121,22 +3078,27 @@ public:
 
 
 
-        int onnxIndex=0;
+        //        int onnxIndex=0;
 
 
-        //正常精度
-        if(accuracyType==0)
-            onnxIndex=0;
-        //高精度
-        else
-            onnxIndex=1;
+        //        //正常精度
+        //        if(accuracyType==0)
+        //            onnxIndex=0;
+        //        //高精度
+        //        else
+        //            onnxIndex=1;
+        //onnxIndex=0;
 
 
-        OnnxGloable::getInstance()->m_onnxMutex[onnxIndex].lock();
-        OnnxGloable::getInstance()->onnxArray[onnxIndex].setConfidence(0.1);
+        int camIdx= this->ClsCheckOperatorDLObjectDetect->stu_CheckOperatorBasic->CamIdx;
+
+
+
+        OnnxGloable::getInstance()->m_onnxMutex[camIdx-1].lock();
+        OnnxGloable::getInstance()->onnxArray[camIdx-1].setConfidence(0.1);
         vector<vector<BBoxInfo>> vec_batch_result;
-        OnnxGloable::getInstance()->onnxArray[onnxIndex].detect(inputImg,vec_batch_result);
-        OnnxGloable::getInstance()->m_onnxMutex[onnxIndex].unlock();
+        OnnxGloable::getInstance()->onnxArray[camIdx-1].detect(inputImg,vec_batch_result);
+        OnnxGloable::getInstance()->m_onnxMutex[camIdx-1].unlock();
 
         std::vector<BBoxInfo> vecBBoxInfo;
 
@@ -3164,65 +3126,6 @@ public:
         }
 
 
-
-
-//        int OKBoxs=0;
-//        //剔除重叠的部分
-//        std::vector<BBoxInfo> vecBBoxFilter,vecBBoxFilterTmp;
-
-//        for(int i=0;i<vecBBoxInfo.size();i++)
-//        {
-//            vecBBoxFilterTmp.clear();
-//            for(int j=0;j<vecBBoxInfo.size();j++)
-//            {
-//                if(i!=j)
-//                {
-//                    cv::Rect interRect=vecBBoxInfo[i].rect&vecBBoxInfo[j].rect;
-//                    double per=interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area());
-
-//                    double per2=interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()));
-
-//                    if(interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area())>0.3)
-
-//                        //if(interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()))>0.5)
-//                    {
-//                        vecBBoxFilterTmp.push_back(vecBBoxInfo[j]);
-//                    }
-//                }
-//            }
-//            vecBBoxFilterTmp.push_back(vecBBoxInfo[i]);
-//            //把最大的置信度选出来
-
-//            float tenpprob=0;
-//            int maxprobID=0;
-//            for(int k=0;k<vecBBoxFilterTmp.size();k++)
-//            {
-//                if(vecBBoxFilterTmp[k].prob>tenpprob)
-//                {
-//                    tenpprob=vecBBoxFilterTmp[k].prob;
-//                    maxprobID=k;
-//                }
-//            }
-//            vecBBoxFilter.push_back(vecBBoxFilterTmp[maxprobID]);
-//        }
-
-
-//        //剔除相同的ID
-//        std::vector<BBoxInfo> vecBBoxInfoTemp;
-//        vecBBoxInfo.swap(vecBBoxInfoTemp);
-//        for(int m=0;m<vecBBoxInfoTemp.size();m++)
-//        {
-//            for(int n=0;n<vecBBoxFilter.size();n++ )
-//            {
-//                if(vecBBoxFilter[n].boxID==m)
-//                {
-//                    vecBBoxInfo.push_back(vecBBoxFilter[n]);
-//                    break;
-//                }
-//            }
-//        }
-
-
         for(int i=0;i<vecBBoxInfo.size();i++)
         {
 
@@ -3237,7 +3140,7 @@ public:
                 BBoxInfo r = vecBBoxInfo[i];
                 cv::Rect temp=r.rect &rect;
                 if(temp.area()>r.rect.area()/2)
-                //if(1)
+                    //if(1)
                 {
                     int ktArea=0;
                     bool bAllWihte=false;
@@ -3309,27 +3212,34 @@ public:
 
             if((vecBBoxInfo[i].prob>confidence/100.0)&&vecBBoxInfo[i].classId==1)
             {
-                //                    okNum++;
-                //                    cv::rectangle(dst,vecBBoxInfo[i].rect,cv::Scalar(0,255,0),1);
+                  okNum++;
+//                  cv::rectangle(dst,vecBBoxInfo[i].rect,cv::Scalar(0,255,0),1);
             }
-
 
         }
 
 
-        if(ret==0)
+        if(ret==1)
         {
             outminArea=ktAreaMax;
             outminPercent=0;
+            * pKtArea=outminArea;
+            *pKtPercent=outminPercent;
+            *pDefectNum=defectNum;
+            return ret;
+
+        }
+        if(camIdx==1&&okNum<20)
+        {
+            ret=1;
+            *pDefectNum=20-okNum;
+            * pKtArea=0;
+            *pKtPercent=0;
+            return ret;
         }
 
-        * pKtArea=outminArea;
-        *pKtPercent=outminPercent;
+        return  ret;
 
-
-        *pDefectNum=defectNum;
-
-        return ret;
 
     }
 

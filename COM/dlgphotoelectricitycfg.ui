@@ -80,14 +80,14 @@
       <item>
        <widget class="QRadioButton" name="radioButton_testMode">
         <property name="text">
-         <string>调试1</string>
+         <string>控制板设置</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radioButton_testModeSim">
         <property name="text">
-         <string>调试2</string>
+         <string>模拟板设置</string>
         </property>
        </widget>
       </item>
@@ -298,7 +298,7 @@
                  <string notr="true">background-color: rgb(206, 206, 206);</string>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="page_qztest">
                  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1">
@@ -1050,6 +1050,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz1">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1069,6 +1075,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz2">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1088,6 +1100,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz3">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1107,6 +1125,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz4">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1126,6 +1150,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz5">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1151,25 +1181,6 @@ QPushButton#pushButtonQZResetNum:pressed{
                                <height>59</height>
                               </size>
                              </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz7">
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1221,7 +1232,38 @@ QPushButton#pushButtonQZResetNum:pressed{
                             </spacer>
                            </item>
                            <item>
+                            <widget class="QLabel" name="label_qz7">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::Box</enum>
+                             </property>
+                             <property name="text">
+                              <string>0000</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
                             <widget class="QLabel" name="label_qz8">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1241,6 +1283,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz9">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1260,6 +1308,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz10">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1279,6 +1333,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz11">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1323,6 +1383,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz13">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1375,6 +1441,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz14">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1394,6 +1466,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz15">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1413,6 +1491,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz16">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1432,6 +1516,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz17">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1451,6 +1541,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz18">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -1495,6 +1591,12 @@ QPushButton#pushButtonQZResetNum:pressed{
                            </item>
                            <item>
                             <widget class="QLabel" name="label_qz20">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -2622,7 +2724,7 @@ QPushButton#pushButtonQZRefresh:pressed{
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(175, 175, 175);</string>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_32" stretch="1,1,1,0">
+                    <layout class="QVBoxLayout" name="verticalLayout_32" stretch="1,0,1,0">
                      <property name="spacing">
                       <number>1</number>
                      </property>
@@ -2639,7 +2741,7 @@ QPushButton#pushButtonQZRefresh:pressed{
                       <number>1</number>
                      </property>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_68" stretch="0,1,1,1,1,1,1,1,0">
+                      <layout class="QHBoxLayout" name="horizontalLayout_68" stretch="0,1,1,1,1,1,1,0">
                        <property name="spacing">
                         <number>10</number>
                        </property>
@@ -2807,31 +2909,6 @@ QPushButton#pushButtonQZRefresh:pressed{
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_qzsim7">
-                         <property name="minimumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::Box</enum>
-                         </property>
-                         <property name="text">
-                          <string>0000</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
                         <spacer name="horizontalSpacer_71">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -2863,6 +2940,31 @@ QPushButton#pushButtonQZRefresh:pressed{
                           </size>
                          </property>
                         </spacer>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_qzsim7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Box</enum>
+                         </property>
+                         <property name="text">
+                          <string>0000</string>
+                         </property>
+                        </widget>
                        </item>
                        <item>
                         <widget class="QLabel" name="label_qzsim8">
@@ -3402,7 +3504,7 @@ QPushButton#pushButton_qzStopApplySim:pressed{
               <item>
                <widget class="QStackedWidget" name="stackedWidget">
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_5">
                  <layout class="QGridLayout" name="gridLayout_3">
@@ -3534,6 +3636,16 @@ QPushButton#pushButton_qzStopApplySim:pressed{
                           <item>
                            <property name="text">
                             <string>采集角度10</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>采集角度11</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>采集角度12</string>
                            </property>
                           </item>
                          </widget>
@@ -4410,7 +4522,7 @@ QPushButton#pushButton_qzfaultsigset:pressed{
                     <property name="title">
                      <string>缺支模拟板参数设置</string>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_30" stretch="0,0,0,0,1">
+                    <layout class="QVBoxLayout" name="verticalLayout_30" stretch="0,0,0,0,0,1">
                      <property name="spacing">
                       <number>2</number>
                      </property>
@@ -4457,13 +4569,13 @@ QPushButton#pushButton_qzfaultsigset:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>110</width>
+                            <width>125</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -4472,102 +4584,102 @@ QPushButton#pushButton_qzfaultsigset:pressed{
                           </property>
                           <item>
                            <property name="text">
-                            <string>探头电流1</string>
+                            <string>探头电流系数1</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流2</string>
+                            <string>探头电流系数2</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流3</string>
+                            <string>探头电流系数3</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流4</string>
+                            <string>探头电流系数4</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流5</string>
+                            <string>探头电流系数5</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流6</string>
+                            <string>探头电流系数6</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流7</string>
+                            <string>探头电流系数7</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流8</string>
+                            <string>探头电流系数8</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流9</string>
+                            <string>探头电流系数9</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流10</string>
+                            <string>探头电流系数10</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流11</string>
+                            <string>探头电流系数11</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流12</string>
+                            <string>探头电流系数12</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流13</string>
+                            <string>探头电流系数13</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流14</string>
+                            <string>探头电流系数14</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流15</string>
+                            <string>探头电流系数15</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流16</string>
+                            <string>探头电流系数16</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流17</string>
+                            <string>探头电流系数17</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流18</string>
+                            <string>探头电流系数18</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流19</string>
+                            <string>探头电流系数19</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流20</string>
+                            <string>探头电流系数20</string>
                            </property>
                           </item>
                          </widget>
@@ -4580,9 +4692,15 @@ QPushButton#pushButton_qzfaultsigset:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -4652,6 +4770,240 @@ QPushButton#pushButton_qzcurrent:pressed{
                       </widget>
                      </item>
                      <item>
+                      <widget class="QGroupBox" name="groupBox_16">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(175, 175, 175);</string>
+                       </property>
+                       <property name="title">
+                        <string/>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_94">
+                        <property name="spacing">
+                         <number>2</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>2</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>2</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QComboBox" name="comboBox_qzcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>125</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>125</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
+                          </property>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数1</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数2</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数3</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数4</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数5</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数6</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数7</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数8</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数9</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数10</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数11</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数12</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数13</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数14</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数15</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数16</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数17</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数18</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数19</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数20</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="KLineEditKb" name="lineEdit_qzcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>70</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>微软雅黑</family>
+                            <pointsize>10</pointsize>
+                           </font>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_98">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_qzcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>微软雅黑</family>
+                            <pointsize>12</pointsize>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QPushButton#pushButton_qzcurrentRatio{
+	border-style: none;
+	border: 0px;
+	color: #F0F0F0;
+	padding: 0px;	
+	min-height: 16px;
+	border-radius:3px;
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); 
+}
+
+QPushButton#pushButton_qzcurrentRatio:hover{ 
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);
+}
+
+QPushButton#pushButton_qzcurrentRatio:pressed{ 
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);
+}</string>
+                          </property>
+                          <property name="text">
+                           <string> 设 置  </string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QGroupBox" name="groupBox_15">
                        <property name="styleSheet">
                         <string notr="true">background-color: rgb(175, 175, 175);</string>
@@ -4685,13 +5037,13 @@ QPushButton#pushButton_qzcurrent:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>110</width>
+                            <width>125</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -4804,13 +5156,13 @@ QPushButton#pushButton_qzcurrent:pressed{
                          <widget class="KLineEditKb" name="lineEdit_qzgain">
                           <property name="minimumSize">
                            <size>
-                            <width>50</width>
+                            <width>70</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -4910,13 +5262,13 @@ QPushButton#pushButton_qzgain:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>110</width>
+                            <width>125</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -5033,9 +5385,15 @@ QPushButton#pushButton_qzgain:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -5125,7 +5483,7 @@ QPushButton#pushButton_qzprobSim:pressed{
                            <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
                           </property>
                           <property name="text">
-                           <string>调整系数：</string>
+                           <string>门槛调整系数：</string>
                           </property>
                          </widget>
                         </item>
@@ -5137,9 +5495,15 @@ QPushButton#pushButton_qzprobSim:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -6060,7 +6424,7 @@ QPushButton#pushButton_qzgetgc:pressed{
                  <string notr="true"/>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="page_qztest_2">
                  <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,0">
@@ -6820,7 +7184,7 @@ QPushButton#pushButtonKTResetNum:pressed{
                           <number>1</number>
                          </property>
                          <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_37" stretch="0,1,1,1,1,1,1,1,0">
+                          <layout class="QHBoxLayout" name="horizontalLayout_37" stretch="0,1,1,1,1,1,1,0">
                            <property name="spacing">
                             <number>10</number>
                            </property>
@@ -6988,31 +7352,6 @@ QPushButton#pushButtonKTResetNum:pressed{
                             </widget>
                            </item>
                            <item>
-                            <widget class="QLabel" name="label_kt7">
-                             <property name="minimumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
                             <spacer name="horizontalSpacer_39">
                              <property name="orientation">
                               <enum>Qt::Horizontal</enum>
@@ -7044,6 +7383,31 @@ QPushButton#pushButtonKTResetNum:pressed{
                               </size>
                              </property>
                             </spacer>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="label_kt7">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::Box</enum>
+                             </property>
+                             <property name="text">
+                              <string>0000</string>
+                             </property>
+                            </widget>
                            </item>
                            <item>
                             <widget class="QLabel" name="label_kt8">
@@ -7242,6 +7606,12 @@ QPushButton#pushButtonKTResetNum:pressed{
                                <verstretch>0</verstretch>
                               </sizepolicy>
                              </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -7266,6 +7636,12 @@ QPushButton#pushButtonKTResetNum:pressed{
                                <horstretch>0</horstretch>
                                <verstretch>0</verstretch>
                               </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
                              </property>
                              <property name="maximumSize">
                               <size>
@@ -7292,6 +7668,12 @@ QPushButton#pushButtonKTResetNum:pressed{
                                <verstretch>0</verstretch>
                               </sizepolicy>
                              </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
                              <property name="maximumSize">
                               <size>
                                <width>70</width>
@@ -7316,6 +7698,12 @@ QPushButton#pushButtonKTResetNum:pressed{
                                <horstretch>0</horstretch>
                                <verstretch>0</verstretch>
                               </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
                              </property>
                              <property name="maximumSize">
                               <size>
@@ -7403,6 +7791,12 @@ QPushButton#pushButtonKTResetNum:pressed{
                                <horstretch>0</horstretch>
                                <verstretch>0</verstretch>
                               </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
                              </property>
                              <property name="maximumSize">
                               <size>
@@ -8514,7 +8908,7 @@ QPushButton#pushButtonKTRefresh:pressed{
                       <number>1</number>
                      </property>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="0,1,1,1,1,1,1,1,0">
+                      <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="0,1,1,1,1,1,1,0">
                        <property name="spacing">
                         <number>10</number>
                        </property>
@@ -8682,31 +9076,6 @@ QPushButton#pushButtonKTRefresh:pressed{
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_ktsim7">
-                         <property name="minimumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::Box</enum>
-                         </property>
-                         <property name="text">
-                          <string>0000</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
                         <spacer name="horizontalSpacer_80">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -8738,6 +9107,31 @@ QPushButton#pushButtonKTRefresh:pressed{
                           </size>
                          </property>
                         </spacer>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_ktsim7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Box</enum>
+                         </property>
+                         <property name="text">
+                          <string>0000</string>
+                         </property>
+                        </widget>
                        </item>
                        <item>
                         <widget class="QLabel" name="label_ktsim8">
@@ -9274,7 +9668,7 @@ QPushButton#pushButton_ktStopApplySim:pressed{
               <item>
                <widget class="QStackedWidget" name="stackedWidget_2">
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="page_7">
                  <layout class="QGridLayout" name="gridLayout_5">
@@ -9409,6 +9803,16 @@ QPushButton#pushButton_ktStopApplySim:pressed{
                           <item>
                            <property name="text">
                             <string>采集角度10</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>采集角度11</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>采集角度12</string>
                            </property>
                           </item>
                          </widget>
@@ -10285,7 +10689,7 @@ QPushButton#pushButton_ktfaultsigset:pressed{
                     <property name="title">
                      <string>空头模拟板参数设置</string>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_31" stretch="0,0,0,0,1">
+                    <layout class="QVBoxLayout" name="verticalLayout_31" stretch="0,0,0,0,0,1">
                      <property name="spacing">
                       <number>2</number>
                      </property>
@@ -10335,7 +10739,7 @@ QPushButton#pushButton_ktfaultsigset:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -10350,102 +10754,102 @@ QPushButton#pushButton_ktfaultsigset:pressed{
                           </property>
                           <item>
                            <property name="text">
-                            <string>探头电流1</string>
+                            <string>探头电流系数1</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流2</string>
+                            <string>探头电流系数2</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流3</string>
+                            <string>探头电流系数3</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流4</string>
+                            <string>探头电流系数4</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流5</string>
+                            <string>探头电流系数5</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流6</string>
+                            <string>探头电流系数6</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流7</string>
+                            <string>探头电流系数7</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流8</string>
+                            <string>探头电流系数8</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流9</string>
+                            <string>探头电流系数9</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流10</string>
+                            <string>探头电流系数10</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流11</string>
+                            <string>探头电流系数11</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流12</string>
+                            <string>探头电流系数12</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流13</string>
+                            <string>探头电流系数13</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流14</string>
+                            <string>探头电流系数14</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流15</string>
+                            <string>探头电流系数15</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流16</string>
+                            <string>探头电流系数16</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流17</string>
+                            <string>探头电流系数17</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流18</string>
+                            <string>探头电流系数18</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流19</string>
+                            <string>探头电流系数19</string>
                            </property>
                           </item>
                           <item>
                            <property name="text">
-                            <string>探头电流20</string>
+                            <string>探头电流系数20</string>
                            </property>
                           </item>
                          </widget>
@@ -10458,9 +10862,15 @@ QPushButton#pushButton_ktfaultsigset:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -10530,6 +10940,240 @@ QPushButton#pushButton_ktcurrent:pressed{
                       </widget>
                      </item>
                      <item>
+                      <widget class="QGroupBox" name="groupBox_33">
+                       <property name="styleSheet">
+                        <string notr="true">background-color: rgb(175, 175, 175);</string>
+                       </property>
+                       <property name="title">
+                        <string/>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_93">
+                        <property name="spacing">
+                         <number>2</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>2</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>5</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>2</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>5</number>
+                        </property>
+                        <item>
+                         <widget class="QComboBox" name="comboBox_ktcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>125</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>110</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
+                          </property>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数1</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数2</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数3</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数4</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数5</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数6</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数7</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数8</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数9</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数10</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数11</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数12</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数13</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数14</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数15</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数16</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数17</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数18</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数19</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>探头电流系数20</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="KLineEditKb" name="lineEdit_ktcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="maximumSize">
+                           <size>
+                            <width>70</width>
+                            <height>16777215</height>
+                           </size>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>微软雅黑</family>
+                            <pointsize>10</pointsize>
+                           </font>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer_97">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeType">
+                           <enum>QSizePolicy::Expanding</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="pushButton_ktcurrentRatio">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="font">
+                           <font>
+                            <family>微软雅黑</family>
+                            <pointsize>12</pointsize>
+                           </font>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true">QPushButton#pushButton_ktcurrentRatio{
+	border-style: none;
+	border: 0px;
+	color: #F0F0F0;
+	padding: 0px;	
+	min-height: 16px;
+	border-radius:3px;
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); 
+}
+
+QPushButton#pushButton_ktcurrentRatio:hover{ 
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);
+}
+
+QPushButton#pushButton_ktcurrentRatio:pressed{ 
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);
+}</string>
+                          </property>
+                          <property name="text">
+                           <string> 设 置  </string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QGroupBox" name="groupBox_32">
                        <property name="styleSheet">
                         <string notr="true">background-color: rgb(175, 175, 175);</string>
@@ -10563,7 +11207,7 @@ QPushButton#pushButton_ktcurrent:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -10682,13 +11326,13 @@ QPushButton#pushButton_ktcurrent:pressed{
                          <widget class="KLineEditKb" name="lineEdit_ktgain">
                           <property name="minimumSize">
                            <size>
-                            <width>50</width>
+                            <width>70</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -10788,7 +11432,7 @@ QPushButton#pushButton_ktgain:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>115</width>
+                            <width>125</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -10911,9 +11555,15 @@ QPushButton#pushButton_ktgain:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>70</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -11003,7 +11653,7 @@ QPushButton#pushButton_ktprobSim:pressed{
                            <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
                           </property>
                           <property name="text">
-                           <string>调整系数：</string>
+                           <string>门槛调整系数：</string>
                           </property>
                          </widget>
                         </item>
@@ -11015,9 +11665,15 @@ QPushButton#pushButton_ktprobSim:pressed{
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>75</width>
+                            <height>0</height>
+                           </size>
+                          </property>
                           <property name="maximumSize">
                            <size>
-                            <width>60</width>
+                            <width>70</width>
                             <height>16777215</height>
                            </size>
                           </property>

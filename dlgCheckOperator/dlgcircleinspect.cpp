@@ -90,6 +90,18 @@ DlgCircleInspect::DlgCircleInspect(CheckOperatorCircleInspect* const pCheckOpera
 
     ui->widget_16->setVisible(false);
 
+
+//    ui->label_26->setVisible(false);
+//    ui->spinBoxPrecOut_2->setVisible(false);
+//    ui->horizontalSliderspinBoxPrecOut_2->setVisible(false);
+
+
+//    ui->label_28->setVisible(false);
+//    ui->spinBoxPrecOut_4->setVisible(false);
+//    ui->horizontalSliderspinBoxPrecOut_4->setVisible(false);
+
+
+
     //cv::imwrite("d:/cur.bmp",thisImage.ImageGray);
 
 }
@@ -147,7 +159,7 @@ void DlgCircleInspect::updateCheckRes()
         DSDEBUG<<"res:"<<res;
         if(bOuterArea||(res==1&&((bOuterArea||bInerArea||bPresCircle)==false)))
         {
-            resStr="烟丝异常";
+            resStr="异常";
             ui->labelResult_3->setText(resStr);
             this->ui->labelResult_3->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
 
@@ -160,7 +172,7 @@ void DlgCircleInspect::updateCheckRes()
         }
         if(bInerArea||(res==1&&((bOuterArea||bInerArea||bPresCircle)==false)))
         {
-            resStr="内径异常";
+            resStr="异常";
             ui->labelResult_2->setText(resStr);
             this->ui->labelResult_2->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
 
@@ -699,11 +711,11 @@ void DlgCircleInspect::on_horizontalSliderspinBoxPrecIn_2_valueChanged(int value
 void DlgCircleInspect::on_spinBoxPrecOut_2_valueChanged(int arg1)
 {
     this->ui->horizontalSliderspinBoxPrecOut_2->setValue(arg1);
-//    if(arg1>ui->spinBoxPrecOut_4->value())
-//    {
-//        ui->spinBoxPrecOut_2->setValue(ui->spinBoxPrecOut_4->value());
-//        return;
-//    }
+    //    if(arg1>ui->spinBoxPrecOut_4->value())
+    //    {
+    //        ui->spinBoxPrecOut_2->setValue(ui->spinBoxPrecOut_4->value());
+    //        return;
+    //    }
     updateCheckRes();
 }
 
@@ -715,11 +727,11 @@ void DlgCircleInspect::on_horizontalSliderspinBoxPrecOut_2_valueChanged(int valu
 void DlgCircleInspect::on_spinBoxPrecOut_4_valueChanged(int arg1)
 {
     this->ui->horizontalSliderspinBoxPrecOut_4->setValue(arg1);
-//    if(arg1<ui->spinBoxPrecOut_2->value())
-//    {
-//        ui->spinBoxPrecOut_4->setValue(ui->spinBoxPrecOut_2->value());
-//        return;
-//    }
+    //    if(arg1<ui->spinBoxPrecOut_2->value())
+    //    {
+    //        ui->spinBoxPrecOut_4->setValue(ui->spinBoxPrecOut_2->value());
+    //        return;
+    //    }
     updateCheckRes();
 }
 
@@ -738,7 +750,7 @@ void DlgCircleInspect::on_spinBoxquezhiArea_valueChanged(int arg1)
 
 void DlgCircleInspect::on_horizontalSliderspinBoxquezhiArea_valueChanged(int value)
 {
-      this->ui->spinBoxquezhiArea->setValue(value);
+    this->ui->spinBoxquezhiArea->setValue(value);
 }
 
 void DlgCircleInspect::on_spinBoxquezhiGrayVal_valueChanged(int arg1)
@@ -749,5 +761,5 @@ void DlgCircleInspect::on_spinBoxquezhiGrayVal_valueChanged(int arg1)
 
 void DlgCircleInspect::on_horizontalSliderspinBoxquezhiGrayVal_valueChanged(int value)
 {
-     this->ui->spinBoxquezhiGrayVal->setValue(value);
+    this->ui->spinBoxquezhiGrayVal->setValue(value);
 }

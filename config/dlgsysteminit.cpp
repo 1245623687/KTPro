@@ -2,10 +2,11 @@
 #include "ui_dlgsysteminit.h"
 #include"common/filehelper.h"
 #include"params/dssystemparam.h"
-DlgSystemInit::DlgSystemInit(ENUMCAMERATYPE* cameraType,int* cameraNum, ENUMIOTYPE* IOType,QWidget *parent) :
+DlgSystemInit::DlgSystemInit(ENUMCAMERATYPE* cameraType,int* cameraNum, ENUMIOTYPE* IOType,ENUMPROBNUM *ProbNum,QWidget *parent) :
     m_CameraType(cameraType),
     m_CameraNum(cameraNum),
     m_IOType(IOType),
+    m_ProNum(ProbNum),
     QDialog(parent),
     ui(new Ui::DlgSystemInit)
 {
@@ -103,7 +104,7 @@ void DlgSystemInit::on_pushButtonOK_clicked()
    *this->m_CameraNum=this->ui->comboBoxCameraNum->currentData().toInt();
    *this->m_IOType=static_cast<ENUMIOTYPE>(this->ui->comboBoxIOType->currentIndex());
 
-
+   *this->m_ProNum=static_cast<ENUMPROBNUM>(this->ui->comboBoxIProbNum->currentIndex());
 
    this->accept();
 }

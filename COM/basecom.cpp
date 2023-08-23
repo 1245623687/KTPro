@@ -133,15 +133,15 @@ bool BaseCom::openKTComPortSim(QString ktPortName, qint32 baudRate, QSerialPort:
 int  BaseCom::openComPort()
 {
     bool ret=false;
-//    ret=openQZComPort();
-//    if(!ret) return 1;
+    ret=openQZComPort();
+    if(!ret) return 1;
 
-        ret=openKTComPort();
-        if(!ret) return 2;
-    //    ret=openQZComPortSim();
-    //    if(!ret) return 3;
-        ret=openKTComPortSim();
-        if(!ret) return 4;
+    ret=openKTComPort();
+    if(!ret) return 2;
+    //        ret=openQZComPortSim();
+    //        if(!ret) return 3;
+    ret=openKTComPortSim();
+    if(!ret) return 4;
     return 0;
 }
 
@@ -186,9 +186,9 @@ bool BaseCom::sendQZCommand(QByteArray strCommand, QByteArray &receivedByArray)
     }
 
     else
-        if(receivedByArray.size()==147)
+        if(receivedByArray.size()==155)
         {
-            receivedByArray.truncate(146);
+            receivedByArray.truncate(154);
             return true;
         }
 
@@ -216,7 +216,7 @@ int BaseCom::sendKTCommand(QByteArray strCommand, QByteArray &receivedByArray)
     if(!m_KTPort.isOpen() )
         return false;
 
-    bool ret=true;
+    bool ret=false;
 
     int sendLen=  m_KTPort.write(strCommand);
     if(!m_KTPort.waitForBytesWritten(m_waitTime))
@@ -239,6 +239,7 @@ int BaseCom::sendKTCommand(QByteArray strCommand, QByteArray &receivedByArray)
     DSDEBUG_<<"Test Modle Send Command,KT, "<<strCommand<<"Get Response KT, "<<receivedByArray<<endl;
 
     int size=receivedByArray.size();
+    //从控制板返回相同指令
     if(receivedByArray.size()==17)
     {
         receivedByArray.truncate(16);
@@ -249,12 +250,16 @@ int BaseCom::sendKTCommand(QByteArray strCommand, QByteArray &receivedByArray)
         qDebug()<<"sendLen,"<<sendLen<<endl;
         return ret;
     }
-
+    //从控制板读取参数
     else
-        if(receivedByArray.size()==147)
+        if(receivedByArray.size()==155)
         {
-            receivedByArray.truncate(146);
+            receivedByArray.truncate(154);
             return true;
+        }
+        else
+        {
+            return false;
         }
     return ret;
 }
@@ -318,6 +323,44 @@ bool BaseCom::sendQZCommandSim(QByteArray strCommand, QByteArray &receivedByArra
         return true;
     }
 
+    //3个探头
+    if(receivedByArray.size()==172)
+    {
+        receivedByArray=receivedByArray.mid(17,154);
+        bool ok;
+        QByteArray tmpReadData=receivedByArray;
+        QByteArray mid;
+
+        for(int i=0;i<3;i++)
+        {
+            mid= tmpReadData.mid(4+i*8,8);
+
+            //电流
+            int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+            //增益
+            value=QByteArray::fromHex(mid.mid(5,4)).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+        }
+
+        //20个门槛值
+        for(int i=0;i<20;i++)
+        {
+            mid= tmpReadData.mid(28+i*6,6);
+            //电流
+            mid= mid.mid(2,4);
+            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+        }
+        //1个门槛值系数
+        mid= tmpReadData.mid(148,2);
+        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+        receivedVec.push_back(value);
+
+        return true;
+    }
+
+
 
     if(receivedByArray.size()==249)
     {
@@ -360,12 +403,12 @@ bool BaseCom::sendQZCommandSim(QByteArray strCommand, QByteArray &receivedByArra
 int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray,QVector<int>& receivedVec,int commondType)
 {
 
-
-
     if(!m_KTPortSim.isOpen() || !m_KTPort.isOpen())
         return false;
 
     bool ret=true;
+
+    //commondType=3代表从模拟板加载参数
     if(commondType==1||commondType==3)
     {
         int sendLen=  m_KTPortSim.write(strCommand);
@@ -400,7 +443,7 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
     int size=receivedByArray.size();
 
 
-     DSDEBUG_<<"m_KTPortSim received, "<<receivedByArray<<endl;
+    DSDEBUG_<<"m_KTPortSim received, "<<receivedByArray<<endl;
 
 
     ret=false;
@@ -413,8 +456,7 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
             ret=false;
         return ret;
     }
-//    if(receivedByArray.size()==91)
-    if(receivedByArray.size()==90)
+    if(receivedByArray.size()==91)
     {
         receivedByArray.truncate(90);
 
@@ -422,14 +464,15 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
     }
 
 
-    if(receivedByArray.size()==249)
+    //3个探头
+    if(receivedByArray.size()==172)
     {
-        receivedByArray.truncate(248);
+        receivedByArray=receivedByArray.mid(17,154);
         bool ok;
         QByteArray tmpReadData=receivedByArray;
         QByteArray mid;
 
-        for(int i=0;i<20;i++)
+        for(int i=0;i<3;i++)
         {
             mid= tmpReadData.mid(4+i*8,8);
 
@@ -444,18 +487,60 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
         //20个门槛值
         for(int i=0;i<20;i++)
         {
-            mid= tmpReadData.mid(164+i*4,4);
+            mid= tmpReadData.mid(28+i*6,6);
             //电流
+            mid= mid.mid(2,4);
             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
             receivedVec.push_back(value);
         }
-        // vecQZCheckRets一共有60个值
-
-
+        //1个门槛值系数
+        mid= tmpReadData.mid(148,2);
+        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+        receivedVec.push_back(value);
 
         return true;
     }
 
+
+    //20个探头
+    if(receivedByArray.size()==308)
+    {
+
+        receivedByArray=receivedByArray.mid(17,290);
+        bool ok;
+        QByteArray tmpReadData=receivedByArray;
+
+        QByteArray mid;
+
+        for(int i=0;i<20;i++)
+        {
+            mid= tmpReadData.mid(4+i*8,8);
+
+            //电流
+            int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+            //增益
+            value=QByteArray::fromHex(mid.mid(5,4)).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+        }
+
+
+        //20个门槛值
+        for(int i=0;i<20;i++)
+        {
+            mid= tmpReadData.mid(164+i*6,6);
+
+            mid= mid.mid(2,4);
+            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+            receivedVec.push_back(value);
+        }
+        //1个门槛值系数
+        mid= tmpReadData.mid(284,2);
+        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+        receivedVec.push_back(value);
+        // vecQZCheckRets一共有60个值
+        return true;
+    }
     return ret;
 }
 
@@ -489,10 +574,9 @@ bool BaseCom::sendAndGetQZCommand(QByteArray sendCommand,int& Angle,int& probV1,
     DSDEBUG_<<"Test Modle Send Command,QZ, "<<sendCommand<<"Get Response QZ, "<<by<<endl;
 
     int size=by.size();
-
     if(by.size()!=19)
     {
-        // m_QZPort.readAll();
+        //m_QZPort.readAll();
         return false;
     }
     qDebug()<<by.data()<<endl;
@@ -501,12 +585,37 @@ bool BaseCom::sendAndGetQZCommand(QByteArray sendCommand,int& Angle,int& probV1,
     QByteArray tmpReadData=by;
     QByteArray mid= tmpReadData.mid(2,4);
     int  angle=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+
     mid= tmpReadData.mid(6,4);
     int probv1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
     mid= tmpReadData.mid(10,4);
     int probv2=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
     mid= tmpReadData.mid(14,4);
     int probv3=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+
+
+    //从模拟板解析探头值
+    //    ret= m_QZPortSim.waitForReadyRead(m_waitTime);
+    //    QByteArray bySim=m_QZPortSim.readAll();
+    //    DSDEBUG_<<"Test Modle Send Command,QZ, "<<sendCommand<<"Get Response QZSim, "<<bySim<<endl;
+
+    //    size=bySim.size();
+    //    if(bySim.size()!=91)
+    //    {
+    //        return false;
+    //    }
+    //    mid= bySim.mid(6,4);
+    //    int probv1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+    //    mid= bySim.mid(34,4);
+    //    int probv2=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+    //    mid= bySim.mid(58,4);
+    //    int probv3=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+
+
+    Angle=angle;
+    probV1=probv1;
+    probV2=probv2;
+    probV3=probv3;
 
 
     Angle=angle;
@@ -532,7 +641,7 @@ int BaseCom::sendAndGetKTCommand(QByteArray sendCommand,int& Angle,int& probV1,i
     }
     m_KTPort.flush();
 
-    QThread::msleep(m_waitTime);
+    QThread::msleep(200);
     ret= m_KTPort.waitForReadyRead(m_waitTime);
     if(!ret)
     {
@@ -540,6 +649,7 @@ int BaseCom::sendAndGetKTCommand(QByteArray sendCommand,int& Angle,int& probV1,i
         //return false;
     }
 
+    //从控制板读取角度
     QByteArray by=m_KTPort.readAll();
     DSDEBUG_<<"Test Modle Send Command,KT, "<<sendCommand<<"Get Response KT, "<<by<<endl;
 
@@ -547,16 +657,16 @@ int BaseCom::sendAndGetKTCommand(QByteArray sendCommand,int& Angle,int& probV1,i
     int size=by.size();
     if(by.size()!=19)
     {
-        m_KTPort.readAll();
         return false;
     }
-    qDebug()<<by.data()<<endl;
+
+
 
     bool ok;
     QByteArray tmpReadData=by;
-
     QByteArray mid= tmpReadData.mid(2,4);
     int  angle=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+
     mid= tmpReadData.mid(6,4);
     int probv1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
     mid= tmpReadData.mid(10,4);
@@ -564,6 +674,27 @@ int BaseCom::sendAndGetKTCommand(QByteArray sendCommand,int& Angle,int& probV1,i
     mid= tmpReadData.mid(14,4);
     int probv3=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
 
+
+
+    //从模拟板解析探头值
+    //    ret= m_KTPortSim.waitForReadyRead(m_waitTime);
+    //    QByteArray bySim=m_KTPortSim.readAll();
+    //    DSDEBUG_<<"Test Modle Send Command,KT, "<<sendCommand<<"Get Response KTSim, "<<bySim<<endl;
+
+    //    size=bySim.size();
+    //    if(bySim.size()!=91)
+    //    {
+    //        m_KTPortSim.readAll();
+    //        return false;
+
+    //    }
+    //    // 解析第1,8,14支数据
+    //    mid= bySim.mid(6,4);
+    //    int probv1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+    //    mid= bySim.mid(34,4);
+    //    int probv2=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+    //    mid= bySim.mid(58,4);
+    //    int probv3=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
 
     Angle=angle;
     probV1=probv1;
@@ -639,6 +770,8 @@ void BaseCom::onQZDataReceived()
             DSDEBUG_<<"onQZDataReceived QZContainer :"<<m_ByQZContainer<<endl;
             QByteArray byMsg=m_ByQZContainer.mid(0,i);
             m_mutex.lock();
+            if(m_queQZFeedBack.size()>=30)
+                m_queQZFeedBack.clear();
             m_queQZFeedBack.push_back(byMsg);
             DSDEBUG_<<"pushQZ  byMsg :"<<byMsg<<endl;
             m_mutex.unlock();
@@ -690,7 +823,7 @@ void BaseCom::onKTDataReceived()
     QByteArray by=m_KTPort.readAll();
     DSDEBUG_<<"onKTDataReceived :"<<by<<endl;
 
-    m_ByKTContainerSim.append(by);
+    m_ByKTContainer.append(by);
     int size=m_ByKTContainer.size();
 
     for(int i=0;i<m_ByKTContainer.size();i++)
@@ -701,6 +834,8 @@ void BaseCom::onKTDataReceived()
             QByteArray byMsg=m_ByKTContainer.mid(0,i);
             m_mutex.lock();
 
+            if(m_queKTFeedBack.size()>=30)
+                m_queKTFeedBack.clear();
             m_queKTFeedBack.push_back(byMsg);
             m_mutex.unlock();
             DSDEBUG_<<"pushKT  byMsg :"<<byMsg<<endl;
@@ -711,6 +846,7 @@ void BaseCom::onKTDataReceived()
     }
 }
 
+
 void BaseCom::onQZDataReceivedSim()
 {
     if(!m_QZPortSim.isOpen())
@@ -718,7 +854,7 @@ void BaseCom::onQZDataReceivedSim()
 
     QByteArray by=m_QZPortSim.readAll();
 
-    DSDEBUG_<<"onQZDataReceivedSim :"<<by<<endl;
+    DSDEBUG__<<"onQZDataReceivedSim :"<<by<<endl;
     m_ByQZContainerSim.append(by);
     int size=m_ByQZContainerSim.size();
 
@@ -726,11 +862,13 @@ void BaseCom::onQZDataReceivedSim()
     {
         if(m_ByQZContainerSim[i]=='\n')
         {
-            DSDEBUG_<<"onQZDataReceived QZContainer :"<<m_ByQZContainerSim<<endl;
+            DSDEBUG__<<"onQZDataReceived QZContainer :"<<m_ByQZContainerSim<<endl;
             QByteArray byMsg=m_ByQZContainerSim.mid(0,i);
             m_mutex.lock();
+            if(m_queQZFeedBackSim.size()>=30)
+                m_queQZFeedBackSim.clear();
             m_queQZFeedBackSim.push_back(byMsg);
-            DSDEBUG_<<"pushQZ  byMsg :"<<byMsg<<endl;
+            DSDEBUG__<<"pushQZ  byMsg :"<<byMsg<<endl;
             m_mutex.unlock();
             //m_cnt++;
             m_ByQZContainerSim=m_ByQZContainerSim.mid(i+1,m_ByQZContainerSim.size()-(i+1));
@@ -745,7 +883,7 @@ void BaseCom::onKTDataReceivedSim()
     if(!m_KTPortSim.isOpen())
         return;
     QByteArray by=m_KTPortSim.readAll();
-    DSDEBUG_<<"onKTDataReceivedSim :"<<by<<endl;
+    DSDEBUG__<<"onKTDataReceivedSim :"<<by<<endl;
 
     m_ByKTContainerSim.append(by);
     int size=m_ByKTContainerSim.size();
@@ -754,13 +892,15 @@ void BaseCom::onKTDataReceivedSim()
     {
         if(m_ByKTContainerSim[i]=='\n')
         {
-            DSDEBUG_<<"onKTDataReceivedSim KTContainer :"<<m_ByKTContainerSim<<endl;
+            DSDEBUG__<<"onKTDataReceivedSim KTContainer :"<<m_ByKTContainerSim<<endl;
             QByteArray byMsg=m_ByKTContainerSim.mid(0,i);
             m_mutex.lock();
+            if(m_queKTFeedBackSim.size()>=30)
+                m_queKTFeedBackSim.clear();
 
             m_queKTFeedBackSim.push_back(byMsg);
             m_mutex.unlock();
-            DSDEBUG_<<"pushKT  byMsg :"<<byMsg<<endl;
+            DSDEBUG__<<"pushKT  byMsg :"<<byMsg<<endl;
             //m_cnt2++;
             m_ByKTContainerSim=m_ByKTContainerSim.mid(i+1,m_ByKTContainerSim.size()-(i+1));
             break;
@@ -770,7 +910,6 @@ void BaseCom::onKTDataReceivedSim()
 }
 
 
-
 bool BaseCom::readQZData(QByteArray& by)
 {
     bool ret=false;
@@ -778,8 +917,6 @@ bool BaseCom::readQZData(QByteArray& by)
     DSDEBUG_<<"m_queQZ size:"<<m_queQZFeedBack.size()<<by<<endl;
     if(m_queQZFeedBack.size()>0)
     {
-
-
         m_mutex.lock();
         //        by=m_queQZFeedBack.dequeue();
         by=m_queQZFeedBack.back();
@@ -833,20 +970,47 @@ bool BaseCom::readQZDataSim(QByteArray &by)
     return  ret;
 }
 
-bool BaseCom::readKTDataSim(QByteArray &by)
+bool BaseCom::readKTDataSim(QByteArray &by,int timeout)
 {
-    bool ret=false;
-    if(m_queKTFeedBackSim.size()>0)
-    {
-        m_mutex.lock();
-        DSDEBUG_<<"m_queKTSim size:"<<m_queKTFeedBackSim.size()<<endl;
+    //    bool ret=false;
+    //    if(m_queKTFeedBackSim.size()>0)
+    //    {
+    //        m_mutex.lock();
+    //        DSDEBUG_<<"m_queKTSim size:"<<m_queKTFeedBackSim.size()<<endl;
 
-        by=m_queKTFeedBackSim.back();
-        m_queKTFeedBackSim.clear();
-        m_mutex.unlock();
-        ret=true;
+    //        by=m_queKTFeedBackSim.back();
+    //        m_queKTFeedBackSim.clear();
+    //        m_mutex.unlock();
+    //        ret=true;
+    //    }
+    //    return  ret;
+
+
+    bool ret=false;
+    QElapsedTimer elapstime;
+    elapstime.restart();
+    while (true)
+    {
+        QThread::msleep(1);
+        if(elapstime.elapsed()>timeout)
+        {
+            break;
+        }
+        if(m_queKTFeedBackSim.size()>0)
+        {
+            m_mutex.lock();
+            DSDEBUG_<<"m_queKTSim size:"<<m_queKTFeedBackSim.size()<<endl;
+
+            by=m_queKTFeedBackSim.back();
+            m_queKTFeedBackSim.clear();
+            m_mutex.unlock();
+            ret=true;
+        }
     }
-    return  ret;
+
+    return ret;
+
+
 }
 
 
@@ -1002,7 +1166,7 @@ int BaseCom::getKTDataSim(QVector<int> &vecKTCheckRets,QByteArray& Receiveby)
     int ret=false;
 
     QByteArray by;
-    ret=readKTDataSim(by);
+    ret=readKTDataSim(by,100);
 
     if(!ret)
     {

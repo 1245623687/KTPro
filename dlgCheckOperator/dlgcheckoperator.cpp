@@ -2817,6 +2817,8 @@ void DlgCheckOperator::on_PushBtnCO_DLObjectDetect_clicked()
     //    }
 
     CheckOperatorBasic* pCheckOperator= imgTabaccoControl.addImgProCheckOperator(this->m_CurCameraNo,ENUMCHECKOPERATORTYPE_DLOBJECTDETECT);
+
+    pCheckOperator->stu_CheckOperatorBasic->CamIdx=m_CurCameraNo;
     loadSceneSetRect(this->m_CurCameraNo);
     loadCheckOperatorSetModel(m_CurCameraNo);
     ui->tableViewCheckOperatorSet->selectRow(pCheckOperator->stu_CheckOperatorBasic->Index-1);

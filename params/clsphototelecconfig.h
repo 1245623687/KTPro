@@ -20,7 +20,7 @@ public:
                           unsigned int SelfCheckAngle,unsigned int* ProbThreshold,unsigned int IsSendFaltSig,double Ratio)
 
         {
-            memcpy(capAngle,CapAngle,sizeof(unsigned int)*10);
+            memcpy(capAngle,CapAngle,sizeof(unsigned int)*12);
             kickAngle=KickAngle;
             kickStep=KickStep;
             trigAngle=TrigAngle;
@@ -30,7 +30,7 @@ public:
             ratio=Ratio;
         }
 
-        unsigned int capAngle[10];
+        unsigned int capAngle[12];
         unsigned int kickAngle;
         unsigned int kickStep;
         unsigned int trigAngle;
@@ -161,12 +161,12 @@ public:
     {
         m_photoElecParamArrSim[Type].probThreshold[Index]=val;
     }
+
     unsigned int getProThresholdSim(int Type,int Index)
     {
         return  m_photoElecParamArrSim[Type].probThreshold[Index];
     }
     
-
    //探头电流
     void setProCurrentSim(int Type,int Index,double val)
     {

@@ -58,7 +58,6 @@ void ImgTobacco::copyto(ImgTobacco* pCopyto)
         imgProCopy->copyto(addImgPro);
         pCopyto->LstImgPro.push_back(addImgPro);
     }
-
 }
 
 

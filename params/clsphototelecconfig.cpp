@@ -194,7 +194,7 @@ XMLElement * ClsPhototElecConfig::genCapAngleXmlElementBlock(TinyXmlDocument & d
 
     XMLElement* eleCapAngle = doc.NewElement(str.toStdString().c_str());
     //eleCapAngle->SetAttribute("QZ", "");
-    for(int i=1;i<=10;i++)
+    for(int i=1;i<=12;i++)
     {
         QString strCapAngle=QString("CapAngle_%1").arg(i);
         XMLElement* eletmp = doc.NewElement(strCapAngle.toStdString().c_str());
@@ -438,7 +438,7 @@ void ClsPhototElecConfig::loadFromFile()
             {
                 if(QString(eleCap->Name())=="QZCapAngle")
                 {
-                    for(int i=1;i<=10;i++)
+                    for(int i=1;i<=12;i++)
                     {
                         string strTmp;
                         QString strNodeName=QString("CapAngle_%1").arg(i);
@@ -517,7 +517,7 @@ void ClsPhototElecConfig::loadFromFile()
             {
                 if(string(eleCap->Name())=="KTCapAngle")
                 {
-                    for(int i=1;i<=10;i++)
+                    for(int i=1;i<=12;i++)
                     {
                         string strTmp;
                         QString strNodeName=QString("CapAngle_%1").arg(i);

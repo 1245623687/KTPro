@@ -50,6 +50,8 @@ public:
     //定位算子的原始位置，比如边缘定位（左右边缘，得到左右的X值，y为0；上下边缘得到上下的Y值，左右为0）。对象搜索算子中，对象的位置设置好了，即得到xy
     std::map<int, StuPostionAdjust> MapPostion;
 
+    bool m_bIsUseGPU=false;
+
 };
 
 #endif // IMGPRO_H

@@ -16,7 +16,7 @@ class DlgSystemInit : public QDialog
     Q_OBJECT
 
 public:
-    explicit DlgSystemInit(ENUMCAMERATYPE* cameraType,int* cameraNum, ENUMIOTYPE* IOType,QWidget *parent = nullptr);
+    explicit DlgSystemInit(ENUMCAMERATYPE* cameraType,int* cameraNum, ENUMIOTYPE* IOType,ENUMPROBNUM *ProbNum,QWidget *parent = nullptr);
     ~DlgSystemInit();
 
 private slots:
@@ -45,6 +45,11 @@ private:
    ENUMCAMERATYPE* m_CameraType;
    int* m_CameraNum;
    ENUMIOTYPE* m_IOType;
+
+   ENUMPROBNUM *m_ProNum;
+
+
+
 };
 
 #endif // DLGSYSTEMINIT_H

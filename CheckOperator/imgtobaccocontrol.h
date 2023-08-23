@@ -68,6 +68,16 @@ public:
         return  this->ClsImgTabacco->ImgHeis[camIdx];
     }
 
+    void setImgWid(int camIdx,int wid)
+    {
+          this->ClsImgTabacco->ImgWids[camIdx]=wid;
+    }
+
+    void setImgHei(int camIdx,int hei)
+    {
+          this->ClsImgTabacco->ImgHeis[camIdx]=hei;
+    }
+
 
     //修改子节点内容
     void updateTabaccoNode(XMLElement* eleParent,string eleName, string text);

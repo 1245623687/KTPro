@@ -267,7 +267,7 @@ void cSimuCanera::runGrab()
         m_Mutex.unlock();
 
 //        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        QThread::msleep(200);
+        QThread::msleep(1000);
         if(m_iCurImgIndex==m_vecimgfiles.size()-2)
         {
             m_iCurImgIndex=0;

@@ -63,6 +63,7 @@ public:
 //            if(m_isUpdate)
             {
                 QImage img(m_pImage,m_Wid,m_Hei,QImage::Format_RGB888);
+                img.save("./img.bmp","BMP");
                 painter->drawImage(QRect(0,0,m_Wid,m_Hei),img);
             }
         }
@@ -115,7 +116,7 @@ public:
 
     void addPheTextIterm(int index,QPointF& qpoint);
     void clearPheText();
-    void updateTextIterm(int * rets);
+    void updateTextIterm(int * rets,int* retsMap);
 
 
 
@@ -127,7 +128,6 @@ private:
 
     //    QMap<int,GraphicsRectItem*> m_RectArr;
     //    GRAPHICSSCENEMAINMODE m_Mode;
-
     int m_Type;
     int m_CamIdx;
 };

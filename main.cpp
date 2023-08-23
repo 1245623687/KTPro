@@ -89,6 +89,12 @@ int main(int argc, char *argv[])
 //        qDebug()<<*(*itor)<<endl;
 //    }
 
+//            QVector<int> retVec(20);
+//            for(int i=0;i<20;i++)
+//            {
+//                retVec[i]=i;
+//            }
+
 
 
 

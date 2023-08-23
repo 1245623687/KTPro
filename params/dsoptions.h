@@ -79,6 +79,9 @@ public:
     ENUMEPHDISPLAYTYPE ephDisplay(){return m_EphDispType;}
 
 
+    void setProbNum(ENUMPROBNUM mode){this->m_ProbNum=mode;}
+    ENUMPROBNUM getProbNum(){return m_ProbNum;}
+
 
 
     ~DSClsOptions()
@@ -136,6 +139,8 @@ private:
 
     ENUMCHECKMODETYPE m_CheckModeType;
     ENUMEPHDISPLAYTYPE m_EphDispType;
+
+        ENUMPROBNUM m_ProbNum;
 
     int m_MaxCameraNum;
     QString m_ImgSavePath;

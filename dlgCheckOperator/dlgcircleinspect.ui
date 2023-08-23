@@ -1353,7 +1353,7 @@ background-color: rgb(103, 103, 103);
                   <string notr="true">font: 11pt &quot;微软雅黑&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>内圆周异常面积:</string>
+                  <string>薄壁面积:</string>
                  </property>
                 </widget>
                </item>
@@ -1390,7 +1390,7 @@ background-color: rgb(103, 103, 103);
                       <string notr="true">font: 11pt &quot;微软雅黑&quot;;</string>
                      </property>
                      <property name="text">
-                      <string>面积阈值:</string>
+                      <string>面积下限:</string>
                      </property>
                     </widget>
                    </item>
@@ -1398,7 +1398,7 @@ background-color: rgb(103, 103, 103);
                     <widget class="KSpinBoxKb" name="spinBoxPrecIn">
                      <property name="minimumSize">
                       <size>
-                       <width>80</width>
+                       <width>100</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1464,7 +1464,7 @@ background-color: rgb(103, 103, 103);
 </string>
                      </property>
                      <property name="maximum">
-                      <number>4096</number>
+                      <number>40960</number>
                      </property>
                     </widget>
                    </item>
@@ -1483,7 +1483,117 @@ background-color: rgb(103, 103, 103);
                       </size>
                      </property>
                      <property name="maximum">
-                      <number>4096</number>
+                      <number>40960</number>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                   <item>
+                    <widget class="QLabel" name="label_28">
+                     <property name="styleSheet">
+                      <string notr="true">font: 11pt &quot;微软雅黑&quot;;</string>
+                     </property>
+                     <property name="text">
+                      <string>面积上限:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="KSpinBoxKb" name="spinBoxPrecOut_4">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>80</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">
+QSpinBox
+{
+	
+	font: 12pt &quot;微软雅黑&quot;;
+	border-width:1;border-style:none;
+	border-color:rgb(255, 255, 255);
+	background-color: rgb(200, 200, 200);
+	color::rgb(255,255, 0);
+
+}
+QSpinBox::down-button
+{   
+	
+	background-color: rgb(200, 200, 200);
+	subcontrol-origin:border;
+    subcontrol-position:left;
+    image: url(:/左normal.png);
+    width: 20px;
+    height: 30px; ;
+}
+QSpinBox::up-button
+{
+board:none;
+	background-color: rgb(200, 200, 200);
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/右normal.png);
+    width: 20px;
+    height: 30px;       
+}
+
+QSpinBox::up-button:pressed
+{
+board:none;
+background-color: rgb(103, 103, 103);
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/右press.png);
+    width: 20px;
+    height: 30px;      
+}
+QSpinBox::down-button:pressed
+{
+board:none;
+background-color: rgb(103, 103, 103);
+	subcontrol-origin:border;
+    subcontrol-position:left;
+    image: url(:/左press.png);
+    width: 20px;
+    height: 30px; 
+}
+</string>
+                     </property>
+                     <property name="maximum">
+                      <number>40960</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSlider" name="horizontalSliderspinBoxPrecOut_4">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="maximum">
+                      <number>40960</number>
                      </property>
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
@@ -1508,7 +1618,7 @@ background-color: rgb(103, 103, 103);
                     <widget class="KSpinBoxKb" name="spinBoxPrecIn_2">
                      <property name="minimumSize">
                       <size>
-                       <width>80</width>
+                       <width>100</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -1692,7 +1802,7 @@ background-color: rgb(103, 103, 103);
                   <string notr="true">font: 11pt &quot;微软雅黑&quot;;</string>
                  </property>
                  <property name="text">
-                  <string>异物(烟丝)面积 :</string>
+                  <string>圆周异常面积 :</string>
                  </property>
                 </widget>
                </item>
@@ -1806,7 +1916,7 @@ background-color: rgb(103, 103, 103);
 </string>
                      </property>
                      <property name="maximum">
-                      <number>4096</number>
+                      <number>40960</number>
                      </property>
                     </widget>
                    </item>
@@ -1825,7 +1935,7 @@ background-color: rgb(103, 103, 103);
                       </size>
                      </property>
                      <property name="maximum">
-                      <number>4096</number>
+                      <number>40960</number>
                      </property>
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
@@ -1922,116 +2032,6 @@ background-color: rgb(103, 103, 103);
                    </item>
                    <item>
                     <widget class="QSlider" name="horizontalSliderspinBoxPrecOut_2">
-                     <property name="minimumSize">
-                      <size>
-                       <width>100</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>100</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="maximum">
-                      <number>255</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
-                   <item>
-                    <widget class="QLabel" name="label_28">
-                     <property name="styleSheet">
-                      <string notr="true">font: 11pt &quot;微软雅黑&quot;;</string>
-                     </property>
-                     <property name="text">
-                      <string>灰度上限:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="KSpinBoxKb" name="spinBoxPrecOut_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>80</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>80</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">
-QSpinBox
-{
-	
-	font: 12pt &quot;微软雅黑&quot;;
-	border-width:1;border-style:none;
-	border-color:rgb(255, 255, 255);
-	background-color: rgb(200, 200, 200);
-	color::rgb(255,255, 0);
-
-}
-QSpinBox::down-button
-{   
-	
-	background-color: rgb(200, 200, 200);
-	subcontrol-origin:border;
-    subcontrol-position:left;
-    image: url(:/左normal.png);
-    width: 20px;
-    height: 30px; ;
-}
-QSpinBox::up-button
-{
-board:none;
-	background-color: rgb(200, 200, 200);
-	subcontrol-origin:border;
-    subcontrol-position:right;
-    image: url(:/右normal.png);
-    width: 20px;
-    height: 30px;       
-}
-
-QSpinBox::up-button:pressed
-{
-board:none;
-background-color: rgb(103, 103, 103);
-	subcontrol-origin:border;
-    subcontrol-position:right;
-    image: url(:/右press.png);
-    width: 20px;
-    height: 30px;      
-}
-QSpinBox::down-button:pressed
-{
-board:none;
-background-color: rgb(103, 103, 103);
-	subcontrol-origin:border;
-    subcontrol-position:left;
-    image: url(:/左press.png);
-    width: 20px;
-    height: 30px; 
-}
-</string>
-                     </property>
-                     <property name="maximum">
-                      <number>255</number>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSlider" name="horizontalSliderspinBoxPrecOut_4">
                      <property name="minimumSize">
                       <size>
                        <width>100</width>

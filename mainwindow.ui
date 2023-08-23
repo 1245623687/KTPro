@@ -782,7 +782,7 @@ QPushButton:pressed{
            <string notr="true">background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="pageshowsub">
            <property name="styleSheet">
@@ -1085,9 +1085,9 @@ color:rgb(46, 232, 232)</string>
 font: 75 16pt &quot;微软雅黑&quot;;</string>
                             </property>
                             <property name="text">
-                             <string>相
+                             <string>光
 
-机
+电
 
 2</string>
                             </property>
@@ -1408,9 +1408,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
 font: 75 16pt &quot;微软雅黑&quot;;</string>
                             </property>
                             <property name="text">
-                             <string>相
+                             <string>光
 
-机
+电
 
 2</string>
                             </property>
@@ -2135,7 +2135,7 @@ font: 75 14pt &quot;微软雅黑&quot;;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">font: 75 20pt &quot;微软雅黑&quot;;
+                 <string notr="true">font: 75 12pt &quot;微软雅黑&quot;;
 color: rgb(0, 198, 198);
 background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0#4D4D4D, stop:1 #292929);</string>
                 </property>
@@ -2219,8 +2219,8 @@ color: rgb(0, 198, 198);
 background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0#4D4D4D, stop:1 #292929);</string>
                   </property>
                   <property name="text">
-                   <string>相
-机
+                   <string>光
+电
 2</string>
                   </property>
                   <property name="alignment">
@@ -6590,7 +6590,7 @@ color:rgb(255, 255, 255)</string>
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>200</width>
+                       <width>0</width>
                        <height>0</height>
                       </size>
                      </property>
@@ -9809,7 +9809,7 @@ color:rgb(46, 232, 232)</string>
                       <bool>false</bool>
                      </property>
                      <property name="digitCount">
-                      <number>9</number>
+                      <number>11</number>
                      </property>
                      <property name="segmentStyle">
                       <enum>QLCDNumber::Flat</enum>
@@ -10242,7 +10242,7 @@ color:rgb(46, 232, 232)</string>
                       <bool>false</bool>
                      </property>
                      <property name="digitCount">
-                      <number>9</number>
+                      <number>11</number>
                      </property>
                      <property name="segmentStyle">
                       <enum>QLCDNumber::Flat</enum>

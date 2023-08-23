@@ -159,6 +159,7 @@ public:
             int AsDir = 0,
             int AsContinusCheck = 0,
             int isAssociated=0,
+            int camIdx=1,
             StuGrayConversion* GrayConversion = new StuGrayConversion()
             ) :
         Index(index),
@@ -180,6 +181,7 @@ public:
         Basic_AsDir(AsDir),
         Basic_AsContinusCheck(AsContinusCheck),
         IsAssociated(isAssociated),
+        CamIdx(camIdx) ,
         Basic_GrayConversion(GrayConversion)
     {
     }
@@ -205,6 +207,9 @@ public:
         this->Basic_AsDir = another.Basic_AsDir;
         this->Basic_AsContinusCheck = another.Basic_AsContinusCheck;
         this->IsAssociated=another.IsAssociated;
+        this->CamIdx=another.CamIdx;
+
+
         this->Basic_GrayConversion = another.Basic_GrayConversion;
     }
 
@@ -233,6 +238,9 @@ public:
         this->Basic_AsDir = another.Basic_AsDir;
         this->Basic_AsContinusCheck = another.Basic_AsContinusCheck;
         this->IsAssociated=another.IsAssociated;
+            this->CamIdx=another.CamIdx;
+
+
         this->Basic_GrayConversion = another.Basic_GrayConversion;
         return *this;
     }
@@ -271,6 +279,11 @@ public:
 
         pCopyto->IsAssociated=this->IsAssociated;
 
+        pCopyto->CamIdx=this->CamIdx;
+
+
+
+
 
         pCopyto->Basic_GrayConversion->RedRate=this->Basic_GrayConversion->RedRate;
         pCopyto->Basic_GrayConversion->BlueRate=this->Basic_GrayConversion->BlueRate;
@@ -302,7 +315,10 @@ public:
     int Basic_AsDir;
     int Basic_AsContinusCheck;
     int IsAssociated;
+        int CamIdx;
     StuGrayConversion* Basic_GrayConversion;
+
+
 }StuCheckOperatorBasic;
 
 

@@ -29,8 +29,9 @@ void DSClsOptions::load()
         ENUMCAMERATYPE tmpcameraType=ENUMCAMERATYPE_AVT;
         int tmpcameraNum=0;
         ENUMIOTYPE tmpIOType=ENUMIOTYPE_YANHUAGPIO;
+        ENUMPROBNUM tmpProbNum=ENUMPROBNUM_3;
 
-        DlgSystemInit dlg(&tmpcameraType,&tmpcameraNum,&tmpIOType);
+        DlgSystemInit dlg(&tmpcameraType,&tmpcameraNum,&tmpIOType,&tmpProbNum);
         int ret=dlg.exec();
         if(!ret)
         {
@@ -124,7 +125,11 @@ void DSClsOptions::load()
 
         tmpb = this->m_IniFile.GetValue("Options", "EphDisplay", tmpval);
         if (tmpb) setEphDisplay(static_cast<ENUMEPHDISPLAYTYPE>(atoi(tmpval.c_str())));
-        else setSaveDaysNum(ENUMEPHDISPLAYTYPE_DISPLAY);
+        else setEphDisplay(ENUMEPHDISPLAYTYPE_DISPLAY);
+
+        tmpb = this->m_IniFile.GetValue("Options", "ProbNum", tmpval);
+        if (tmpb) setProbNum(static_cast<ENUMPROBNUM>(atoi(tmpval.c_str())));
+        else setProbNum(tmpProbNum);
 
        // savebackup();
         QThread::msleep(50);
@@ -215,7 +220,11 @@ void DSClsOptions::load()
 
     b = this->m_IniFile.GetValue("Options", "EphDisplay", val);
     if (b) setEphDisplay(static_cast<ENUMEPHDISPLAYTYPE>(atoi(val.c_str())));
-    else setSaveDaysNum(ENUMEPHDISPLAYTYPE_DISPLAY);
+    else setEphDisplay(ENUMEPHDISPLAYTYPE_DISPLAY);
+
+    b = this->m_IniFile.GetValue("Options", "ProbNum", val);
+    if (b) setProbNum(static_cast<ENUMPROBNUM>(atoi(val.c_str())));
+    else setProbNum(ENUMPROBNUM_3);
 
 }
 
@@ -259,6 +268,8 @@ void DSClsOptions::save()
 
     m_IniFile2.SetValue("Options", "CheckMode",QString::number((int)this->checkMode()));
     m_IniFile2.SetValue("Options", "EphDisplay",QString::number((int)this->ephDisplay()));
+
+    m_IniFile2.SetValue("Options", "ProbNum",QString::number((int)this->getProbNum()));
 
 
     m_IniFile2.Save();

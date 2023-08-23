@@ -15,6 +15,8 @@ ImgPro::ImgPro(const ImgPro& another)
     this->RefNum = another.RefNum;
     this->CheckNum = another.CheckNum;
     this->WorkPiece = another.WorkPiece;
+    this->m_bIsUseGPU= another.m_bIsUseGPU;
+
 
     if (LstCheckOperator.size() != 0)
     {
@@ -111,6 +113,7 @@ void ImgPro::copyto(ImgPro* pCopyto)
 
     pCopyto->RefOpencvImage=this->RefOpencvImage;
 //    pCopyto->CalcOpencvImage=this->CalcOpencvImage;
+     pCopyto->m_bIsUseGPU= this->m_bIsUseGPU;
 
 
 
@@ -264,6 +267,7 @@ ImgPro& ImgPro::operator=(ImgPro& another)
         this->RefNum = another.RefNum;
         this->CheckNum = another.CheckNum;
         this->WorkPiece = another.WorkPiece;
+       this->m_bIsUseGPU= another.m_bIsUseGPU;
 
         if (LstCheckOperator.size() != 0)
         {

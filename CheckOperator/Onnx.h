@@ -38,6 +38,8 @@ public:
 //    static Onnx* getInstance();
 //    static std::mutex m_onnxMutex;
 
+        bool m_bIsValid=false;
+
 protected:
     vector<vector<BBoxInfo>> non_max_suppression_onnx(cv::Mat Img, Ort::Value & input_tensor, float conf_thres, float iou_thres, int class_num);
 
@@ -74,7 +76,9 @@ private:
 	int m_classNum = 1;
 	float m_confThres = 0.25;
 	float m_iouThres = 0.45;
-	Ort::Env m_env;//onnx环境,最好伴随整个检测生命周期
+    Ort::Env m_env;//onnx环境,最好伴随整个检测生命周期
+
+
 };
 
  class  OnnxGloable

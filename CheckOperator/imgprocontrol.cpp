@@ -1729,6 +1729,10 @@ int ImgProControl::calculateCV(unsigned char errArr[])
     }
 
 
+    {
+        DSDEBUG<<"开始计算  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+        this->ClsImgPro->CalcOpencvImage.ImageRGB.copyTo(this->ClsImgPro->CurBadOpencvImage.ImageRGB);
+    }
 
     //在进行其他算子检测
     list<CheckOperatorBasic*>::iterator itor = this->ClsImgPro->LstCheckOperator.begin();
@@ -2043,8 +2047,186 @@ int ImgProControl::calculateCV(unsigned char errArr[])
             CheckOperatorDLObjectDetect * pCheckOperatorDLObjectDetect= dynamic_cast<CheckOperatorDLObjectDetect*>((*itor));
             CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
 
-            accuracyType=pCheckOperatorDLObjectDetect->m_iaccuracyType;
+//            accuracyType=pCheckOperatorDLObjectDetect->m_iaccuracyType;
 
+//            if(this->ClsImgPro->ImgIndex==2)
+
+
+            DSDEBUG<<"开始推理  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+
+             if(OnnxGloable::getInstance()->onnxArray[this->ClsImgPro->ImgIndex-1].m_bIsValid)
+            {
+                //            this->ClsImgPro->CurBadOpencvImage.ImageRGB=this->ClsImgPro->CalcOpencvImage.ImageRGB;
+                std::vector<BBoxInfo> vecBBoxInfo;
+                cv::Mat inputImg;
+
+                int dstSize=640;
+
+                int maxHW = ref.rows > ref.cols ? ref.rows : ref.cols;
+                int toppad,bottompad, leftpad,rightpad;
+                if (maxHW > dstSize)
+                {
+                    toppad = (maxHW - ref.rows) / 2;
+                    bottompad = maxHW - ref.rows - toppad;
+
+                    leftpad = (maxHW - ref.cols) / 2;
+                    rightpad = maxHW - ref.cols - leftpad;
+                }
+                else
+                {
+                    toppad = (dstSize - ref.rows) / 2;
+                    bottompad = dstSize - ref.rows - toppad;
+
+                    leftpad = (dstSize - ref.cols) / 2;
+                    rightpad = dstSize - ref.cols - leftpad;
+                }
+
+                cv::copyMakeBorder(this->ClsImgPro->CalcOpencvImage.ImageRGB, inputImg, toppad, bottompad, leftpad, rightpad, cv::BORDER_CONSTANT, cv::Scalar(114, 114, 114));
+
+                //在初始化的时候设置初始置信度为0.1，在检测出目标框之后再使用页面设定的阈值进行过滤
+                OnnxGloable::getInstance()->m_onnxMutex[this->ClsImgPro->ImgIndex-1].lock();
+                OnnxGloable::getInstance()->onnxArray[this->ClsImgPro->ImgIndex-1].setConfidence(0.1);
+                vector<vector<BBoxInfo>> vec_batch_result;
+                OnnxGloable::getInstance()->onnxArray[this->ClsImgPro->ImgIndex-1].detect(inputImg,vec_batch_result);
+                OnnxGloable::getInstance()->m_onnxMutex[this->ClsImgPro->ImgIndex-1].unlock();
+
+                DSDEBUG<<"推理结束  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+                int boxID=0;
+                for(int i=0;i<vec_batch_result.size();i++)
+                {
+                    for(int j=0;j<vec_batch_result[i].size();j++)
+                    {
+                        int x=(vec_batch_result[i][j].rect.x-leftpad)>0?(vec_batch_result[i][j].rect.x-leftpad):0;
+                        int y=(vec_batch_result[i][j].rect.y-toppad)>0?(vec_batch_result[i][j].rect.y-toppad):0;
+
+                        int  imgwid=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols;
+                        int imghei=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows;
+
+                        int width=(x+vec_batch_result[i][j].rect.width)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols?(vec_batch_result[i][j].rect.width):(this->ClsImgPro->CalcOpencvImage.ImageRGB.cols-x);
+                        int height=(y+vec_batch_result[i][j].rect.height)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows?(vec_batch_result[i][j].rect.height):(this->ClsImgPro->CalcOpencvImage.ImageRGB.rows-y);
+
+                        vec_batch_result[i][j].rect=cv::Rect( x,y,width,height);
+
+                        vec_batch_result[i][j].boxID=boxID;
+                        boxID++;
+                        vecBBoxInfo.push_back(vec_batch_result[i][j]);
+
+                    }
+                }
+
+                //            DSDEBUG<<"推理结束1  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+
+                list<CheckOperatorBasic*>::iterator itor = this->ClsImgPro->LstCheckOperator.begin();
+                list<CheckOperatorBasic*>::iterator itorMax;
+                int OKBoxs=0;
+
+                for(int i=0;i<vecBBoxInfo.size();i++)
+                {
+                    int maxArea=0;
+                    int errIndex = 1;
+                    int maxIndex=1;
+                    cv::Mat curTmp;
+
+                    cv::Rect rectCropMap;
+                    for (;itor!=this->ClsImgPro->LstCheckOperator.end();itor++,errIndex++)
+                    {
+                        if(!(*itor)->stu_CheckOperatorBasic->Basic_IsCheck)
+                        {
+                            errArr[errIndex]=2;
+                            continue;
+                        }
+
+                        if((*itor)->CheckType==ENUMCHECKOPERATORTYPE::ENUMCHECKOPERATORTYPE_DLOBJECTDETECT)
+                        {
+
+                            cv::Rect rectInit(
+                                        (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
+                                        (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys,
+                                        (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xe-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
+                                        (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ye-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys
+                                        );
+
+                            cv::Rect rectAdjust(rectInit.x,rectInit.y,rectInit.width,rectInit.height);
+                            cv::Mat refTmp=cv::Mat(ref,rectInit);
+                            StuCheckOperatorBasicControl control((*itor)->stu_CheckOperatorBasic);
+
+                            std::vector<int> vRefx;
+                            std::vector<int> vRefy;
+                            control.getRefX(vRefx);
+                            control.getRefY(vRefy);
+                            cv::Point bestPt(0,0);
+                            int bestScore=0;
+                            for(int idx_x=0;idx_x<vRefx.size();idx_x++)
+                            {
+
+                                if(this->ClsImgPro->MapPostion[vRefx[idx_x]].Score>bestScore)
+                                {
+                                    bestScore=this->ClsImgPro->MapPostion[vRefx[idx_x]].Score;
+                                    bestPt.x=this->ClsImgPro->MapPostion[vRefx[idx_x]].Pt.x;
+                                }
+                            }
+                            bestScore=0;
+                            for(int idx_y=0;idx_y<vRefy.size();idx_y++)
+                            {
+
+                                if(this->ClsImgPro->MapPostion[vRefy[idx_y]].Score>bestScore)
+                                {
+                                    bestScore=this->ClsImgPro->MapPostion[vRefy[idx_y]].Score;
+                                    bestPt.y=this->ClsImgPro->MapPostion[vRefy[idx_y]].Pt.y;
+                                }
+                            }
+
+                            rectAdjust.x=rectAdjust.x+bestPt.x;
+                            rectAdjust.y=rectAdjust.y+bestPt.y;
+                            if(rectAdjust.x<0||rectAdjust.y<0||(rectAdjust.x+rectAdjust.width)>=640||(rectAdjust.y+rectAdjust.height)>=480)
+                            {
+                                //LOG(INFO)<<"算子编号:"<<errIndex<<"位置调整出错,进行回调!";
+                                rectAdjust=rectInit;
+                            }
+                            curTmp=cv::Mat(cur,rectAdjust);
+
+                            rectCropMap=rectAdjust;
+                            itorMax=itor;
+                            break;
+
+                        }
+                    }
+
+                    if(itorMax._Ptr!=NULL)
+                    {
+                        CheckOperatorDLObjectDetect * pCheckOperatorDLObjectDetect= dynamic_cast<CheckOperatorDLObjectDetect*>((*itorMax));
+                        CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
+                        // errArr[errIndex]=0;
+
+                        cv::Rect interRect=vecBBoxInfo[i].rect&rectCropMap;
+                        int res=-1;
+                        if(interRect.area()>vecBBoxInfo[i].rect.area()/2)
+                        {
+                            res=control.calculate(this->ClsImgPro->CalcOpencvImage.ImageRGB, curTmp,vecBBoxInfo[i]);
+
+
+                            if (res == 0)
+                            {
+                                cv::rectangle(this->ClsImgPro->CurBadOpencvImage.ImageRGB,vecBBoxInfo[i].rect,cv::Scalar(255,0,0),3);
+
+                                errArr[errIndex]=1;
+                                ret++;
+                            }
+                            if(res==1)
+                            {
+                                OKBoxs++;
+                            }
+                        }
+
+                    }
+                }
+                if(OKBoxs<20&&this->ClsImgPro->ImgIndex==1)
+                {
+                      ret++;
+                      errArr[errIndex]=1;
+                }
+
+            }
 
         }
             break;
@@ -2253,268 +2435,272 @@ int ImgProControl::calculateCV(unsigned char errArr[])
 
 
 
-    if(this->ClsImgPro->ImgIndex==2)
-    {
-        this->ClsImgPro->CalcOpencvImage.ImageRGB.copyTo(this->ClsImgPro->CurBadOpencvImage.ImageRGB);
-    }
-
-#ifdef FLAG_KONGTOU
-    if(this->ClsImgPro->ImgIndex==2||this->ClsImgPro->ImgIndex==4)
-
-        if(1)
-        {
-            //            this->ClsImgPro->CurBadOpencvImage.ImageRGB=this->ClsImgPro->CalcOpencvImage.ImageRGB;
-            std::vector<BBoxInfo> vecBBoxInfo;
-            cv::Mat inputImg;
-
-            int dstSize=640;
-
-            int maxHW = ref.rows > ref.cols ? ref.rows : ref.cols;
-            int toppad,bottompad, leftpad,rightpad;
-            if (maxHW > dstSize)
-            {
-                toppad = (maxHW - ref.rows) / 2;
-                bottompad = maxHW - ref.rows - toppad;
-
-                leftpad = (maxHW - ref.cols) / 2;
-                rightpad = maxHW - ref.cols - leftpad;
-            }
-            else
-            {
-                toppad = (dstSize - ref.rows) / 2;
-                bottompad = dstSize - ref.rows - toppad;
-
-                leftpad = (dstSize - ref.cols) / 2;
-                rightpad = dstSize - ref.cols - leftpad;
-            }
-
-            cv::copyMakeBorder(this->ClsImgPro->CalcOpencvImage.ImageRGB, inputImg, toppad, bottompad, leftpad, rightpad, cv::BORDER_CONSTANT, cv::Scalar(114, 114, 114));
-
-            //在初始化的时候设置初始置信度为0.1，在检测出目标框之后再使用页面设定的阈值进行过滤
-            int onnxIndex=(this->ClsImgPro->ImgIndex-2)/2;
-            if (accuracyType==0)
-            {
-                //正常精度
-                onnxIndex=0;
-            }
-            else
-            {
-                //高精度
-                onnxIndex=1;
-            }
-//            onnxIndex=0;
 
 
+    //    if(this->ClsImgPro->ImgIndex==2)
+    //    {
+    //        this->ClsImgPro->CalcOpencvImage.ImageRGB.copyTo(this->ClsImgPro->CurBadOpencvImage.ImageRGB);
+    //    }
+
+    //     DSDEBUG<<"开始推理0  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+
+    //#ifdef FLAG_KONGTOU
+    //    if(this->ClsImgPro->ImgIndex==2||this->ClsImgPro->ImgIndex==4)
+
+    //        if(1)
+    //        {
+    //            //            this->ClsImgPro->CurBadOpencvImage.ImageRGB=this->ClsImgPro->CalcOpencvImage.ImageRGB;
+    //            std::vector<BBoxInfo> vecBBoxInfo;
+    //            cv::Mat inputImg;
+
+    //            int dstSize=640;
+
+    //            int maxHW = ref.rows > ref.cols ? ref.rows : ref.cols;
+    //            int toppad,bottompad, leftpad,rightpad;
+    //            if (maxHW > dstSize)
+    //            {
+    //                toppad = (maxHW - ref.rows) / 2;
+    //                bottompad = maxHW - ref.rows - toppad;
+
+    //                leftpad = (maxHW - ref.cols) / 2;
+    //                rightpad = maxHW - ref.cols - leftpad;
+    //            }
+    //            else
+    //            {
+    //                toppad = (dstSize - ref.rows) / 2;
+    //                bottompad = dstSize - ref.rows - toppad;
+
+    //                leftpad = (dstSize - ref.cols) / 2;
+    //                rightpad = dstSize - ref.cols - leftpad;
+    //            }
+
+    //            cv::copyMakeBorder(this->ClsImgPro->CalcOpencvImage.ImageRGB, inputImg, toppad, bottompad, leftpad, rightpad, cv::BORDER_CONSTANT, cv::Scalar(114, 114, 114));
+
+    //            //在初始化的时候设置初始置信度为0.1，在检测出目标框之后再使用页面设定的阈值进行过滤
+    ////            int onnxIndex=(this->ClsImgPro->ImgIndex-2)/2;
+    ////            if (accuracyType==0)
+    ////            {
+    ////                //正常精度
+    ////                onnxIndex=0;
+    ////            }
+    ////            else
+    ////            {
+    ////                //高精度
+    ////                onnxIndex=1;
+    ////            }
+    //  //          onnxIndex=0;
 
 
-            OnnxGloable::getInstance()->m_onnxMutex[onnxIndex].lock();
-            OnnxGloable::getInstance()->onnxArray[onnxIndex].setConfidence(0.1);
-            vector<vector<BBoxInfo>> vec_batch_result;
-            OnnxGloable::getInstance()->onnxArray[onnxIndex].detect(inputImg,vec_batch_result);
-            OnnxGloable::getInstance()->m_onnxMutex[onnxIndex].unlock();
-
-            DSDEBUG<<"推理结束0  camera:"<<this->ClsImgPro->ImgIndex<<endl;
-            int boxID=0;
-            for(int i=0;i<vec_batch_result.size();i++)
-            {
-                for(int j=0;j<vec_batch_result[i].size();j++)
-                {
-                    int x=(vec_batch_result[i][j].rect.x-leftpad)>0?(vec_batch_result[i][j].rect.x-leftpad):0;
-                    int y=(vec_batch_result[i][j].rect.y-toppad)>0?(vec_batch_result[i][j].rect.y-toppad):0;
-
-                    int  imgwid=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols;
-                    int imghei=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows;
-
-                    int width=(x+vec_batch_result[i][j].rect.width)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols?(vec_batch_result[i][j].rect.width):(this->ClsImgPro->CalcOpencvImage.ImageRGB.cols-x);
-                    int height=(y+vec_batch_result[i][j].rect.height)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows?(vec_batch_result[i][j].rect.height):(this->ClsImgPro->CalcOpencvImage.ImageRGB.rows-y);
-
-                    vec_batch_result[i][j].rect=cv::Rect( x,y,width,height);
-
-                    vec_batch_result[i][j].boxID=boxID;
-                    boxID++;
-                    vecBBoxInfo.push_back(vec_batch_result[i][j]);
-
-                }
-            }
-
-//            DSDEBUG<<"推理结束1  camera:"<<this->ClsImgPro->ImgIndex<<endl;
 
 
-            list<CheckOperatorBasic*>::iterator itor = this->ClsImgPro->LstCheckOperator.begin();
-            list<CheckOperatorBasic*>::iterator itorMax;
-            int OKBoxs=0;
+    //            OnnxGloable::getInstance()->m_onnxMutex[0].lock();
+    //            OnnxGloable::getInstance()->onnxArray[0].setConfidence(0.1);
+    //            vector<vector<BBoxInfo>> vec_batch_result;
+    //            OnnxGloable::getInstance()->onnxArray[0].detect(inputImg,vec_batch_result);
+    //            OnnxGloable::getInstance()->m_onnxMutex[0].unlock();
 
-//            //剔除重叠的部分
-//            std::vector<BBoxInfo> vecBBoxFilter,vecBBoxFilterTmp;
+    //            DSDEBUG<<"推理结束0  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+    //            int boxID=0;
+    //            for(int i=0;i<vec_batch_result.size();i++)
+    //            {
+    //                for(int j=0;j<vec_batch_result[i].size();j++)
+    //                {
+    //                    int x=(vec_batch_result[i][j].rect.x-leftpad)>0?(vec_batch_result[i][j].rect.x-leftpad):0;
+    //                    int y=(vec_batch_result[i][j].rect.y-toppad)>0?(vec_batch_result[i][j].rect.y-toppad):0;
 
-//            for(int i=0;i<vecBBoxInfo.size();i++)
-//            {
-//                vecBBoxFilterTmp.clear();
-//                for(int j=0;j<vecBBoxInfo.size();j++)
-//                {
-//                    if(i!=j)
-//                    {
-//                        cv::Rect interRect=vecBBoxInfo[i].rect&vecBBoxInfo[j].rect;
-//                        double per=interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area());
+    //                    int  imgwid=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols;
+    //                    int imghei=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows;
 
-//                        double per2=interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()));
+    //                    int width=(x+vec_batch_result[i][j].rect.width)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.cols?(vec_batch_result[i][j].rect.width):(this->ClsImgPro->CalcOpencvImage.ImageRGB.cols-x);
+    //                    int height=(y+vec_batch_result[i][j].rect.height)<=this->ClsImgPro->CalcOpencvImage.ImageRGB.rows?(vec_batch_result[i][j].rect.height):(this->ClsImgPro->CalcOpencvImage.ImageRGB.rows-y);
 
-//                        if(interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area())>0.3)
+    //                    vec_batch_result[i][j].rect=cv::Rect( x,y,width,height);
 
-//                            //if(interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()))>0.5)
-//                        {
-//                            vecBBoxFilterTmp.push_back(vecBBoxInfo[j]);
-//                        }
-//                    }
+    //                    vec_batch_result[i][j].boxID=boxID;
+    //                    boxID++;
+    //                    vecBBoxInfo.push_back(vec_batch_result[i][j]);
 
-//                }
-//                vecBBoxFilterTmp.push_back(vecBBoxInfo[i]);
-//                //把最大的置信度选出来
+    //                }
+    //            }
 
-//                float tenpprob=0;
-//                int maxprobID=0;
-//                for(int k=0;k<vecBBoxFilterTmp.size();k++)
-//                {
-//                    if(vecBBoxFilterTmp[k].prob>tenpprob)
-//                    {
-//                        tenpprob=vecBBoxFilterTmp[k].prob;
-//                        maxprobID=k;
-//                    }
-//                }
-//                vecBBoxFilter.push_back(vecBBoxFilterTmp[maxprobID]);
-//            }
+    ////            DSDEBUG<<"推理结束1  camera:"<<this->ClsImgPro->ImgIndex<<endl;
 
 
-//            //剔除相同的ID
-//            std::vector<BBoxInfo> vecBBoxInfoTemp;
-//            vecBBoxInfo.swap(vecBBoxInfoTemp);
-//            for(int m=0;m<vecBBoxInfoTemp.size();m++)
-//            {
-//                for(int n=0;n<vecBBoxFilter.size();n++ )
-//                {
-//                    if(vecBBoxFilter[n].boxID==m)
-//                    {
-//                        vecBBoxInfo.push_back(vecBBoxFilter[n]);
-//                        break;
-//                    }
-//                }
-//            }
+    //            list<CheckOperatorBasic*>::iterator itor = this->ClsImgPro->LstCheckOperator.begin();
+    //            list<CheckOperatorBasic*>::iterator itorMax;
+    //            int OKBoxs=0;
+
+    ////            //剔除重叠的部分
+    ////            std::vector<BBoxInfo> vecBBoxFilter,vecBBoxFilterTmp;
+
+    ////            for(int i=0;i<vecBBoxInfo.size();i++)
+    ////            {
+    ////                vecBBoxFilterTmp.clear();
+    ////                for(int j=0;j<vecBBoxInfo.size();j++)
+    ////                {
+    ////                    if(i!=j)
+    ////                    {
+    ////                        cv::Rect interRect=vecBBoxInfo[i].rect&vecBBoxInfo[j].rect;
+    ////                        double per=interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area());
+
+    ////                        double per2=interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()));
+
+    ////                        if(interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area())>0.3)
+
+    ////                            //if(interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()))>0.5)
+    ////                        {
+    ////                            vecBBoxFilterTmp.push_back(vecBBoxInfo[j]);
+    ////                        }
+    ////                    }
+
+    ////                }
+    ////                vecBBoxFilterTmp.push_back(vecBBoxInfo[i]);
+    ////                //把最大的置信度选出来
+
+    ////                float tenpprob=0;
+    ////                int maxprobID=0;
+    ////                for(int k=0;k<vecBBoxFilterTmp.size();k++)
+    ////                {
+    ////                    if(vecBBoxFilterTmp[k].prob>tenpprob)
+    ////                    {
+    ////                        tenpprob=vecBBoxFilterTmp[k].prob;
+    ////                        maxprobID=k;
+    ////                    }
+    ////                }
+    ////                vecBBoxFilter.push_back(vecBBoxFilterTmp[maxprobID]);
+    ////            }
 
 
-            for(int i=0;i<vecBBoxInfo.size();i++)
-            {
-                int maxArea=0;
-                int errIndex = 1;
-                int maxIndex=1;
-                cv::Mat curTmp;
-
-                cv::Rect rectCropMap;
-                for (;itor!=this->ClsImgPro->LstCheckOperator.end();itor++,errIndex++)
-                {
-                    if(!(*itor)->stu_CheckOperatorBasic->Basic_IsCheck)
-                    {
-                        errArr[errIndex]=2;
-                        continue;
-                    }
-
-                    if((*itor)->CheckType==ENUMCHECKOPERATORTYPE::ENUMCHECKOPERATORTYPE_DLOBJECTDETECT)
-                    {
-
-                        cv::Rect rectInit(
-                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
-                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys,
-                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xe-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
-                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ye-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys
-                                    );
-
-                        cv::Rect rectAdjust(rectInit.x,rectInit.y,rectInit.width,rectInit.height);
-                        cv::Mat refTmp=cv::Mat(ref,rectInit);
-                        StuCheckOperatorBasicControl control((*itor)->stu_CheckOperatorBasic);
-
-                        std::vector<int> vRefx;
-                        std::vector<int> vRefy;
-                        control.getRefX(vRefx);
-                        control.getRefY(vRefy);
-                        cv::Point bestPt(0,0);
-                        int bestScore=0;
-                        for(int idx_x=0;idx_x<vRefx.size();idx_x++)
-                        {
-
-                            if(this->ClsImgPro->MapPostion[vRefx[idx_x]].Score>bestScore)
-                            {
-                                bestScore=this->ClsImgPro->MapPostion[vRefx[idx_x]].Score;
-                                bestPt.x=this->ClsImgPro->MapPostion[vRefx[idx_x]].Pt.x;
-                            }
-                        }
-                        bestScore=0;
-                        for(int idx_y=0;idx_y<vRefy.size();idx_y++)
-                        {
-
-                            if(this->ClsImgPro->MapPostion[vRefy[idx_y]].Score>bestScore)
-                            {
-                                bestScore=this->ClsImgPro->MapPostion[vRefy[idx_y]].Score;
-                                bestPt.y=this->ClsImgPro->MapPostion[vRefy[idx_y]].Pt.y;
-                            }
-                        }
-
-                        rectAdjust.x=rectAdjust.x+bestPt.x;
-                        rectAdjust.y=rectAdjust.y+bestPt.y;
-                        if(rectAdjust.x<0||rectAdjust.y<0||(rectAdjust.x+rectAdjust.width)>=640||(rectAdjust.y+rectAdjust.height)>=480)
-                        {
-                            //LOG(INFO)<<"算子编号:"<<errIndex<<"位置调整出错,进行回调!";
-                            rectAdjust=rectInit;
-                        }
-                        curTmp=cv::Mat(cur,rectAdjust);
-
-                        rectCropMap=rectAdjust;
-                        //
-                        //                    cv::Rect interRect=vecBBoxInfo[i].rect&rectAdjust;
-                        //                    if((interRect.area()>maxArea)&&(interRect.area()>vecBBoxInfo[i].rect.area()/2))
-                        //                    {
-                        //                        maxArea=interRect.area();
-                        //                        maxIndex=errIndex;
-                        //                        itorMax=itor;
-                        //                    }
-
-                        itorMax=itor;
-                        break;
-
-                    }
-                }
-                DSDEBUG<<"推理结束2  camera:"<<this->ClsImgPro->ImgIndex<<endl;
-
-                if(itorMax._Ptr!=NULL)
-                {
-                    CheckOperatorDLObjectDetect * pCheckOperatorDLObjectDetect= dynamic_cast<CheckOperatorDLObjectDetect*>((*itorMax));
-                    CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
-                    // errArr[errIndex]=0;
-
-                    cv::Rect interRect=vecBBoxInfo[i].rect&rectCropMap;
-                    int res=0;
-                    if(interRect.area()>vecBBoxInfo[i].rect.area()/2)
-                    {
-                        res=control.calculate(this->ClsImgPro->CalcOpencvImage.ImageRGB, curTmp,vecBBoxInfo[i]);
+    ////            //剔除相同的ID
+    ////            std::vector<BBoxInfo> vecBBoxInfoTemp;
+    ////            vecBBoxInfo.swap(vecBBoxInfoTemp);
+    ////            for(int m=0;m<vecBBoxInfoTemp.size();m++)
+    ////            {
+    ////                for(int n=0;n<vecBBoxFilter.size();n++ )
+    ////                {
+    ////                    if(vecBBoxFilter[n].boxID==m)
+    ////                    {
+    ////                        vecBBoxInfo.push_back(vecBBoxFilter[n]);
+    ////                        break;
+    ////                    }
+    ////                }
+    ////            }
 
 
-                        if (res == 1)
-                        {
-                            cv::rectangle(this->ClsImgPro->CurBadOpencvImage.ImageRGB,vecBBoxInfo[i].rect,cv::Scalar(255,0,0),3);
+    //            for(int i=0;i<vecBBoxInfo.size();i++)
+    //            {
+    //                int maxArea=0;
+    //                int errIndex = 1;
+    //                int maxIndex=1;
+    //                cv::Mat curTmp;
 
-                            errArr[maxIndex]=1;
-                            ret++;
-                        }
-                        if(res==0)
-                        {
-                            OKBoxs++;
-                        }
-                    }
+    //                cv::Rect rectCropMap;
+    //                for (;itor!=this->ClsImgPro->LstCheckOperator.end();itor++,errIndex++)
+    //                {
+    //                    if(!(*itor)->stu_CheckOperatorBasic->Basic_IsCheck)
+    //                    {
+    //                        errArr[errIndex]=2;
+    //                        continue;
+    //                    }
 
-                }
-            }
-            DSDEBUG<<"推理结束3  camera:"<<this->ClsImgPro->ImgIndex<<endl;
-        }
+    //                    if((*itor)->CheckType==ENUMCHECKOPERATORTYPE::ENUMCHECKOPERATORTYPE_DLOBJECTDETECT)
+    //                    {
 
-#endif
+    //                        cv::Rect rectInit(
+    //                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
+    //                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys,
+    //                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xe-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Xs,
+    //                                    (*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ye-(*itor)->stu_CheckOperatorBasic->Basic_RectValid_Ys
+    //                                    );
+
+    //                        cv::Rect rectAdjust(rectInit.x,rectInit.y,rectInit.width,rectInit.height);
+    //                        cv::Mat refTmp=cv::Mat(ref,rectInit);
+    //                        StuCheckOperatorBasicControl control((*itor)->stu_CheckOperatorBasic);
+
+    //                        std::vector<int> vRefx;
+    //                        std::vector<int> vRefy;
+    //                        control.getRefX(vRefx);
+    //                        control.getRefY(vRefy);
+    //                        cv::Point bestPt(0,0);
+    //                        int bestScore=0;
+    //                        for(int idx_x=0;idx_x<vRefx.size();idx_x++)
+    //                        {
+
+    //                            if(this->ClsImgPro->MapPostion[vRefx[idx_x]].Score>bestScore)
+    //                            {
+    //                                bestScore=this->ClsImgPro->MapPostion[vRefx[idx_x]].Score;
+    //                                bestPt.x=this->ClsImgPro->MapPostion[vRefx[idx_x]].Pt.x;
+    //                            }
+    //                        }
+    //                        bestScore=0;
+    //                        for(int idx_y=0;idx_y<vRefy.size();idx_y++)
+    //                        {
+
+    //                            if(this->ClsImgPro->MapPostion[vRefy[idx_y]].Score>bestScore)
+    //                            {
+    //                                bestScore=this->ClsImgPro->MapPostion[vRefy[idx_y]].Score;
+    //                                bestPt.y=this->ClsImgPro->MapPostion[vRefy[idx_y]].Pt.y;
+    //                            }
+    //                        }
+
+    //                        rectAdjust.x=rectAdjust.x+bestPt.x;
+    //                        rectAdjust.y=rectAdjust.y+bestPt.y;
+    //                        if(rectAdjust.x<0||rectAdjust.y<0||(rectAdjust.x+rectAdjust.width)>=640||(rectAdjust.y+rectAdjust.height)>=480)
+    //                        {
+    //                            //LOG(INFO)<<"算子编号:"<<errIndex<<"位置调整出错,进行回调!";
+    //                            rectAdjust=rectInit;
+    //                        }
+    //                        curTmp=cv::Mat(cur,rectAdjust);
+
+    //                        rectCropMap=rectAdjust;
+    //                        //
+    //                        //                    cv::Rect interRect=vecBBoxInfo[i].rect&rectAdjust;
+    //                        //                    if((interRect.area()>maxArea)&&(interRect.area()>vecBBoxInfo[i].rect.area()/2))
+    //                        //                    {
+    //                        //                        maxArea=interRect.area();
+    //                        //                        maxIndex=errIndex;
+    //                        //                        itorMax=itor;
+    //                        //                    }
+
+    //                        itorMax=itor;
+    //                        break;
+
+    //                    }
+    //                }
+    //                DSDEBUG<<"推理结束2  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+
+    //                if(itorMax._Ptr!=NULL)
+    //                {
+    //                    CheckOperatorDLObjectDetect * pCheckOperatorDLObjectDetect= dynamic_cast<CheckOperatorDLObjectDetect*>((*itorMax));
+    //                    CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
+    //                    // errArr[errIndex]=0;
+
+    //                    cv::Rect interRect=vecBBoxInfo[i].rect&rectCropMap;
+    //                    int res=0;
+    //                    if(interRect.area()>vecBBoxInfo[i].rect.area()/2)
+    //                    {
+    //                        res=control.calculate(this->ClsImgPro->CalcOpencvImage.ImageRGB, curTmp,vecBBoxInfo[i]);
+
+
+    //                        if (res == 1)
+    //                        {
+    //                            cv::rectangle(this->ClsImgPro->CurBadOpencvImage.ImageRGB,vecBBoxInfo[i].rect,cv::Scalar(255,0,0),3);
+
+    //                            errArr[maxIndex]=1;
+    //                            ret++;
+    //                        }
+    //                        if(res==0)
+    //                        {
+    //                            OKBoxs++;
+    //                        }
+    //                    }
+
+    //                }
+    //            }
+    //            DSDEBUG<<"推理结束3  camera:"<<this->ClsImgPro->ImgIndex<<endl;
+    //        }
+
+    //#endif
 
 
 

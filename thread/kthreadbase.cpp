@@ -10,5 +10,7 @@ void KThreadBase::stop()
 {
     requestInterruption();
     quit();
+
+//    terminate();
     wait();
 }

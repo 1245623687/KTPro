@@ -56,6 +56,8 @@ private slots:
 
     void  doCameraOffline(int camIndex);
 
+    void updateMainSceen();
+
 private:
     void InitStyle();
     QPoint mousePoint;
@@ -106,17 +108,12 @@ private:
 #ifdef FALG_PHE
 
     dlgphotoelectricitycfg  form_phe;
+    int  m_imgPhe=0;
 #endif
-
-
-
 
     int ii=0;
 
     double m_phePosArr[3][3];
-
-
-
 };
 
 #endif // MAINWINDOW_H

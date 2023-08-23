@@ -94,6 +94,12 @@ DlgDLObjectDetect::DlgDLObjectDetect(CheckOperatorDLObjectDetect* pCheckOperator
     updateCheckRes();
 
 
+    ui->label->setVisible(false);
+    ui->radioButton_accuracyN->setVisible(false);
+    ui->radioButton_accuracyH->setVisible(false);
+
+
+
 
 }
 
@@ -202,7 +208,7 @@ void DlgDLObjectDetect::updateCheckRes()
 #endif
 
 
-     int accuracyType=0;
+    int accuracyType=0;
     if(ui->radioButton_accuracyN->isChecked())
         accuracyType=0;
     else
@@ -210,14 +216,14 @@ void DlgDLObjectDetect::updateCheckRes()
 
 #ifdef IMG_TYPE_RGB
     cv::Mat imgGray=this->m_ItemImageInit->getImage().ImageRGB;
-   // cv::cvtColor(imgGray,imgGray,cv::COLOR_BGR2GRAY);
-   // cv::Mat dstMat;
+    // cv::cvtColor(imgGray,imgGray,cv::COLOR_BGR2GRAY);
+    // cv::Mat dstMat;
     bool res=checkOperatorDLObjectDetectControl.debugCalculator(imgGray,imgGray,imgRes.ImageRGB,m_curRect,ui->spinBoxConfidence->value(),
-               ui->spinBoxKtMinArea->value(),ui->spinBoxGrayVal->value(),ui->spinBoxGrayValUpLimit->value(),accuracyType,&defectNum ,&ktArea,&ktPercent);
+                                                                ui->spinBoxKtMinArea->value(),ui->spinBoxGrayVal->value(),ui->spinBoxGrayValUpLimit->value(),accuracyType,&defectNum ,&ktArea,&ktPercent);
 #endif
 
     this->m_ItemImage->reLoadImage(imgRes,imgRes.ImageRGB.cols,imgRes.ImageRGB.rows);
-   // cv::imwrite("d:/imageGray2.bmp",m_ItemImage->getImage().ImageRGB);
+    // cv::imwrite("d:/imageGray2.bmp",m_ItemImage->getImage().ImageRGB);
     // m_ItemImage->m_pQImage->save("d:/qt.bmp");
 
     this->ui->labelDefectNum->setText(QString::number(defectNum));
@@ -521,14 +527,14 @@ void DlgDLObjectDetect::initControl()
 
     ui->spinBoxGrayValUpLimit->setValue(m_CheckOperator->m_iValUpLimt);
 
-   if(m_CheckOperator->m_iaccuracyType==0)
-   {
-       ui->radioButton_accuracyN->setChecked(true);
-   }
-   else
-   {
-       ui->radioButton_accuracyH->setChecked(true);
-   }
+    if(m_CheckOperator->m_iaccuracyType==0)
+    {
+        ui->radioButton_accuracyN->setChecked(true);
+    }
+    else
+    {
+        ui->radioButton_accuracyH->setChecked(true);
+    }
 
 
     connect(ui->spinBoxConfidence,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
@@ -638,10 +644,10 @@ void DlgDLObjectDetect::saveParam()
 
 
     int accuracyType=0;
-   if(ui->radioButton_accuracyN->isChecked())
-       accuracyType=0;
-   else
-       accuracyType=1;
+    if(ui->radioButton_accuracyN->isChecked())
+        accuracyType=0;
+    else
+        accuracyType=1;
     this->m_CheckOperator->m_iaccuracyType=accuracyType;
 
 }
@@ -824,10 +830,10 @@ void DlgDLObjectDetect::on_spinBoxGrayValUpLimit_valueChanged(int arg1)
 
 void DlgDLObjectDetect::on_horizontalspinBoxGrayValUpLimit_valueChanged(int value)
 {
-        ui->spinBoxGrayValUpLimit->setValue(value);
+    ui->spinBoxGrayValUpLimit->setValue(value);
 }
 
 void DlgDLObjectDetect::on_radioButton_accuracyN_toggled(bool checked)
 {
-     updateCheckRes();
+    updateCheckRes();
 }

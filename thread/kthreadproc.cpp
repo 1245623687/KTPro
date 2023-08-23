@@ -34,7 +34,7 @@ void KThreadProc::run()
 
     //清理相机缓存
 
-//        pc->Cameras[IdxCamera]->clearBuf();
+    //        pc->Cameras[IdxCamera]->clearBuf();
 
 
 
@@ -55,7 +55,7 @@ void KThreadProc::run()
 
 
     int count=0;
-//    pc->IOContol->setLevel(RUNPIN,0xFFFFFFFF,0x00);
+    //    pc->IOContol->setLevel(RUNPIN,0xFFFFFFFF,0x00);
 
     while (!isInterruptionRequested())
     {
@@ -160,24 +160,8 @@ void KThreadProc::run()
                 }
                 m_Mutex.unlock();
             }
-
-
         }
 
-
-        //发送串口结果请求命令
-#ifdef FALG_PHE
-        PackageChecker::getInstance()->ErrPhe[IdxCamera-1]=0;
-        if(IdxCamera==1)
-        {
-            PackageChecker::getInstance()->sendCheckCommandSig(1);
-        }
-
-        if(IdxCamera==2)
-        {
-            PackageChecker::getInstance()->sendCheckCommandSig(2);
-        }
-#endif
 
         //发送心跳信号
         {
@@ -186,23 +170,20 @@ void KThreadProc::run()
             emit sigupdateGPIO(prsPin ,0xFF);
         }
 
-
         pc->Cameras[IdxCamera]->HasImage(pc->CurImage[IdxCamera].ImageRGB.ptr(0));
         //        if(IdxCamera==2)
-        //            cv::rotate(pc->CurImage[IdxCamera].ImageRGB,pc->CurImage[IdxCamera].ImageRGB,cv::ROTATE_180);
+        //          cv::rotate(pc->CurImage[IdxCamera].ImageRGB,pc->CurImage[IdxCamera].ImageRGB,cv::ROTATE_180);
 
-       clock_t startTime=clock();
+        clock_t startTime=clock();
 
         //DSDEBUG<<QString("相机(%1):已取到图片").arg(QString::fromStdString((*itor)->GetIPAddress()));
-        //            pc->Cameras[IdxCamera]->clearBuf();
+        //pc->Cameras[IdxCamera]->clearBuf();
         ImgTobaccoControl control(pc->ImgTobaccoRun);
         control.setCalcImage(IdxCamera, pc->CurImage[IdxCamera]);
 
         //std::string strname=QString("%1.bmp").arg(IdxCamera).toStdString();
 
         // LOG(INFO)<<"设置计算图片完成,开始执行calculate";
-
-
         memset(pc->ErrMatrix[IdxCamera],0,CHECKOPERATORNUM_MAX);
 
         int  errAllNum;
@@ -213,25 +194,24 @@ void KThreadProc::run()
         pc->IsCalcaulateFinish[IdxCamera-1]=1;
 
 
+
         //图像与光电结果逻辑运算
 #ifdef FALG_PHE
         if(IdxCamera==1)
-            msleep(20);
+            msleep(0);
         if(IdxCamera==2)
             msleep(0);
 
-
-
-        emit PackageChecker::getInstance()->updateCheckRetSig(IdxCamera);
-        msleep(3);
+        //DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"before emit "<<endl;
+//        if(IdxCamera==2)
+        {
+            emit PackageChecker::getInstance()->updateCheckRetSig(4);
+        }
 #endif
 
+        // DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"emit Finished "<<endl;
 
-        DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"Sleep Finished "<<endl;
-        //  DSDEBUG<<QString("CAMERA:%1  err:%2").arg(this->IdxCamera).arg(errAllNum);
-        //save img end
-
-         int retType=0;
+        int retType=0;
         {
 #ifdef FALG_PHE
             int phe=PackageChecker::getInstance()->ErrPhe[IdxCamera-1];
@@ -247,7 +227,7 @@ void KThreadProc::run()
 
                 //   DSDEBUG<<"错误烟条";
                 if(pc->Options->OutputType()==ENUMOUTPUTTYPE_OUT)
-                 emit sigupdateGPIO(resPin ,0x00);
+                    emit sigupdateGPIO(resPin ,0x00);
             }
             else
             {
@@ -257,10 +237,10 @@ void KThreadProc::run()
 #else
             if(errAllNum>0)
             {
-                 pc->RunParam_CalcNumNgTotals[IdxCamera-1]++;
+                pc->RunParam_CalcNumNgTotals[IdxCamera-1]++;
                 //DSDEBUG<<"错误烟条";
                 if(pc->Options->OutputType()==ENUMOUTPUTTYPE_OUT)
-                emit sigupdateGPIO(resPin ,0x00);
+                    emit sigupdateGPIO(resPin ,0x00);
                 retType=1;
 
             }
@@ -323,7 +303,13 @@ void KThreadProc::run()
 
 
             if(IdxCamera==1)
+            {
                 memcpy(pc->m_qmapCurBadImage[IdxCamera].ImageRGB.ptr<uchar>(0), pc->CurImage[IdxCamera].ImageRGB.ptr<uchar>(0),  pc->Cameras[IdxCamera]->getBufSize());
+
+                control.getCurBadImage(IdxCamera,pc->m_qmapCurBadImage[IdxCamera]);
+            }
+
+
             if(IdxCamera==2)
             {
                 //不做标记
@@ -332,7 +318,6 @@ void KThreadProc::run()
                 control.getCurBadImage(IdxCamera,pc->m_qmapCurBadImage[IdxCamera]);
                 //cv::imwrite("./m_qmapCurBadImage.bmp",pc->m_qmapCurBadImage[IdxCamera].ImageRGB);
             }
-
         }
         pc->RunParam_CalcNumAllCams[IdxCamera-1]++;
         pc->RunParam_CalcTime=(clock()-startTime);
@@ -340,7 +325,7 @@ void KThreadProc::run()
 
 
         if(IdxCamera==2)
-           DSDEBUG__<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"CalTime "<< pc->RunParam_CalcTimeCams[IdxCamera-1]<<endl;
+            DSDEBUG__<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"CalTime "<< pc->RunParam_CalcTimeCams[IdxCamera-1]<<endl;
 
 
         for(int i=0;i<CAMERANUM_MAX;i++)
@@ -356,14 +341,10 @@ void KThreadProc::run()
         emit inforUpdate(this->IdxCamera);
     }
 
-
-    //    pc->IOContol->setDirection(2,0,0);
-    //    pc->IOContol->setLevel(2,0,0);
-
     pc->Cameras[IdxCamera]->SetTrigger(0);
     pc->IOContol->setLevel(prsPin,0xFFFFFFFF,0xFF);
     pc->IOContol->setLevel(resPin,0xFFFFFFFF,0xFF);
-//    pc->IOContol->setLevel(RUNPIN,0xFFFFFFFF,0xFF);
+    //pc->IOContol->setLevel(RUNPIN,0xFFFFFFFF,0xFF);
 
 }
 

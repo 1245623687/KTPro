@@ -1,4 +1,4 @@
-ï»¿#include "packagechecker.h"
+#include "packagechecker.h"
 #include"CheckOperator/imgtobaccocontrol.h"
 
 #include"CheckOperator/Onnx.h"
@@ -18,9 +18,13 @@ QDateTime PackageChecker::m_TimeSystemStart=QDateTime::currentDateTime();
 unsigned char PackageChecker::ErrMatrix[CAMERANUM_MAX][CHECKOPERATORNUM_MAX]={0};
 int PackageChecker::ErrRecord[CAMERANUM_MAX][CHECKOPERATORNUM_MAX]={0};
 QAtomicInt::QAtomicInteger PackageChecker::ErrPhe[2]={0,0};
-int PackageChecker::RetPheQZ[20]={0};
+int PackageChecker::RetPheQZ[21]={0};
 
-int PackageChecker::RetPheKT[20]={0};
+int PackageChecker::RetPheKT[21]={0};
+
+int PackageChecker::RetMapPheQZ[20]={0};
+
+int PackageChecker::RetMapPheKT[20]={0};
 
 QMutex PackageChecker::m_MutexRetPheQZ;
 QMutex PackageChecker::m_MutexRetPheKT;
@@ -50,14 +54,15 @@ PackageChecker::PackageChecker()
     for(int i=0;i<CAMERANUM_MAX;i++)
     {
         IsCalcaulateFinish[i]=0;
-        RunParam_CalcNumAllCams[i]=0;//å½“å‰ç­æ¬¡å¤„ç†æ€»æ•°
-        RunParam_CalcNumNgCams[i]=0;//å½“å‰ç­æ¬¡çš„Ngæ•°é‡
-        RunParam_CalcTimeCams[i]=0;//å½“å‰ç­æ¬¡çš„Ngæ•°é‡
+        RunParam_CalcNumAllCams[i]=0;//µ±Ç°°à´Î´¦Àí×ÜÊı
+        RunParam_CalcNumNgCams[i]=0;//µ±Ç°°à´ÎµÄNgÊıÁ¿
+        RunParam_CalcTimeCams[i]=0;//µ±Ç°°à´ÎµÄNgÊıÁ¿
 
-        RunParam_CalcNumNgGDs[i]=0;//å½“å‰ç­æ¬¡çš„Ngæ•°é‡
-        RunParam_CalcNumNgTotals[i]=0;//å½“å‰ç­æ¬¡çš„Ngæ•°é‡
+        RunParam_CalcNumNgGDs[i]=0;//µ±Ç°°à´ÎµÄNgÊıÁ¿
+        RunParam_CalcNumNgTotals[i]=0;//µ±Ç°°à´ÎµÄNgÊıÁ¿
     }
 
+//    m_isUpdateEPH=false;
 }
 
 OpencvImage *PackageChecker::cloneOpencvImg(int index,OpencvImage & another)
@@ -85,11 +90,13 @@ void PackageChecker::deleteCloneOpencvImage(int index)
 //    return another.clone();
 //}
 
-
 void PackageChecker::timerlog()
 {
-    DSDEBUG<<"ç”¨æˆ·é€€å‡º";
-    this->user.setUserName("æ“ä½œå‘˜");
+    DSDEBUG<<"ÓÃ»§ÍË³ö";
+
+    DSDEBUG<<"ÓÃ»§ÍË³ö";
+
+    this->user.setUserName("²Ù×÷Ô±");
     this->user.setUserGroup(ENUMUSERGROUP_OPERATOR);
     m_TimerLog->stop();
 }
@@ -166,13 +173,13 @@ void PackageChecker::changeBrand(QString brandName)
     }
 
 
-    //å…‰æºè®¾ç½®
+    //¹âÔ´ÉèÖÃ
     //    UINT8 packetBuf[PACKET_BUF_SIZE];
     //    memset(packetBuf, 0, PACKET_BUF_SIZE * sizeof(UINT8));
     //    if(!OpenPort(1, 115200))
     //    {
     //        frmMessageBox *msg = new frmMessageBox;
-    //        msg->SetMessage(QString("é€šä¿¡ç«¯å£è¢«å ç”¨,è¯·å…ˆå…³é—­æ¿å¡è°ƒè¯•è½¯ä»¶å¹¶é‡å¯ç³»ç»Ÿ!"), 2);
+    //        msg->SetMessage(QString("Í¨ĞÅ¶Ë¿Ú±»Õ¼ÓÃ,ÇëÏÈ¹Ø±Õ°å¿¨µ÷ÊÔÈí¼ş²¢ÖØÆôÏµÍ³!"), 2);
     //        msg->exec();
     //        return;
     //    }
@@ -189,7 +196,7 @@ void PackageChecker::changeBrand(QString brandName)
     //    packetBuf[ADDR_FOR_CRC_HBYTE] = (UINT8)((crcSum >> 8) & 0xFF);
     //    XModemCommEngine(SLAVE1_CODE, W_CODE, DOWNLOAD_DATA_LEN, packetBuf);
     //    ClosePort();
-    //å…‰æºè®¾ç½®
+    //¹âÔ´ÉèÖÃ
 
 
 
@@ -239,7 +246,7 @@ void PackageChecker::init()
 
 
     user.setUserGroup(static_cast<ENUMUSERGROUP>(2));
-    user.setUserName("æ“ä½œå‘˜");
+    user.setUserName("²Ù×÷Ô±");
 
 
     m_TimeSystemStart=QDateTime::currentDateTime();
@@ -251,10 +258,10 @@ void PackageChecker::init()
     }
     catch (...)
     {
-        DSDEBUG<<"åŠ è½½Options.iniå¤±è´¥"<<endl;
+        DSDEBUG<<"¼ÓÔØOptions.iniÊ§°Ü"<<endl;
         throw PackageCheckerException((int)ENUMPACKAGECHECKERERR_LOADOPTIONSFAIL);
     }
-    DSDEBUG<<"optionså‚æ•°åŠ è½½å®Œæˆ";
+    DSDEBUG<<"options²ÎÊı¼ÓÔØÍê³É";
     try
     {
         LastConfig=DSClsLastConfig::getInstance();
@@ -262,16 +269,16 @@ void PackageChecker::init()
     }
     catch (...)
     {
-        DSDEBUG<<"åŠ è½½LastConfig.iniå¤±è´¥"<<endl;
+        DSDEBUG<<"¼ÓÔØLastConfig.iniÊ§°Ü"<<endl;
         throw PackageCheckerException((int)ENUMPACKAGECHECKERERR_LOADLASTCONFIGFAIL);
     }
-    DSDEBUG<<"ä¸Šä¸€æ¬¡å‚æ•°åŠ è½½å®Œæˆ";
+    DSDEBUG<<"ÉÏÒ»´Î²ÎÊı¼ÓÔØÍê³É";
 
     int i=this->Options->IOTYPE();
     this->IOContol=CIOBase::getInstance(this->Options->IOTYPE());
 
 
-    //ä¸²å£
+    //´®¿Ú
 #ifdef FALG_PHE
     try
     {
@@ -280,213 +287,257 @@ void PackageChecker::init()
         m_pBaseCom->setQZPort("COM1");
         m_pBaseCom->setKTPort("COM2");
 
-//        m_pBaseCom->setQZPortSim("COM3");
+        //        m_pBaseCom->setQZPortSim("COM3");
         m_pBaseCom->setKTPortSim("COM4");
-
-
 
 #else
 
         //        m_pBaseCom->setQZPort("COM1");
         //        m_pBaseCom->setKTPort("COM8");
-
-//        m_pBaseCom->setQZPort("COM1");
+        //        m_pBaseCom->setQZPort("COM1");
         m_pBaseCom->setKTPort("COM2");
 
-//        m_pBaseCom->setQZPortSim("COM3");
+        //        m_pBaseCom->setQZPortSim("COM3");
         m_pBaseCom->setKTPortSim("COM4");
 #endif
         int ret=m_pBaseCom->openComPort();
         if(ret)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage(QString("æ‰“å¼€ä¸²å£%1å¤±è´¥!").arg(ret), 2);
+            msg->SetMessage(QString("´ò¿ª´®¿Ú%1Ê§°Ü!").arg(ret), 2);
             msg->exec();
         }
-        //        DSDEBUG<<"æ‰“å¼€COM1,COM2å¤±è´¥"<<endl;
+        //        DSDEBUG<<"´ò¿ªCOM1,COM2Ê§°Ü"<<endl;
     }
     catch (...)
     {
-        DSDEBUG<<"æ‰“å¼€COM1,COM2å¤±è´¥"<<endl;
+        DSDEBUG<<"´ò¿ªCOM1,COM2Ê§°Ü"<<endl;
         throw PackageCheckerException((int)ENUMPACKAGECHECKERERR_LOADLASTCONFIGFAIL);
     }
 
 
-    DSDEBUG<<"ä¸²å£å®Œæˆ";
+    DSDEBUG<<"´®¿ÚÍê³É";
 
 
 
-    //å…‰ç”µé…ç½®å‚æ•°åŠ è½½
+    //¹âµçÅäÖÃ²ÎÊı¼ÓÔØ
     PhotoElecConfig=ClsPhototElecConfig::getInstance();
 
-    //ä»æ¿å­è·å–å‚æ•°
+    //´Ó°å×Ó»ñÈ¡²ÎÊı
     m_pBaseCom->togleDisconnect();
-    //è·å–å‚æ•°æŒ‡ä»¤
-   QString strCommand="AA02030000000000";
+    //»ñÈ¡²ÎÊıÖ¸Áî
+    QString strCommand="AA02030000000000";
     QByteArray receiveByQZ;
     QByteArray receiveByKT;
     bool ret= m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
-    // è§£æreceive
+    // ½âÎöreceive
     if(ret)
     {
-        //è§¦å‘è§’åº¦
+        //´¥·¢½Ç¶È
         bool ok;
-        QByteArray tmpReadData= receiveByQZ.mid(4,40);
+        QByteArray tmpReadData= receiveByQZ.mid(4,48);
         QByteArray mid;
-        for(int i=0;i<10;i++)
+        for(int i=0;i<12;i++)
         {
             mid= tmpReadData.mid(0+i*4,4);
             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            PhotoElecConfig->setCapAngle(1,i+1,value);
+            PhotoElecConfig->setCapAngle(1,i,value);
         }
 
 
-        tmpReadData= receiveByQZ.mid(44,18);
-        //å‰”é™¤è§’åº¦ï¼Œå‰”é™¤æ­¥æ•°
+
+
+        //ÌŞ³ı½Ç¶È£¬ÌŞ³ı²½Êı
+        tmpReadData= receiveByQZ.mid(52,18);
         mid= tmpReadData.mid(0,4);
         int  value1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         mid= tmpReadData.mid(4,2);
         int  value2=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setKickAngleAndStep(1,value1,value2);
 
-        //ç›¸æœºè§¦å‘è§’åº¦
+
+
+        //Ïà»ú´¥·¢½Ç¶È
         mid= tmpReadData.mid(6,4);
         int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setTrigAngle(1,value);
 
-        //è‡ªæ£€è§’åº¦
+        //×Ô¼ì½Ç¶È
         mid= tmpReadData.mid(10,4);
         value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setSelfCheckAngle(1,value);
 
-        //é—¨æ§›ç³»æ•°
+        //ÃÅ¼÷ÏµÊı
         mid= tmpReadData.mid(14,4);
         value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setRatio(1,value/100.0);
 
-        tmpReadData= receiveByQZ.mid(62,80);
+        tmpReadData= receiveByQZ.mid(70,80);
         for(int i=0;i<20;i++)
         {
             mid= tmpReadData.mid(0+i*4,4);
             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            PhotoElecConfig->setProThreshold(1,i+1,value);
+            PhotoElecConfig->setProThreshold(1,i,value);
         }
     }
 
 
-     ret= m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
-    // è§£æreceive
+    ret= m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+    // ½âÎöreceive
     if(ret)
     {
-        //è§¦å‘è§’åº¦
+        //´¥·¢½Ç¶È
         bool ok;
-        QByteArray tmpReadData= receiveByKT.mid(4,40);
+        QByteArray tmpReadData= receiveByKT.mid(4,48);
         QByteArray mid;
-        for(int i=0;i<10;i++)
+        for(int i=0;i<12;i++)
         {
             mid= tmpReadData.mid(0+i*4,4);
             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            PhotoElecConfig->setCapAngle(2,i+1,value);
+            PhotoElecConfig->setCapAngle(2,i,value);
         }
 
 
-        tmpReadData= receiveByKT.mid(44,18);
-        //å‰”é™¤è§’åº¦ï¼Œå‰”é™¤æ­¥æ•°
+
+        //ÌŞ³ı½Ç¶È£¬ÌŞ³ı²½Êı
+        tmpReadData= receiveByKT.mid(52,18);
         mid= tmpReadData.mid(0,4);
         int  value1=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         mid= tmpReadData.mid(4,2);
         int  value2=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setKickAngleAndStep(2,value1,value2);
 
-        //ç›¸æœºè§¦å‘è§’åº¦
+        //Ïà»ú´¥·¢½Ç¶È
         mid= tmpReadData.mid(6,4);
         int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setTrigAngle(2,value);
 
-        //è‡ªæ£€è§’åº¦
+        //×Ô¼ì½Ç¶È
         mid= tmpReadData.mid(10,4);
         value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setSelfCheckAngle(2,value);
 
-        //é—¨æ§›ç³»æ•°
+        //ÃÅ¼÷ÏµÊı
         mid= tmpReadData.mid(14,4);
         value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
         PhotoElecConfig->setRatio(2,value/100.0);
 
 
-        tmpReadData= receiveByKT.mid(62,80);
+        tmpReadData= receiveByKT.mid(70,80);
         for(int i=0;i<20;i++)
         {
             mid= tmpReadData.mid(0+i*4,4);
             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            PhotoElecConfig->setProThreshold(2,i+1,value);
+            PhotoElecConfig->setProThreshold(2,i,value);
         }
     }
     
     
-    //ä»æ¨¡æ‹Ÿæ¿è·å–å‚æ•°ï¼Œç¼ºæ”¯
+    //´ÓÄ£Äâ°å»ñÈ¡²ÎÊı£¬È±Ö§
     strCommand="5502030000000000";
     QByteArray receivedByArray;
     QVector<int> vecTmp;
     ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommandSim(strCommand.toLatin1(),receivedByArray,vecTmp,3);
-    // è§£æreceive
-    if(ret)
-    {
-        for(int i=0;i<20;i++)
-        {
-            PhotoElecConfig->setProCurrentSim(1,i+1,vecTmp[i*2]); 
-            PhotoElecConfig->setProGainSim(1,i+1,vecTmp[i*2+1]); 
-            
-            PhotoElecConfig->setProThresholdSim(1,i+1,vecTmp[40+i]); 
-        }
-    }
-    
-    //ä»æ¨¡æ‹Ÿæ¿è·å–å‚æ•°ï¼Œç©ºå¤´
-   strCommand="5502030000000000";
-    ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(strCommand.toLatin1(),receivedByArray,vecTmp,3);
-    // è§£æreceive
-
+    // ½âÎöreceive
     int sz=receivedByArray.size();
-    if(ret)
+    if(ret&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
+    {
+        //3¸öµçÁ÷ÔöÒæ
+        for(int i=0;i<3;i++)
+        {
+            PhotoElecConfig->setProCurrentSim(1,i,vecTmp[i*2]);
+            PhotoElecConfig->setProGainSim(1,i,vecTmp[i*2+1]);
+        }
+        //20¸öÃÅ¼÷Öµ
+        for(int i=0;i<20;i++)
+        {
+            PhotoElecConfig->setProThresholdSim(1,i,vecTmp[6+i]);
+        }
+        //1 ¸öÏµÊı
+        PhotoElecConfig->setRatioSim(1,vecTmp[vecTmp.size()-1]/100.0);
+
+    }
+    if(ret&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
     {
         for(int i=0;i<20;i++)
         {
-            PhotoElecConfig->setProCurrentSim(2,i+1,vecTmp[i*2]); 
-            PhotoElecConfig->setProGainSim(2,i+1,vecTmp[i*2+1]); 
-            
-            PhotoElecConfig->setProThresholdSim(2,i+1,vecTmp[40+i]); 
+            PhotoElecConfig->setProCurrentSim(1,i,vecTmp[i*2]);
+            PhotoElecConfig->setProGainSim(1,i,vecTmp[i*2+1]);
+
+            PhotoElecConfig->setProThresholdSim(1,i,vecTmp[40+i]);
         }
+        //1¸öÏµÊı
+        PhotoElecConfig->setRatioSim(1,vecTmp[vecTmp.size()-1]/100.0);
+
+    }
+
+
+    
+    //´ÓÄ£Äâ°å»ñÈ¡²ÎÊı£¬¿ÕÍ·
+    strCommand="5502030000000000";
+    ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(strCommand.toLatin1(),receivedByArray,vecTmp,3);
+    // ½âÎöreceive
+    sz=receivedByArray.size();
+
+    if(ret&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
+    {
+        //3¸öµçÁ÷ÔöÒæ
+        for(int i=0;i<3;i++)
+        {
+            PhotoElecConfig->setProCurrentSim(2,i,vecTmp[i*2]);
+            PhotoElecConfig->setProGainSim(2,i,vecTmp[i*2+1]);
+        }
+        //20¸öÃÅ¼÷Öµ
+        for(int i=0;i<20;i++)
+        {
+            PhotoElecConfig->setProThresholdSim(2,i,vecTmp[6+i]);
+        }
+        //1 ¸öÏµÊı
+        PhotoElecConfig->setRatioSim(2,vecTmp[vecTmp.size()-1]/100.0);
+
+    }
+    if(ret&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+    {
+        for(int i=0;i<20;i++)
+        {
+            PhotoElecConfig->setProCurrentSim(2,i,vecTmp[i*2]/100.0);
+            PhotoElecConfig->setProGainSim(2,i,vecTmp[i*2+1]);
+
+            PhotoElecConfig->setProThresholdSim(2,i,vecTmp[40+i]);
+        }
+        //1¸öÏµÊı
+         PhotoElecConfig->setRatioSim(2,vecTmp[vecTmp.size()-1]/100.0);
     }
     
 
     m_pBaseCom->togleConnect();
-    //å…‰ç”µé…ç½®å‚æ•°åŠ è½½
-    PhotoElecConfig=ClsPhototElecConfig::getInstance();
+    //¹âµçÅäÖÃ²ÎÊı¼ÓÔØ
 
-    PhotoElecConfig->load();
-    //ä»å…‰ç”µé‚£è¯»å–å‚æ•°
+    //±£´æ´Ó°å×ÓÉÏ½ÓÊÕµ½µÄ²ÎÊı
+    PhotoElecConfig->save();
+    //´Ó¹âµçÄÇ¶ÁÈ¡²ÎÊı
     //....
     //
 
-    DSDEBUG<<"å…‰ç”µå‚æ•°åŠ è½½å®Œæˆ";
+    DSDEBUG<<"¹âµç²ÎÊı¼ÓÔØÍê³É";
 
 #endif
 
 
 
-    //ç¯äº®
+    //µÆÁÁ
     for (int i = 0; i < 4; i++)
     {
-        //ä½œä¸ºè¾“å‡ºå¼•è„š
-        //åæ±‰é’ˆè„šè®¾ç½®ä½ç”µå¹³
-        //åæ±‰å“ªä¸ªé’ˆè„šè®¾1å“ªä¸ªé’ˆè„šé«˜ç”µå¹³(è´Ÿææ¥åœ°ï¼Œæ­£ææ¥è¾“å‡ºé’ˆè„šæµ‹å¾—)
+        //×÷ÎªÊä³öÒı½Å
+        //»ªººÕë½ÅÉèÖÃµÍµçÆ½
+        //»ªººÄÄ¸öÕë½ÅÉè1ÄÄ¸öÕë½Å¸ßµçÆ½(¸º¼«½ÓµØ£¬Õı¼«½ÓÊä³öÕë½Å²âµÃ)
         //g_ltgFunction.LTGDoCtrlWriteBit(m_OutPort0, m_OutPort1)
-        //ç›¸å¯¹äºæ¿å­æ¥æ³•(æ­£ææ¥5vï¼Œè´Ÿææ¥è¾“å‡ºæ˜¯ä½ç”µå¹³)ï¼Œæ¿å­è¾“å…¥ä½ç”µå¹³ç¯äº®
+        //Ïà¶ÔÓÚ°å×Ó½Ó·¨(Õı¼«½Ó5v£¬¸º¼«½ÓÊä³öÊÇµÍµçÆ½)£¬°å×ÓÊäÈëµÍµçÆ½µÆÁÁ
         //
         int prs=i*2;
         int res=i*2+1;
 
-        //æŸ³å·ç¬¬6ä¸ªprsä½œä¸ºæŠ¥è­¦è¾“å‡ºä¿¡å·
+        //ÁøÖİµÚ6¸öprs×÷Îª±¨¾¯Êä³öĞÅºÅ
         //        if(prs!=6)
         //        {
         this->IOContol->setLevel(prs, 0xFFFFFFFF, 0x00);
@@ -494,52 +545,52 @@ void PackageChecker::init()
         //        }
 
 
-//        this->IOContol->setLevel(RUNPIN, 0xFFFFFFFF, 0x00);
+        //        this->IOContol->setLevel(RUNPIN, 0xFFFFFFFF, 0x00);
     }
 
     QThread::msleep(10);
-    //ç¯ç­
+    //µÆÃğ
     for (int i = 0; i < 4; i++)
     {
-        //ä½œä¸ºè¾“å‡ºå¼•è„š
+        //×÷ÎªÊä³öÒı½Å
         int prs=i*2;
         int res=i*2+1;
 
-        //æŸ³å·ç¬¬6ä¸ªprsä½œä¸ºæŠ¥è­¦è¾“å‡ºä¿¡å·
+        //ÁøÖİµÚ6¸öprs×÷Îª±¨¾¯Êä³öĞÅºÅ
         //        if(prs!=6)
         //        {
         this->IOContol->setLevel(prs, 0xFFFFFFFF, 0xFF);
         this->IOContol->setLevel(res, 0xFFFFFFFF, 0xFF);
         //        }
-//        this->IOContol->setLevel(RUNPIN, 0xFFFFFFFF, 0xFF);
+        //        this->IOContol->setLevel(RUNPIN, 0xFFFFFFFF, 0xFF);
     }
 
 
 
 
 #ifdef FALG_PHE
-    //å…‰ç”µå‰”é™¤å¼€ä¸å…³ï¼Œä½¿ç”¨7å·é’ˆè„š
+    //¹âµçÌŞ³ı¿ªÓë¹Ø£¬Ê¹ÓÃ7ºÅÕë½Å
     // PackageChecker::getInstance()->m_pBaseCom->togleDisconnect();
 
-    //åªæ‰“å¼€å›¾åƒå‰”é™¤
+    //Ö»´ò¿ªÍ¼ÏñÌŞ³ı
     if(this->Options->checkMode()==ENUMCHECKMODETYPE_PIC ||   this->Options->checkMode()==ENUMCHECKMODETYPE_PICANDPHE)
     {
 
-        //å…‰ç”µå‰”é™¤å…³é—­
+        //¹âµçÌŞ³ı¹Ø±Õ
         this->IOContol->setLevel(7,0xFFFFFFFF,0x00);
         QString strCommand="AA01090100000000";
         //        QByteArray receive=strCommand.toLatin1();
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
 
-        //        //å›¾åƒå‰”é™¤æ‰“å¼€
+        //        //Í¼ÏñÌŞ³ı´ò¿ª
         //        strCommand="AA01090200010000";
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
     }
 
 
-    //åªæ‰“å¼€å…‰ç”µå‰”é™¤
+    //Ö»´ò¿ª¹âµçÌŞ³ı
     if(this->Options->checkMode()==ENUMCHECKMODETYPE_PHE)
     {
         this->IOContol->setLevel(7,0xFFFFFFFF,0xff);
@@ -548,14 +599,14 @@ void PackageChecker::init()
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
 
-        //        //å›¾åƒå‰”é™¤å…³é—­
+        //        //Í¼ÏñÌŞ³ı¹Ø±Õ
         //        strCommand="AA01090200000000";
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
 
 
     }
-    //å›¾åƒï¼Œå…‰ç”µå‰”é™¤éƒ½å¼€
+    //Í¼Ïñ£¬¹âµçÌŞ³ı¶¼¿ª
     if( this->Options->checkMode()==ENUMCHECKMODETYPE_PICORPHE)
     {
         this->IOContol->setLevel(7,0xFFFFFFFF,0xff);
@@ -564,7 +615,7 @@ void PackageChecker::init()
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
 
-        //        //å›¾åƒå‰”é™¤å…³é—­
+        //        //Í¼ÏñÌŞ³ı¹Ø±Õ
         //        strCommand="AA01090200010000";
         //        m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receive);
         //        m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receive);
@@ -592,7 +643,7 @@ void PackageChecker::init()
     {
         DSSystemParam::BrandName=LastConfig->lastBrand();
     }
-    DSDEBUG<<"ç‰Œå·åˆ‡æ¢å®Œæˆ";
+    DSDEBUG<<"ÅÆºÅÇĞ»»Íê³É";
 
 
     //   this->IOContol=CIOBase::getInstance(ENUMIOTYPE_YANHUAGPIO);
@@ -611,7 +662,7 @@ void PackageChecker::init()
             if( !copyBackUpFiletoDest(backupfile1,copytofile))
             {
                 frmMessageBox *msg = new frmMessageBox;
-                msg->SetMessage(QString(DSSystemParam::BrandName +" é…ç½®æ–‡ä»¶æŸåï¼Œè¯·å…³é—­è½¯ä»¶ï¼Œåˆ é™¤é…ç½®æ–‡ä»¶é‡æ–°é…ç½®!"), 2);
+                msg->SetMessage(QString(DSSystemParam::BrandName +" ÅäÖÃÎÄ¼şËğ»µ£¬Çë¹Ø±ÕÈí¼ş£¬É¾³ıÅäÖÃÎÄ¼şÖØĞÂÅäÖÃ!"), 2);
                 msg->exec();
                 return;
             }
@@ -624,7 +675,7 @@ void PackageChecker::init()
             if( !copyBackUpFiletoDest(backupfile2,copytofile))
             {
                 frmMessageBox *msg = new frmMessageBox;
-                msg->SetMessage(QString(DSSystemParam::BrandName +" é…ç½®æ–‡ä»¶æŸåï¼Œè¯·å…³é—­è½¯ä»¶ï¼Œåˆ é™¤é…ç½®æ–‡ä»¶é‡æ–°é…ç½®!"), 2);
+                msg->SetMessage(QString(DSSystemParam::BrandName +" ÅäÖÃÎÄ¼şËğ»µ£¬Çë¹Ø±ÕÈí¼ş£¬É¾³ıÅäÖÃÎÄ¼şÖØĞÂÅäÖÃ!"), 2);
                 msg->exec();
                 return;
             }
@@ -632,7 +683,7 @@ void PackageChecker::init()
     }
 
     {
-        //å¤‡ä»½
+        //±¸·İ
 
         QString backupfile=DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName;
 
@@ -642,7 +693,7 @@ void PackageChecker::init()
             if( !copyBackUpFiletoDest(backupfile,backupfile2))
             {
                 frmMessageBox *msg = new frmMessageBox;
-                msg->SetMessage(QString(DSSystemParam::BrandName +" é…ç½®æ–‡ä»¶æŸåï¼Œè¯·å…³é—­è½¯ä»¶ï¼Œåˆ é™¤é…ç½®æ–‡ä»¶é‡æ–°é…ç½®!"), 2);
+                msg->SetMessage(QString(DSSystemParam::BrandName +" ÅäÖÃÎÄ¼şËğ»µ£¬Çë¹Ø±ÕÈí¼ş£¬É¾³ıÅäÖÃÎÄ¼şÖØĞÂÅäÖÃ!"), 2);
                 msg->exec();
                 return;
             }
@@ -656,7 +707,7 @@ void PackageChecker::init()
     control.loadRefImageFromDir(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
     control.loadTemplate(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
     // loadAnalysisBrand(DSSystemParam::BrandName);
-    DSDEBUG<<"è¿è¡Œå‚æ•°åŠ è½½å®Œæˆ";
+    DSDEBUG<<"ÔËĞĞ²ÎÊı¼ÓÔØÍê³É";
     this->ImgTobaccoAnalysis=new ImgTobacco;
     ImgTobaccoControl control2(this->ImgTobaccoAnalysis);
     control2.loadConfig(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
@@ -664,18 +715,25 @@ void PackageChecker::init()
     control2.loadTemplate(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
     //loadAnalysisBrand(DSSystemParam::BrandName);
 
-    DSDEBUG<<"è°ƒè¯•å‚æ•°åŠ è½½å®Œæˆ";
-//    this->ImgHei=control.getImgHei();
-//    this->ImgWid=control.getImgWid();
+    DSDEBUG<<"µ÷ÊÔ²ÎÊı¼ÓÔØÍê³É";
+    //    this->ImgHei=control.getImgHei();
+    //    this->ImgWid=control.getImgWid();
 
 
 
-    //ç»™å½“å‰å›¾åƒåˆ†é…å†…å­˜
+    //¸øµ±Ç°Í¼Ïñ·ÖÅäÄÚ´æ
     std::list<ImgPro*>::iterator itor= this->ImgTobaccoRun->LstImgPro.begin();
     for(int i=0;itor!=this->ImgTobaccoRun->LstImgPro.end();++itor,i++)
     {
-        this->ImgHeis[i]=control.getImgHei(i);
-        this->ImgWids[i]=control.getImgWid(i);
+        this->ImgHeis[i]=(*itor)->RefOpencvImage.ImageRGB.rows;
+        this->ImgWids[i]=(*itor)->RefOpencvImage.ImageRGB.cols;
+
+        control.setImgHei(i,this->ImgHeis[i]);
+        control.setImgWid(i,this->ImgWids[i]);
+
+
+//        this->ImgHeis[i]=control.getImgHei(i);
+//        this->ImgWids[i]=control.getImgWid(i);
 
 #ifdef IMG_TYPE_GRAY
         OpencvImage tmpImage;
@@ -712,7 +770,7 @@ void PackageChecker::init()
 
     CameraConfig=ClsCameraConfig::getInstance();
     CameraConfig->load();
-    DSDEBUG<<"ç›¸æœºå‚æ•°åŠ è½½å®Œæˆ";
+    DSDEBUG<<"Ïà»ú²ÎÊı¼ÓÔØÍê³É";
 
 
 
@@ -739,7 +797,7 @@ void PackageChecker::init()
             Cameras[idx]->SetGain(CameraConfig->getGain(idx));
             Cameras[idx]->SetExposureTime(CameraConfig->getExposureTime(idx));
         }
-        DSDEBUG<<"ç›¸æœºåˆå§‹åŒ–å®Œæˆ";
+        DSDEBUG<<"Ïà»ú³õÊ¼»¯Íê³É";
     }
     else
     {
@@ -761,52 +819,58 @@ void PackageChecker::init()
             Cameras[idx]->SetGain(CameraConfig->getGain(idx));
             Cameras[idx]->SetExposureTime(CameraConfig->getExposureTime(idx));
         }
-        DSDEBUG<<"ç›¸æœºåˆå§‹åŒ–å®Œæˆ";
+        DSDEBUG<<"Ïà»ú³õÊ¼»¯Íê³É";
     }
 
 #ifdef FLAG_KONGTOU
-    //åˆå§‹åŒ–Onnx
 
-    std::string modelPathN=DSSystemParam::AppPath.toStdString()+"/"+"model/kongtou_best.onnx";
-
-    std::string modelPathH=DSSystemParam::AppPath.toStdString()+"/"+"model/kongtou_bestH.onnx";
-
-    //åˆ¤æ–­è¿™ä¸ªè·¯å¾„çš„æ–‡ä»¶æ˜¯å¦å­˜åœ¨
-    QFile file(QString::fromStdString(modelPathH));
-    if(!file.exists())
-    {
-        modelPathH=modelPathN;
-    }
-
+    //ÏÈ³õÊ¼»¯¼ì²âÒ»ÕÅ
+    //opencv¶ÁÈ¡Ò»ÕÅ£¬»òÕßÉú²úÒ»ÕÅ
 
     std::string imgPath=DSSystemParam::AppPath.toStdString()+"/"+"templetImg/testImgOK.jpg";
-    // for(int i=0;i<DSSystemParam::CameraNum/2;i++)
+    cv::Mat initImg;
+    initImg=cv::imread(imgPath,1);
 
-    // for(int i=0;i<DSSystemParam::CameraNum;i++)
+    uchar* ptr= initImg.ptr();
+    if(ptr==NULL)
     {
-        OnnxGloable::getInstance()->onnxArray[0].read_onnx(modelPathN);
-        OnnxGloable::getInstance()->onnxArray[1].read_onnx(modelPathH);
+        initImg=cv::Mat::zeros(512,512,CV_8UC3);
+    }
 
+    //³õÊ¼»¯Onnx
+    itor= this->ImgTobaccoRun->LstImgPro.begin();
+    vector<vector<BBoxInfo>> det_boxes;
+    std::string modelPathquezhi=DSSystemParam::AppPath.toStdString()+"/"+"model/quezhi_best.onnx";
+    std::string modelPathkongtou=DSSystemParam::AppPath.toStdString()+"/"+"model/kongtou_best.onnx";
 
-        //å…ˆåˆå§‹åŒ–æ£€æµ‹ä¸€å¼ 
-        //opencvè¯»å–ä¸€å¼ ï¼Œæˆ–è€…ç”Ÿäº§ä¸€å¼ 
+    //ÅĞ¶ÏÕâ¸öÂ·¾¶µÄÎÄ¼şÊÇ·ñ´æÔÚ
+    QFile file(QString::fromStdString(modelPathquezhi));
+    if(file.exists())
+    {
+        OnnxGloable::getInstance()->onnxArray[0].m_bIsValid=true;
+        OnnxGloable::getInstance()->onnxArray[0].read_onnx(modelPathquezhi);
 
-        cv::Mat initImg;
-        initImg=cv::imread(imgPath,1);
-
-        uchar* ptr= initImg.ptr();
-        if(ptr==NULL)
-        {
-            initImg=cv::Mat::zeros(512,512,CV_8UC3);
-        }
-
-        vector<vector<BBoxInfo>> det_boxes;
         OnnxGloable::getInstance()->onnxArray[0].setConfidence(0.1);
         OnnxGloable::getInstance()->onnxArray[0].detect(initImg,det_boxes);
+    }
+    else
+        OnnxGloable::getInstance()->onnxArray[0].m_bIsValid=false;
+
+
+    //ÅĞ¶ÏÕâ¸öÂ·¾¶µÄÎÄ¼şÊÇ·ñ´æÔÚ
+    QFile file2(QString::fromStdString(modelPathkongtou));
+
+    itor++;
+    if(file2.exists())
+    {
+        OnnxGloable::getInstance()->onnxArray[1].read_onnx(modelPathkongtou);
+        OnnxGloable::getInstance()->onnxArray[1].m_bIsValid=true;
 
         OnnxGloable::getInstance()->onnxArray[1].setConfidence(0.1);
         OnnxGloable::getInstance()->onnxArray[1].detect(initImg,det_boxes);
     }
+    else
+        OnnxGloable::getInstance()->onnxArray[1].m_bIsValid=false;
 #endif
 
 
@@ -815,7 +879,7 @@ void PackageChecker::init()
     //change shift
     if( PackageChecker::RunParam_Shift!=DSSystemParam::getCurrentShift()||LastConfig->date()!=QDate::currentDate())
     {
-        DSDEBUG<<"åˆ‡æ¢ç­æ¬¡ä¿¡æ¯:æ–°ç­æ¬¡ä¸º"<<DSSystemParam::getCurrentShift()<<endl;
+        DSDEBUG<<"ÇĞ»»°à´ÎĞÅÏ¢:ĞÂ°à´ÎÎª"<<DSSystemParam::getCurrentShift()<<endl;
         PackageChecker::RunParam_Shift=DSSystemParam::getCurrentShift();
         PackageChecker::RunParam_CalcNumAll=0;
         PackageChecker::RunParam_CalcNumNg=0;
@@ -823,19 +887,19 @@ void PackageChecker::init()
 
 
 
-    // åˆ é™¤æ—§æ•°æ®
+    // É¾³ı¾ÉÊı¾İ
     DsFileRecord::deleteByDate(this->Options->SaveDaysNum());
     memset(ErrRecord,0,CAMERANUM_MAX*CHECKOPERATORNUM_MAX*sizeof(int));
-    DSDEBUG<<"åˆ é™¤æ—§æ•°æ®å®Œæˆ";
-    //åŠ è½½å½“å‰ç­æ¬¡çš„å·²ä¿å­˜ä¿¡æ¯
+    DSDEBUG<<"É¾³ı¾ÉÊı¾İÍê³É";
+    //¼ÓÔØµ±Ç°°à´ÎµÄÒÑ±£´æĞÅÏ¢
     DsFileRecord::loadCurRecord();
-    DSDEBUG<<"åŠ è½½å½“å‰ç»Ÿè®¡æ•°æ®å®Œæˆ";
-    //åˆ é™¤è¿‡æœŸå›¾åƒ
+    DSDEBUG<<"¼ÓÔØµ±Ç°Í³¼ÆÊı¾İÍê³É";
+    //É¾³ı¹ıÆÚÍ¼Ïñ
 
     QDate curDate=QDate::currentDate();
     int days=PackageChecker::getInstance()->Options->SaveDaysNum();
     QVector<QString> files;
-    QString saveName=PackageChecker::getInstance()->Options->ImgSavePath()+"/å›¾åƒä¿å­˜";
+    QString saveName=PackageChecker::getInstance()->Options->ImgSavePath()+"/Í¼Ïñ±£´æ";
 
     FileHelper::getAllFileFolder(saveName,files);
     for(int i=0;i<files.size();i++)
@@ -845,11 +909,11 @@ void PackageChecker::init()
         FileHelper::getAllFileFolder(tmp,filesTmp);
         for(int j=0;j<filesTmp.size();j++)
         {
-             QDate tmpDate=QDate::fromString(filesTmp[j],"yyyy-MM-dd");
-             if(tmpDate.addDays(1)<curDate)
-             {
-                 FileHelper::deleteDirAll(tmp+filesTmp[j]);
-             }
+            QDate tmpDate=QDate::fromString(filesTmp[j],"yyyy-MM-dd");
+            if(tmpDate.addDays(1)<curDate)
+            {
+                FileHelper::deleteDirAll(tmp+filesTmp[j]);
+            }
         }
 
 
@@ -857,32 +921,32 @@ void PackageChecker::init()
         FileHelper::getAllFileFolder(tmp,filesTmp);
         for(int j=0;j<filesTmp.size();j++)
         {
-             QDate tmpDate=QDate::fromString(filesTmp[j],"yyyy-MM-dd");
-             if(tmpDate.addDays(1)<curDate)
-             {
-                 FileHelper::deleteDirAll(tmp+filesTmp[j]);
-             }
+            QDate tmpDate=QDate::fromString(filesTmp[j],"yyyy-MM-dd");
+            if(tmpDate.addDays(1)<curDate)
+            {
+                FileHelper::deleteDirAll(tmp+filesTmp[j]);
+            }
         }
     }
-    DSDEBUG<<"åˆ é™¤æ—§å›¾åƒå®Œæˆ";
+    DSDEBUG<<"É¾³ı¾ÉÍ¼ÏñÍê³É";
 
 
 
-    //å…‰æºè®¾ç½®
+    //¹âÔ´ÉèÖÃ
     //    UINT8 packetBuf[PACKET_BUF_SIZE];
     //    memset(packetBuf, 0, PACKET_BUF_SIZE * sizeof(UINT8));
     //    if(!OpenPort(1, 115200))
     //    {
     //        frmMessageBox *msg = new frmMessageBox;
-    //        msg->SetMessage(QString("é€šä¿¡ç«¯å£è¢«å ç”¨,è¯·å…ˆå…³é—­æ¿å¡è°ƒè¯•è½¯ä»¶å¹¶é‡å¯ç³»ç»Ÿ!"), 2);
+    //        msg->SetMessage(QString("Í¨ĞÅ¶Ë¿Ú±»Õ¼ÓÃ,ÇëÏÈ¹Ø±Õ°å¿¨µ÷ÊÔÈí¼ş²¢ÖØÆôÏµÍ³!"), 2);
     //        msg->exec();
     //        return;
     //    }
-    //    DSDEBUG<<"å¼€å§‹è¯»å–æ¿å¡å‚æ•°";
+    //    DSDEBUG<<"¿ªÊ¼¶ÁÈ¡°å¿¨²ÎÊı";
     //    XModemCommEngine(SLAVE1_CODE, R_CODE, UPLOAD_DATA_LEN, packetBuf);
-    //    DSDEBUG<<"è¯»å–æ¿å¡å‚æ•°å®Œæˆ";
+    //    DSDEBUG<<"¶ÁÈ¡°å¿¨²ÎÊıÍê³É";
     //    unsigned int kk = CameraConfig->getLightCode(1);
-    //    DSDEBUG<<"è·å–lightcode:"<<kk;
+    //    DSDEBUG<<"»ñÈ¡lightcode:"<<kk;
     //    packetBuf[1] = kk & 0xFF;
     //    packetBuf[2] = (kk>>8) & 0xFF;
     //    packetBuf[3] = (kk>>16) & 0xFF;
@@ -890,15 +954,15 @@ void PackageChecker::init()
     //    int crcSum = CRC16(packetBuf, (DOWNLOAD_DATA_LEN - 2));
     //    packetBuf[ADDR_FOR_CRC_LBYTE] = (UINT8)(crcSum & 0xFF);
     //    packetBuf[ADDR_FOR_CRC_HBYTE] = (UINT8)((crcSum >> 8) & 0xFF);
-    //    DSDEBUG<<"å¼€å§‹å†™å…¥æ¿å¡å‚æ•°";
+    //    DSDEBUG<<"¿ªÊ¼Ğ´Èë°å¿¨²ÎÊı";
     //    XModemCommEngine(SLAVE1_CODE, W_CODE, DOWNLOAD_DATA_LEN, packetBuf);
-    //    DSDEBUG<<"å†™å…¥æ¿å¡å‚æ•°å®Œæˆ";
+    //    DSDEBUG<<"Ğ´Èë°å¿¨²ÎÊıÍê³É";
     //    ClosePort();
-    //    //å…‰æºè®¾ç½®
-    //    DSDEBUG<<"å…‰æºåˆå§‹åŒ–å®Œæˆ";
+    //    //¹âÔ´ÉèÖÃ
+    //    DSDEBUG<<"¹âÔ´³õÊ¼»¯Íê³É";
 
 
-    user.setUserName("æ“ä½œå‘˜");
+    user.setUserName("²Ù×÷Ô±");
 #ifdef _DEBUG
     user.setUserGroup(ENUMUSERGROUP_ADMIN);
 #else
@@ -907,7 +971,7 @@ void PackageChecker::init()
 
     //    for (int i = 0; i < 4; i++)
     //    {
-    //        //ä½œä¸ºè¾“å‡ºå¼•è„š
+    //        //×÷ÎªÊä³öÒı½Å
     //        this->IOContol->setLevel(i, 0xFFFFFFFF, 0xFF);
     //    }
 
@@ -962,7 +1026,7 @@ bool PackageChecker::copyBackUpFiletoDest(QString backupfile,QString copytofile)
     if(!fbackupfile.exists())
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString(DSSystemParam::BrandName +" é…ç½®æ–‡ä»¶æŸåï¼Œè¯·å…³é—­è½¯ä»¶ï¼Œåˆ é™¤é…ç½®æ–‡ä»¶é‡æ–°é…ç½®!"), 2);
+        msg->SetMessage(QString(DSSystemParam::BrandName +" ÅäÖÃÎÄ¼şËğ»µ£¬Çë¹Ø±ÕÈí¼ş£¬É¾³ıÅäÖÃÎÄ¼şÖØĞÂÅäÖÃ!"), 2);
         msg->exec();
         return false;
     }
@@ -993,7 +1057,7 @@ bool PackageChecker::copyBackUpFiletoDest(QString backupfile,QString copytofile)
         if(!fbackupimg.exists())
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage(QString(DSSystemParam::BrandName +" é…ç½®æ–‡ä»¶æŸåï¼Œè¯·å…³é—­è½¯ä»¶ï¼Œåˆ é™¤é…ç½®æ–‡ä»¶é‡æ–°é…ç½®!"), 2);
+            msg->SetMessage(QString(DSSystemParam::BrandName +" ÅäÖÃÎÄ¼şËğ»µ£¬Çë¹Ø±ÕÈí¼ş£¬É¾³ıÅäÖÃÎÄ¼şÖØĞÂÅäÖÃ!"), 2);
             msg->exec();
             return false;
         }
@@ -1022,7 +1086,7 @@ void PackageChecker::loadAnalysisBrand(QString brandName)
     control.loadRefImageFromDir(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
     control.loadTemplate(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/"+DSSystemParam::BrandDirPath+"/"+DSSystemParam::BrandName);
 
-    DSDEBUG<<"åŠ è½½æ—¶é—´ï¼š"<<clock()-start<<"ms"<<endl;
+    DSDEBUG<<"¼ÓÔØÊ±¼ä£º"<<clock()-start<<"ms"<<endl;
 }
 
 

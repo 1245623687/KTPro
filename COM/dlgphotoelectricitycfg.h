@@ -142,15 +142,13 @@ private slots:
 
     //模拟板
     void on_pushButton_qzcurrent_clicked();
-
     void on_pushButton_qzgain_clicked();
 
     void on_pushButton_qzprobSim_clicked();
-
     void on_pushButton_qzprobRatioSim_clicked();
-
     void on_pushButton_qzgetgc_clicked();
-    
+
+    void on_pushButton_qzcurrentRatio_clicked();
     
 
     void on_pushButton_ktcurrent_clicked();
@@ -162,8 +160,11 @@ private slots:
     void on_pushButton_ktprobRatioSim_clicked();
 
     void on_pushButton_ktgetgc_clicked();
+
+
+    void on_pushButton_ktcurrentRatio_clicked();
     
-    
+
     void on_comboBox_qzcurrent_currentIndexChanged(int index);
     void on_comboBox_qzgain_currentIndexChanged(int index);
     void on_comboBox_qzprobSim_currentIndexChanged(int index);
@@ -179,6 +180,8 @@ private slots:
     void on_pushButton_ktStopApplySim_clicked();
 
     void  updateTipText(QString str);
+
+
 
 private:
     Ui::dlgphotoelectricitycfg *ui;
@@ -278,15 +281,17 @@ private:
     QButtonGroup * btnGroup3;
 
 
-    QVector<long> m_vecValQZ;
+    QVector<long long> m_vecValQZ;
     QVector<int > m_vecKickValQZ;
 
-    QVector<long> m_vecValKT;
+    QVector<long long> m_vecValKT;
     QVector<int > m_vecKickValKT;
     int m_cntQZ=0;
     int m_cntKT=0;
 
     int tmp=0;
+
+    QMap<int ,int> m_mapProbVal;
 
 
 
@@ -303,6 +308,8 @@ signals:
 
     void updataQZADCValueSigSim();
     void updataKTADCValueSigSim();
+
+    void updateMainSceenSig();
 };
 
 #endif // DLGPHOTOELECTRICITYCFG_H

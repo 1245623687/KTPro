@@ -224,15 +224,21 @@ public:
     static int ErrRecord[CAMERANUM_MAX][CHECKOPERATORNUM_MAX];
     static QAtomicInt::QAtomicInteger ErrPhe[2];
 
-    static int RetPheQZ[20];
+    static int RetPheQZ[21];
+    static int RetMapPheQZ[20];
+
    static QMutex m_MutexRetPheQZ;
    static QMutex m_MutexRetPheKT;
 
-    static int RetPheKT[20];
+    static int RetPheKT[21];
+
+    static int RetMapPheKT[20];
 
 
 
     static bool DynamicGrab;
+
+    bool m_isUpdateEPH;
 public:
 
     static QDateTime m_TimeSystemStart;

@@ -133,17 +133,14 @@ void GraphicsSceneMain::clearRect()
 void GraphicsSceneMain::addPheTextIterm(int index,QPointF& qpoint)
 {
     QGraphicsSimpleTextItem *newIterm=new QGraphicsSimpleTextItem();
-    QFont font("Times", 28, QFont::Thin);
+    QFont font("Times", 40, QFont::Thin);
     newIterm->setFont(font);
     newIterm->setPos(qpoint);
-    newIterm->setBrush(QBrush(QColor(255,255,0)));
-     newIterm->setText("0");
-//     newIterm->setZValue(128);
+    newIterm->setBrush(QBrush(QColor(230,230,230)));
+     newIterm->setText("0000");
      this->addItem(newIterm);
 
     m_TextArr.insert(index,newIterm);
-
-
 }
 
 void GraphicsSceneMain::clearPheText()
@@ -151,15 +148,32 @@ void GraphicsSceneMain::clearPheText()
     m_TextArr.clear();
 }
 
-void GraphicsSceneMain::updateTextIterm(int * rets)
+void GraphicsSceneMain::updateTextIterm(int * rets,int * retsMap)
 {
+
+int tmp[20];
+memcpy(tmp,retsMap,sizeof (int)*20);
+
+
+
     for(int i=0;i<m_TextArr.size();i++)
     {
-        m_TextArr[i+1]->setText(QString::number(rets[i]));
+
+
+         m_TextArr[i]->setText(QString("%1").arg(rets[i],4, 10, QLatin1Char('0')));
+
+        if(retsMap[i])
+        {
+             m_TextArr[i]->setBrush(QBrush(QColor(255,0,0)));
+        }
+        else
+        {
+            m_TextArr[i]->setBrush(QBrush(QColor(230,230,230)));
+        }
 
         if(static_cast<int>(PackageChecker::getInstance()->Options->ephDisplay()) )
         {
-            m_TextArr[i+1]->show();
+            m_TextArr[i]->show();
         }
         else
         {
