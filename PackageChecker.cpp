@@ -62,7 +62,29 @@ PackageChecker::PackageChecker()
         RunParam_CalcNumNgTotals[i]=0;//当前班次的Ng数量
     }
 
-//    m_isUpdateEPH=false;
+
+    m_mapProbVal.insert(1,3);
+    m_mapProbVal.insert(2,6);
+    m_mapProbVal.insert(3,9);
+    m_mapProbVal.insert(4,12);
+    m_mapProbVal.insert(5,15);
+    m_mapProbVal.insert(6,18);
+    m_mapProbVal.insert(7,2);
+    m_mapProbVal.insert(8,5);
+    m_mapProbVal.insert(9,8);
+    m_mapProbVal.insert(10,11);
+    m_mapProbVal.insert(11,14);
+    m_mapProbVal.insert(12,17);
+    m_mapProbVal.insert(13,20);
+    m_mapProbVal.insert(14,1);
+    m_mapProbVal.insert(15,4);
+    m_mapProbVal.insert(16,7);
+    m_mapProbVal.insert(17,10);
+    m_mapProbVal.insert(18,13);
+    m_mapProbVal.insert(19,16);
+    m_mapProbVal.insert(20,19);
+
+    //    m_isUpdateEPH=false;
 }
 
 OpencvImage *PackageChecker::cloneOpencvImg(int index,OpencvImage & another)
@@ -323,7 +345,7 @@ void PackageChecker::init()
     //光电配置参数加载
     PhotoElecConfig=ClsPhototElecConfig::getInstance();
 
-    //从板子获取参数
+    //    //从板子获取参数
     m_pBaseCom->togleDisconnect();
     //获取参数指令
     QString strCommand="AA02030000000000";
@@ -500,16 +522,49 @@ void PackageChecker::init()
     {
         for(int i=0;i<20;i++)
         {
-            PhotoElecConfig->setProCurrentSim(2,i,vecTmp[i*2]/100.0);
-            PhotoElecConfig->setProGainSim(2,i,vecTmp[i*2+1]);
+             PhotoElecConfig->setProCurrentSim(2,i,vecTmp[i*2]/100.0);
 
+//            PhotoElecConfig->setProCurrentCodeValSim(2,i,vecTmp[i*2]);
+            PhotoElecConfig->setProGainSim(2,i,vecTmp[i*2+1]);
             PhotoElecConfig->setProThresholdSim(2,i,vecTmp[40+i]);
         }
         //1个系数
-         PhotoElecConfig->setRatioSim(2,vecTmp[vecTmp.size()-1]/100.0);
+        PhotoElecConfig->setRatioSim(2,vecTmp[vecTmp.size()-1]/100.0);
     }
-    
+    //如果获取码值失败，则将本地文件中的码值写入模拟板
+//    if(!ret)
+//    {
+//        for(int i=0;i<20;i++)
+//        {
 
+//            int ProbIndex=i+1;
+//            int OperaCode=14;
+//            int v1=ProbIndex;
+//            int v2=PhotoElecConfig->getProCurrentCodeValSim(2,ProbIndex-1);
+
+//            QByteArray sendText=QByteArray::fromHex("5501");
+
+//            QString strOperaCode=QString("%1").arg(OperaCode,2,16,QLatin1Char('0')).toUtf8();
+//            QByteArray byOperaCode=QByteArray::fromHex(QByteArray(strOperaCode.toLatin1()));
+//            sendText.append(byOperaCode);
+
+//            QString strHexV1=QString("%1").arg(v1,2,10,QLatin1Char('0')).toUtf8();
+//            QByteArray byHexV1=QByteArray::fromHex(QByteArray(strHexV1.toLatin1()));
+//            sendText.append(byHexV1);
+
+//            QString strHexV2=QString("%1").arg(v2,8,16,QLatin1Char('0')).toUtf8();
+//            QByteArray byHexV2=QByteArray::fromHex(QByteArray(strHexV2.toLatin1()));
+//            sendText.append(byHexV2);
+//            sendText =sendText.toHex().toUpper();
+
+//            QByteArray receivedByArray;
+//            QVector<int> vecTmp;
+
+//            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(sendText,receivedByArray,vecTmp,1);
+
+//            QThread::msleep(500);
+//        }
+//    }
     m_pBaseCom->togleConnect();
     //光电配置参数加载
 
@@ -732,8 +787,8 @@ void PackageChecker::init()
         control.setImgWid(i,this->ImgWids[i]);
 
 
-//        this->ImgHeis[i]=control.getImgHei(i);
-//        this->ImgWids[i]=control.getImgWid(i);
+        //        this->ImgHeis[i]=control.getImgHei(i);
+        //        this->ImgWids[i]=control.getImgWid(i);
 
 #ifdef IMG_TYPE_GRAY
         OpencvImage tmpImage;

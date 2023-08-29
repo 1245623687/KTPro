@@ -370,20 +370,15 @@ void cCarShuixingMer231C::OnFrameCallbackFun(GX_FRAME_CALLBACK_PARAM *pFrame)
     memcpy(tmp.ptr<uchar>(0), pFrame->pImgBuf, pFrame->nImgSize);
 
 
-//#ifdef FLAG_GIGE
-//    cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2RGB);
-//#else
-//    cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2BGR);
-//#endif
-     cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2BGR);
-//       cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2RGB);
+//     cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2BGR);
+      cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2RGB);
 
     //    std::string imgName=(this->m_szIPAddress)+"_.bmp";
     //    cv::imwrite(imgName,tmp);
 
     pCarShuixingMer231C->m_Mutex.lock();
     pCarShuixingMer231C->m_ImageBufArr.enqueue(tmp);
-    //    DSDEBUG__ <<QString::fromStdString(m_szIPAddress)<< "   in m_BufArr.SIZE:" << m_ImageBufArr.size();
+    DSDEBUG__ <<" in m_CamBufArr.SIZE:" <<endl;
     //    LOG(INFO)<<QString::fromStdString(m_szIPAddress).toStdString()<< "   in m_BufArr.SIZE:" << m_ImageBufArr.size()<<endl;
     pCarShuixingMer231C->m_Mutex.unlock();
     //    DSDEBUG__ <<QString::fromStdString(m_szIPAddress)<< "   out m_BufArr.SIZE:" << m_ImageBufArr.size();

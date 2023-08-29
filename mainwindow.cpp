@@ -55,7 +55,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QTime dt;
     dt.setHMS((int)(sunSec/3600),(sunSec%3600)/60,(sunSec%3600)%60);
     m_Timer= new QTimer(this);
+    m_Timer1=new QTimer(this);
+    m_Timer2=new QTimer(this);
     connect(m_Timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    connect(m_Timer1, SIGNAL(timeout()), this, SLOT(onTimeout1()));
+    connect(m_Timer2, SIGNAL(timeout()), this, SLOT(onTimeout2()));
+
+
     m_Timer->start(1000);
 
 
@@ -201,6 +207,9 @@ void MainWindow::doCameraOffline(int camIndex)
 
 }
 
+
+
+
 void MainWindow::updateMainSceen()
 {
 #ifdef FALG_PHE
@@ -215,17 +224,22 @@ void MainWindow::updateMainSceen()
 
 
         if(PackageChecker::getInstance()->RetPheKT[20])
+        {
             m_SceneArr[m_imgPhe+2]->updateTextIterm(PackageChecker::getInstance()->RetPheKT,PackageChecker::getInstance()->RetMapPheKT);
+
+            PackageChecker::getInstance()->RunParam_CalcNumNgTotals[m_imgPhe-1]++;
+
+            PackageChecker::getInstance()->RunParam_CalcNumNgGDs[m_imgPhe-1]++;
+            PackageChecker::getInstance()->RunParam_CalcNumNgCams[m_imgPhe-1]++;
+        }
+
         PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
         m_SceneArr[m_imgPhe]->updateShow();
         m_SceneArr[m_imgPhe+2]->updateShow();
 
 
 
-        PackageChecker::getInstance()->RunParam_CalcNumNgGDs[m_imgPhe-1]++;
-        PackageChecker::getInstance()->RunParam_CalcNumNgCams[m_imgPhe-1]++;
         PackageChecker::getInstance()->RunParam_CalcNumAllCams[m_imgPhe-1]++;
-        PackageChecker::getInstance()->RunParam_CalcNumNgTotals[m_imgPhe-1]++;
 
 
 
@@ -242,10 +256,17 @@ void MainWindow::InitControl()
 #ifdef FALG_PHE
 
     connect(PackageChecker::getInstance(),&PackageChecker::updateCheckRetSig,&form_phe,&dlgphotoelectricitycfg::upDateCheckRet,Qt::BlockingQueuedConnection);
-
     connect(PackageChecker::getInstance(),&PackageChecker::sendCheckCommandSig,&form_phe,&dlgphotoelectricitycfg::sendRunCheckCommand);
 
-    connect(&form_phe,&dlgphotoelectricitycfg::updateMainSceenSig,this,&MainWindow::updateMainSceen );
+
+    //    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+    {
+        //光电界面更新完成光电数据后，更新主界面光电数据，只有在20个探头情况下才会发出
+        connect(&form_phe,&dlgphotoelectricitycfg::updateMainSceenSig,this,&MainWindow::updateMainSceen );
+    }
+
+
+
 
 #endif
 
@@ -400,9 +421,11 @@ void MainWindow::InitControl()
 
 
 
-    //在加一个光电显示窗口
-    //    for (int i=0;itoImgPro!=pc->ImgTobaccoRun->LstImgPro.end();++itoImgPro,i++)
+    //模拟板 在加一个光电显示窗口
+    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
     {
+
+
         int imgIdx=(*(--pc->ImgTobaccoRun->LstImgPro.end()))->ImgIndex;
 
         int i=imgIdx-1;
@@ -410,8 +433,6 @@ void MainWindow::InitControl()
             m_dScale=m_dScale1;
         if(imgIdx==2)
             m_dScale=m_dScale2;
-
-
         imgIdx=imgIdx+1;
         m_imgPhe=imgIdx;
 
@@ -525,8 +546,14 @@ void MainWindow::updateSceneRect()
 {
     m_MutexScene.lock();
     QMap<int,GraphicsSceneMain*>::iterator itor= m_SceneArr.begin();
+
+    int i=0;
     for (;itor!=m_SceneArr.end();++itor)
     {
+        if(i<PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size()){i++;}
+        else{break;}
+
+
         itor.value()->clearRect();
         ImgTobaccoControl control(PackageChecker::getInstance()->ImgTobaccoRun);
         int key=itor.key();
@@ -624,22 +651,6 @@ void MainWindow::updateStatistics(int cameraIdx)
         ui->lcdNumCalcuTime_4->display(QString::number(pc->RunParam_CalcTimeCams[cameraIdx-1]));
     }
 
-//    if(m_imgPhe)
-//    {
-//        ui->lcdNumAllNum_Cam4->display(QString::number(pc->RunParam_CalcNumAllCams[m_imgPhe-1]));
-//        ui->lcdNumNgNum_Cam4->display(QString::number(pc->RunParam_CalcNumNgCams[m_imgPhe-1]));
-
-//        ui->lcdNumNgNum_GD4->display(QString::number(pc->RunParam_CalcNumNgGDs[m_imgPhe-1]));
-
-//        ui->lcdNumNgNum_Total4->display(QString::number(pc->RunParam_CalcNumNgTotals[m_imgPhe-1]));
-
-//        if(pc->RunParam_CalcNumAllCams[m_imgPhe-1]!=0)
-//            ui->lcdNumNgPercetange_Cam4->display(QString("%1").arg(QString::number(((double)pc->RunParam_CalcNumNgTotals[m_imgPhe-1]/pc->RunParam_CalcNumAllCams[m_imgPhe-1])*100,'f',2)));
-//        else
-//            ui->lcdNumNgPercetange_Cam4->display(QString("%1").arg(QString::number(0,'f',4)));
-//        //  ui->speedPanel->setCurentSpeed(pc->RunParam_CalcTime);
-//        ui->lcdNumCalcuTime_4->display(QString::number(pc->RunParam_CalcTimeCams[m_imgPhe-1]));
-//    }
 }
 
 
@@ -719,6 +730,67 @@ void MainWindow::onTimeout()
     //        if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_STOPPING)
     //         on_pushButtonRun_clicked();
     //    }
+
+
+    //获取针脚电平信号
+
+    int getVal=-1;
+    //获取输入0号针脚的电平值,缺支剔除异常
+    PackageChecker* pc=PackageChecker::getInstance();
+    pc->IOContol->getLevel(0x20,getVal);
+    if(m_lastPinVal==0&&getVal==1)
+    {
+        //高电平，要报警
+        m_Timer1->start(500);
+        m_bIsWarning1=true;
+    }
+    m_lastPinVal=getVal;
+
+    //获取输入1号针脚的电平值,空头剔除异常
+    int getVal2=-1;
+    pc->IOContol->getLevel(0x21,getVal2);
+    if(m_lastPinVal2==0&&getVal2==1)
+    {
+        //高电平，要报警
+        m_Timer2->start(500);
+        m_bIsWarning2=true;
+    }
+
+    m_lastPinVal2=getVal2;
+}
+
+void MainWindow::onTimeout1()
+{
+    m_warningCnt1++;
+    if( m_warningCnt1%2==0)
+    {
+        ui->label->setStyleSheet("color:rgb(255,0,0)");
+        ui->label->setText("缺支剔除异常报警！");
+    }
+    else
+    {
+
+        ui->label->setStyleSheet("color:rgb(255,0,255)");
+        ui->label->setText("点击消除报警");
+
+    }
+
+}
+
+void MainWindow::onTimeout2()
+{
+    m_warningCnt2++;
+    if( m_warningCnt2%2==0)
+    {
+        ui->label->setStyleSheet("color:rgb(255,0,0)");
+        ui->label->setText("空头剔除异常报警！");
+    }
+    else
+    {
+        ui->label->setStyleSheet("color:rgb(255,0,255)");
+        ui->label->setText("点击消除报警");
+    }
+
 }
 
 
@@ -1405,6 +1477,37 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e)
 
 void MainWindow::mousePressEvent(QMouseEvent *e)
 {
+
+    if(ui->label->rect().contains(e->pos()))
+    {
+
+        qDebug()<<"lable Press";
+
+
+        QString strCommand="AA010E0000000000";
+        QByteArray receiveByQZ;
+        QByteArray receiveByKT;
+
+        if( m_bIsWarning1)
+        {
+            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
+            m_bIsWarning1=false;
+            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+            m_Timer1->stop();
+             m_warningCnt1=0;
+
+        }
+        if( m_bIsWarning2)
+        {
+            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+            m_bIsWarning2=false;
+            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+            m_warningCnt2=0;
+            m_Timer2->stop();
+        }
+
+    }
+
     if (e->button() == Qt::LeftButton) {
         mousePressed = true;
         mousePoint = e->globalPos() - this->pos();
@@ -1494,7 +1597,6 @@ void MainWindow::on_pushButtonRun_clicked()
         ui->pushButtonRun->setStyleSheet("QPushButton#pushButtonRun{border-image:url(:/启动common.png); background:transparent; border-style:none;}"
                                          "QPushButton#pushButtonRun:hover{border-image:url(:/启动hover.png); background:transparent;border-style:none;}"
                                          "QPushButton#pushButtonRun:pressed{border-image:url(:/启动pressed.png); background:transparent;border-style:none;}");
-        //   ui->speedPanel->setCurentSpeed(0);
         ui->lcdNumCalcuTime->display(QString::number(0));
 
         break;

@@ -23,9 +23,10 @@ public:
    virtual int setLevel(unsigned char iPin,unsigned int idTypeVal,unsigned int setVal)=0;
    
    virtual int getDirection(int iPin, int &setVal){return  0;}
-   virtual int getLevel(int iPin, int& setVal) {return  0;}
+   virtual int getLevel(int iPin, int& getVal) {return  0;}
 
-   virtual ~CIOBase()=0{}
+
+    virtual ~CIOBase()=0{}
 
 
  protected:

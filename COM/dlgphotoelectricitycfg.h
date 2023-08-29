@@ -183,6 +183,14 @@ private slots:
 
 
 
+    void on_pushButton_qzcurrentCodeVal_clicked();
+
+    void on_pushButton_ktcurrentCodeVal_clicked();
+
+    void on_comboBox_qzcurrentCodeVal_currentIndexChanged(int index);
+
+    void on_comboBox_ktcurrentCodeVal_currentIndexChanged(int index);
+
 private:
     Ui::dlgphotoelectricitycfg *ui;
 

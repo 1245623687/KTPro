@@ -46,6 +46,9 @@ private slots:
 
     void onTimeout();
 
+    void onTimeout1();
+    void onTimeout2();
+
     void buttonJudge(int idx);
 
     void updateRunLog();
@@ -81,6 +84,12 @@ private:
     int SHOWHEI=223;
 
     QTimer* m_Timer;
+    QTimer* m_Timer1;
+    QTimer* m_Timer2;
+    int m_warningCnt1=0;
+    int m_warningCnt2=0;
+    bool m_bIsWarning1=false;
+    bool m_bIsWarning2=false;
 
 
 //QTimer* m_TimerWarning;
@@ -88,6 +97,8 @@ private:
 private:
     bool onWarning;
     int countSeconds;
+    int m_lastPinVal=0;
+    int m_lastPinVal2=0;
 
     std::mutex m_MutexScene;
     QStandardItemModel* m_ModelLog;

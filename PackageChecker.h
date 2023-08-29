@@ -23,6 +23,7 @@
 #include <fstream>
 #include<QMutex>
 #include<QVector>
+#include<QMap>
 
 
 
@@ -146,6 +147,9 @@ private:
 
 private:
     PackageChecker();
+
+
+       QMap<int ,int> m_mapProbVal;
 
 public:
     CIOBase * IOContol;

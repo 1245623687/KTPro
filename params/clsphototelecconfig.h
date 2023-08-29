@@ -46,15 +46,18 @@ public:
     public:
         StuPhotoElecParamSim(){}
 
-        StuPhotoElecParamSim(double* CurrentArr,unsigned int* GainArr,unsigned int* ProbThreshold,double Ratio)
+        StuPhotoElecParamSim(double* CurrentArr,int* CurrentCodeValArr ,unsigned int* GainArr,unsigned int* ProbThreshold,double Ratio)
 
         {
             memcpy(currentArr,CurrentArr,sizeof(double)*20);
+             memcpy(currentCodeValArr,CurrentCodeValArr,sizeof(double)*20);
+
             memcpy(gainArr,GainArr,sizeof(unsigned int)*20);
             memcpy(probThreshold,ProbThreshold,sizeof(unsigned int)*20);
             ratio=Ratio;
         }
          double currentArr[20];
+       int  currentCodeValArr[20];
         unsigned int gainArr[20];
         unsigned int probThreshold[20];
         double ratio;
@@ -166,6 +169,9 @@ public:
     {
         return  m_photoElecParamArrSim[Type].probThreshold[Index];
     }
+
+
+
     
    //探头电流
     void setProCurrentSim(int Type,int Index,double val)
@@ -176,6 +182,18 @@ public:
     {
         return  m_photoElecParamArrSim[Type].currentArr[Index];
     }
+
+    // setProCurrentCodeValSim
+    void setProCurrentCodeValSim(int Type,int Index,double val)
+    {
+        m_photoElecParamArrSim[Type].currentCodeValArr[Index]=val;
+    }
+    double getProCurrentCodeValSim(int Type,int Index)
+    {
+        return  m_photoElecParamArrSim[Type].currentCodeValArr[Index];
+    }
+
+
     
     //探头增益
     void setProGainSim(int Type,int Index,unsigned int val)
@@ -189,6 +207,8 @@ public:
     
     
     XMLElement* genCurrentXmlElementBlockSim(TinyXmlDocument & doc,int index);
+     XMLElement* genCurrentCodeValXmlElementBlockSim(TinyXmlDocument & doc,int index);
+
 
     XMLElement* genGainXmlElementBlockSim(TinyXmlDocument & doc,int index);
     XMLElement* genProbValXmlElementBlockSim(TinyXmlDocument & doc,int index);

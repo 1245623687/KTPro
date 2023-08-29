@@ -83,7 +83,7 @@ public:
     bool readKTData(QByteArray& by);
 
     bool readQZDataSim(QByteArray& by);
-    bool readKTDataSim(QByteArray& by,int timeout);
+    bool readKTDataSim(QByteArray& by,int timeout=100);
 
     bool getQZData(QVector<int>&);
 
@@ -172,6 +172,8 @@ private:
 signals:
 
     void sendCommandRet(QString str);
+
+     void updateCheckRetSig(int type);
 
 
 

@@ -203,14 +203,16 @@ void KThreadProc::run()
             msleep(0);
 
         //DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"before emit "<<endl;
-//        if(IdxCamera==2)
+
+
+        //使用3个探头时，与大理使用20个探头更新光电结果信号发送模式不同
+        if(IdxCamera==2&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
         {
-            emit PackageChecker::getInstance()->updateCheckRetSig(4);
+           emit PackageChecker::getInstance()->updateCheckRetSig(2);
         }
 #endif
 
         // DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"emit Finished "<<endl;
-
         int retType=0;
         {
 #ifdef FALG_PHE

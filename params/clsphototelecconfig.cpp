@@ -68,6 +68,24 @@ XMLElement *ClsPhototElecConfig::genCurrentXmlElementBlockSim(TinyXmlDocument &d
     return eleCurrent;
 }
 
+XMLElement *ClsPhototElecConfig::genCurrentCodeValXmlElementBlockSim(TinyXmlDocument &doc, int index)
+{
+    QString str;
+    if(index==1)str="QZCurrentCodeVal";
+    if(index==2) str="KTCurrentCodeVal";
+
+    XMLElement* eleCurrentCodeVal = doc.NewElement(str.toStdString().c_str());
+    for(int i=1;i<=20;i++)
+    {
+        QString strCurrent=QString("CurrentCodeVal_%1").arg(i);
+        XMLElement* eletmp = doc.NewElement(strCurrent.toStdString().c_str());
+
+        eletmp->SetText(this->m_photoElecParamArrSim[index].currentCodeValArr[i-1]);
+        eleCurrentCodeVal->InsertEndChild(eletmp);
+    }
+    return eleCurrentCodeVal;
+}
+
 XMLElement *ClsPhototElecConfig::genGainXmlElementBlockSim(TinyXmlDocument &doc, int index)
 {
     QString str;
@@ -315,6 +333,8 @@ void ClsPhototElecConfig::savetoFile(QString dirPath)
 
         XMLElement* eleCurrentVal=genCurrentXmlElementBlockSim(doc,idx);
 
+//         XMLElement* eleCurrentCodeVal=genCurrentCodeValXmlElementBlockSim(doc,idx);
+
         XMLElement* eleGainVal=genGainXmlElementBlockSim(doc,idx);
 
         XMLElement* eleProbVal=genProbValXmlElementBlockSim(doc,idx);
@@ -326,6 +346,8 @@ void ClsPhototElecConfig::savetoFile(QString dirPath)
 
 
         elePhotoElec->InsertEndChild(eleCurrentVal);
+//        elePhotoElec->InsertEndChild(eleCurrentCodeVal);
+
         elePhotoElec->InsertEndChild(eleGainVal);
 
         elePhotoElec->InsertEndChild(eleProbVal);
@@ -671,6 +693,25 @@ void ClsPhototElecConfig::loadFromFile()
                 }
                 eleCurrent = eleCurrent->NextSiblingElement();
             }
+
+//            XMLElement* eleCurrentCode = eleTemp->FirstChildElement();
+//            while (true)
+//            {
+//                if(QString(eleCurrentCode->Name())=="KTCurrentCodeVal")
+//                {
+//                    for(int i=1;i<=20;i++)
+//                    {
+//                        string strTmp;
+//                        QString strNodeName=QString("CurrentCodeVal_%1").arg(i);
+//                        XmlHelper::GetElementTextFromParent(strNodeName.toStdString().c_str(), eleCurrentCode, strTmp);
+//                        stuPho.currentCodeValArr[i-1]=std::atof(strTmp.c_str());
+//                    }
+//                    break;
+//                }
+//                eleCurrentCode = eleCurrentCode->NextSiblingElement();
+//            }
+
+
 
 
             XMLElement* eleGain = eleTemp->FirstChildElement();

@@ -32,6 +32,11 @@ public:
 
     int setLevel(unsigned char iPin,unsigned int idTypeVal,unsigned int setVal);
 
+
+
+     int getLevel(int iPin, int& getVal);
+
+
 private:
     HINSTANCE hinstLib;
     SETVOIDPROC ProcAdd;

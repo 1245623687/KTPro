@@ -14,6 +14,59 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("光电配置");
     InitStyle();
+
+    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
+    {
+        m_mapProbVal.insert(1,1);
+        m_mapProbVal.insert(2,2);
+        m_mapProbVal.insert(3,3);
+        m_mapProbVal.insert(4,4);
+        m_mapProbVal.insert(5,5);
+        m_mapProbVal.insert(6,6);
+        m_mapProbVal.insert(7,7);
+        m_mapProbVal.insert(8,8);
+        m_mapProbVal.insert(9,9);
+        m_mapProbVal.insert(10,10);
+        m_mapProbVal.insert(11,11);
+        m_mapProbVal.insert(12,12);
+        m_mapProbVal.insert(13,13);
+        m_mapProbVal.insert(14,14);
+        m_mapProbVal.insert(15,15);
+        m_mapProbVal.insert(16,16);
+        m_mapProbVal.insert(17,17);
+        m_mapProbVal.insert(18,18);
+        m_mapProbVal.insert(19,19);
+        m_mapProbVal.insert(20,20);
+
+    }
+
+    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+    {
+        m_mapProbVal.insert(1,3);
+        m_mapProbVal.insert(2,6);
+        m_mapProbVal.insert(3,9);
+        m_mapProbVal.insert(4,12);
+        m_mapProbVal.insert(5,15);
+        m_mapProbVal.insert(6,18);
+        m_mapProbVal.insert(7,2);
+        m_mapProbVal.insert(8,5);
+        m_mapProbVal.insert(9,8);
+        m_mapProbVal.insert(10,11);
+        m_mapProbVal.insert(11,14);
+        m_mapProbVal.insert(12,17);
+        m_mapProbVal.insert(13,20);
+        m_mapProbVal.insert(14,1);
+        m_mapProbVal.insert(15,4);
+        m_mapProbVal.insert(16,7);
+        m_mapProbVal.insert(17,10);
+        m_mapProbVal.insert(18,13);
+        m_mapProbVal.insert(19,16);
+        m_mapProbVal.insert(20,19);
+
+    }
+
+
+
     InitControl();
 
     connect(this,&dlgphotoelectricitycfg::updataQZADCValueSig,this,&dlgphotoelectricitycfg::showQZAngleAndADCValue);
@@ -22,8 +75,15 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     connect(this,&dlgphotoelectricitycfg::updataQZADCValueSigSim,this,&dlgphotoelectricitycfg::showQZAngleAndADCValueSim);
     connect(this,&dlgphotoelectricitycfg::updataKTADCValueSigSim,this,&dlgphotoelectricitycfg::showKTAngleAndADCValueSim);
 
-
     connect(PackageChecker::getInstance()->m_pBaseCom,&BaseCom::sendCommandRet,this,&dlgphotoelectricitycfg::updateTipText);
+
+
+  if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+  {
+        connect(PackageChecker::getInstance()->m_pBaseCom,&BaseCom::updateCheckRetSig,this,&dlgphotoelectricitycfg::upDateCheckRet);
+  }
+
+
 
 
     m_bQZisRuning=false;
@@ -43,6 +103,9 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     qzprobv3=0;
 
     m_bRuning=false;
+
+
+
     ui->radioButton_runMode->setChecked(true);
 
 
@@ -58,32 +121,6 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->stackedWidget_KT->setCurrentIndex(1);
     ui->stackedWidget_QZ2->setCurrentIndex(0);
     ui->stackedWidget_KT2->setCurrentIndex(0);
-
-
-
-
-
-    //    QVector<int> temp;
-    //    for(int i=0;i<20;i++)
-    //    {
-    //        temp.push_back(i);
-    //    }
-    //    m_ktMap.insert("20221010",temp);
-    //    m_ktMap.insert("20221011",temp);
-    //    m_ktMap.insert("20221012",temp);
-    //    m_ktMap.insert("20221013",temp);
-    //    m_ktMap.insert("20221014",temp);
-    //    m_ktMap.insert("20221015",temp);
-
-    //    m_qzMap.insert("20221010",temp);
-    //    m_qzMap.insert("20221011",temp);
-    //    m_qzMap.insert("20221012",temp);
-    //    m_qzMap.insert("20221013",temp);
-    //    m_qzMap.insert("20221014",temp);
-    //    m_qzMap.insert("20221015",temp);
-
-
-
 
 
 
@@ -203,29 +240,14 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->groupBox_16->setVisible(false);
     ui->groupBox_33->setVisible(false);
 
+
+    ui->groupBox_19->setVisible(false);
+    ui->groupBox_34->setVisible(false);
+
     //    ui->pushButton_ktcurrent->setEnabled(false);
     //    ui->pushButton_qzcurrent->setEnabled(false);
 
-    m_mapProbVal.insert(1,3);
-    m_mapProbVal.insert(2,6);
-   m_mapProbVal.insert(3,9);
-    m_mapProbVal.insert(4,12);
-    m_mapProbVal.insert(5,15);
-    m_mapProbVal.insert(6,18);
-    m_mapProbVal.insert(7,2);
-    m_mapProbVal.insert(8,5);
-    m_mapProbVal.insert(9,8);
-   m_mapProbVal.insert(10,11);
-    m_mapProbVal.insert(11,14);
-    m_mapProbVal.insert(12,17);
-    m_mapProbVal.insert(13,20);
-    m_mapProbVal.insert(14,1);
-    m_mapProbVal.insert(15,4);
-    m_mapProbVal.insert(16,7);
-   m_mapProbVal.insert(17,10);
-    m_mapProbVal.insert(18,13);
-    m_mapProbVal.insert(19,16);
-    m_mapProbVal.insert(20,19);
+
 
 }
 
@@ -307,7 +329,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
                 m_qzLabels2[i-2]->setText(QString("%1").arg(m_vecKickValQZ[i-2],4,10,QLatin1Char('0')));
             }
         }
-      PackageChecker::getInstance()->RetPheQZ[20]=checkRet;
+        PackageChecker::getInstance()->RetPheQZ[20]=checkRet;
 
 
         ui->label_qzLastNGValue2->setText(QString("%1-%2").arg(m_qzQue[0].first,2,10,QChar('0')).arg(m_qzQue[0].second,4,10,QChar('0')));
@@ -401,7 +423,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             }
         }
 
-              PackageChecker::getInstance()->RetPheKT[20]=checkRet;
+        PackageChecker::getInstance()->RetPheKT[20]=checkRet;
 
 
         ui->label_ktLastNGValue2->setText(QString("%1-%2").arg(m_ktQue[0].first,2,10,QChar('0')).arg(m_ktQue[0].second,4,10,QChar('0')));
@@ -439,7 +461,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             return;
 
         bool ret;
-         QVector<int> retVecTmp;
+        QVector<int> retVecTmp;
         QVector<int> retVec(22);
         QByteArray receiveby;
 
@@ -494,7 +516,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             if(retVec[i]<thresh)
             {
                 checkRet=true;
-                 PackageChecker::getInstance()-> RetMapPheQZ[i-2]=true;
+                PackageChecker::getInstance()-> RetMapPheQZ[i-2]=true;
 
                 m_vecKickValQZ[i-2]++;
 
@@ -519,7 +541,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
                 m_qzLabels2[i-2]->setText(QString("%1").arg(m_vecKickValQZ[i-2],4,10,QLatin1Char('0')));
             }
         }
-         PackageChecker::getInstance()->RetPheQZ[20]=checkRet;
+        PackageChecker::getInstance()->RetPheQZ[20]=checkRet;
 
 
 
@@ -539,7 +561,6 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             {
                 m_qzMap.erase(m_qzMap.begin());
             }
-
         }
         ui->label_qzNGNum->setText(QString::number(m_lqzNGNum));
 
@@ -556,15 +577,14 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         DSDEBUG_<<"upDateCheckRet KT Ret :"<<endl;
 
 
-       //测试
-//        for(int i=0;i<20;i++)
-//        {
-//            PackageChecker::getInstance()->RetPheKT[i]++;
-
-//            PackageChecker::getInstance()->RetMapPheKT[i]++;
-//        }
-//         PackageChecker::getInstance()->RetPheKT[20]++;
-//         emit updateMainSceenSig();
+        //测试
+        //        for(int i=0;i<20;i++)
+        //        {
+        //            PackageChecker::getInstance()->RetPheKT[i]++;
+        //            PackageChecker::getInstance()->RetMapPheKT[i]++;
+        //        }
+        //         PackageChecker::getInstance()->RetPheKT[20]++;
+        //         emit updateMainSceenSig();
 
 
 
@@ -572,7 +592,6 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             return;
 
         bool ret;
-
         QVector<int> retVecTmp;
         QVector<int> retVec(22);
         QByteArray receiveby;
@@ -585,11 +604,13 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         if(!ret)
         {
 
-            //PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+            m_lktTotalNum++;
+            ui->label_ktTotalNum->setText(QString::number(m_lktTotalNum));
+            emit updateMainSceenSig();
             return;
         }
 
-        //改变次序
+        //改变次序//模拟板数据乱序
         retVec[0]=retVecTmp[0];
         retVec[1]=retVecTmp[1];
         retVec[2]=retVecTmp[4];
@@ -635,8 +656,8 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
             if(retVec[i]<thresh)
             {
-               checkRet=true;
-               PackageChecker::getInstance()-> RetMapPheKT[i-2]=true;
+                checkRet=true;
+                PackageChecker::getInstance()-> RetMapPheKT[i-2]=true;
 
                 m_vecKickValKT[i-2]++;
 
@@ -663,7 +684,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             }
         }
 
-         PackageChecker::getInstance()->RetPheKT[20]=checkRet;
+        PackageChecker::getInstance()->RetPheKT[20]=checkRet;
 
 
 
@@ -691,7 +712,7 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         ui->label_ktNGRatio->setText(QString::number(ratio,'f',2));
 
         m_mutexMapKT.unlock();
-         emit updateMainSceenSig();
+        emit updateMainSceenSig();
 
     }
 
@@ -1107,9 +1128,6 @@ void dlgphotoelectricitycfg::InitControl()
         m_ktLabelsGainSim.insert(19,ui->label_ktgain20);
     }
 
-
-
-
     ui->lineEdit_qzcurrent->setText(QString::number(pheConfig->getProCurrentSim(1,0)));
     ui->lineEdit_qzgain->setText(QString::number(pheConfig->getProGainSim(1,0)));
 
@@ -1124,6 +1142,11 @@ void dlgphotoelectricitycfg::InitControl()
     ratio=pheConfig->getRatioSim(2);
     ui->lineEdit_ktprobSim->setText(QString::number(int(pheConfig->getProThresholdSim(2,0)*ratio)));
     ui->lineEdit_ktprobRatioSim->setText(QString::number(pheConfig->getRatioSim(2),'f',2));
+
+
+    ui->lineEdit_ktcurrentCodeVal->setText(QString::number(pheConfig->getProCurrentCodeValSim(2,m_mapProbVal[0+1]-1)));
+
+    ui->lineEdit_qzcurrentCodeVal->setText(QString::number(pheConfig->getProCurrentCodeValSim(1,m_mapProbVal[1]-1)));
 
 
     if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
@@ -2488,6 +2511,7 @@ void dlgphotoelectricitycfg::buttonJudge(int)
 
 
         PackageChecker::getInstance()->m_pBaseCom->togleDisconnect();
+
         if(ui->radioButton_testModeSim->isChecked())
         {
             ui->stackedWidget->setCurrentIndex(1);
@@ -2503,6 +2527,7 @@ void dlgphotoelectricitycfg::buttonJudge(int)
         }
         else
         {
+
             ui->stackedWidget->setCurrentIndex(0);
             ui->stackedWidget_2->setCurrentIndex(0);
 
@@ -2686,7 +2711,6 @@ void dlgphotoelectricitycfg::on_pushButton_qzgetgc_clicked()
     }
 
     //调整显示
-
 }
 
 void dlgphotoelectricitycfg::on_pushButton_ktcurrent_clicked()
@@ -2696,7 +2720,7 @@ void dlgphotoelectricitycfg::on_pushButton_ktcurrent_clicked()
     double ProbThresh=ui->lineEdit_ktcurrent->text().toDouble();
 
     ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
-//   pheConfig->setProCurrentSim(2,ProbIndex-1,ProbThresh);
+    //   pheConfig->setProCurrentSim(2,ProbIndex-1,ProbThresh);
 
     pheConfig->setProCurrentSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
 
@@ -2736,8 +2760,8 @@ void dlgphotoelectricitycfg::on_pushButton_ktprobSim_clicked()
     int ProbIndex=ui->comboBox_ktprobSim->currentIndex()+1;
     int ProbThresh=ui->lineEdit_ktprobSim->text().toInt();
 
-   ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
-   pheConfig->setProThresholdSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
+    ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
+    pheConfig->setProThresholdSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
 
     QByteArray sendText=genSendByArraySim(6,m_mapProbVal[ProbIndex],ProbThresh);
 
@@ -2749,15 +2773,15 @@ void dlgphotoelectricitycfg::on_pushButton_ktprobSim_clicked()
     qDebug()<<"ret,"<<ret<<endl;
 
 
-//    pheConfig->setProCurrentSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
+    //    pheConfig->setProCurrentSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
 
-//    QByteArray sendText=genSendByArraySim(4,m_mapProbVal[ProbIndex],int(ProbThresh*100));
+    //    QByteArray sendText=genSendByArraySim(4,m_mapProbVal[ProbIndex],int(ProbThresh*100));
 
-//    QByteArray receivedByArray;
-//    QVector<int> vecTmp;
+    //    QByteArray receivedByArray;
+    //    QVector<int> vecTmp;
 
-//    bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(sendText,receivedByArray,vecTmp,1);
-//    appendInfoText( "KTSim", ret, sendText,receivedByArray);
+    //    bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(sendText,receivedByArray,vecTmp,1);
+    //    appendInfoText( "KTSim", ret, sendText,receivedByArray);
 }
 
 
@@ -3025,4 +3049,94 @@ void dlgphotoelectricitycfg::on_pushButton_ktcurrentRatio_clicked()
     bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(sendText,receivedByArray,vecTmp,1);
     appendInfoText( "KTSim", ret, sendText,receivedByArray);
     qDebug()<<"ret,"<<ret<<endl;
+}
+
+void dlgphotoelectricitycfg::on_pushButton_qzcurrentCodeVal_clicked()
+{
+
+
+    int ProbIndex=ui->comboBox_qzcurrentCodeVal->currentIndex()+1;
+    int ProbThresh=ui->lineEdit_qzcurrentCodeVal->text().toInt();
+    ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
+
+    pheConfig->setProCurrentCodeValSim(1,m_mapProbVal[ProbIndex]-1,ProbThresh);
+
+    int OperaCode=14;
+    int v1=ProbIndex;
+    int v2=ui->lineEdit_ktcurrentCodeVal->text().toInt();
+
+    QByteArray sendText=QByteArray::fromHex("5501");
+
+    QString strOperaCode=QString("%1").arg(OperaCode,2,16,QLatin1Char('0')).toUtf8();
+    QByteArray byOperaCode=QByteArray::fromHex(QByteArray(strOperaCode.toLatin1()));
+    sendText.append(byOperaCode);
+
+    QString strHexV1=QString("%1").arg(v1,2,10,QLatin1Char('0')).toUtf8();
+    QByteArray byHexV1=QByteArray::fromHex(QByteArray(strHexV1.toLatin1()));
+    sendText.append(byHexV1);
+
+    QString strHexV2=QString("%1").arg(v2,8,16,QLatin1Char('0')).toUtf8();
+    QByteArray byHexV2=QByteArray::fromHex(QByteArray(strHexV2.toLatin1()));
+    sendText.append(byHexV2);
+    sendText =sendText.toHex().toUpper();
+
+
+    QByteArray receivedByArray;
+    QVector<int> vecTmp;
+
+    bool ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommandSim(sendText,receivedByArray,vecTmp,1);
+    appendInfoText( "QZSim", ret, sendText,receivedByArray);
+    qDebug()<<"ret,"<<ret<<endl;
+}
+
+void dlgphotoelectricitycfg::on_pushButton_ktcurrentCodeVal_clicked()
+{
+
+    int ProbIndex=ui->comboBox_ktcurrentCodeVal->currentIndex()+1;
+    int ProbThresh=ui->lineEdit_ktcurrentCodeVal->text().toInt();
+    ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
+
+    pheConfig->setProCurrentCodeValSim(2,m_mapProbVal[ProbIndex]-1,ProbThresh);
+
+    int OperaCode=14;
+    int v1=ProbIndex;
+    int v2=ui->lineEdit_ktcurrentCodeVal->text().toInt();
+
+    QByteArray sendText=QByteArray::fromHex("5501");
+
+    QString strOperaCode=QString("%1").arg(OperaCode,2,16,QLatin1Char('0')).toUtf8();
+    QByteArray byOperaCode=QByteArray::fromHex(QByteArray(strOperaCode.toLatin1()));
+    sendText.append(byOperaCode);
+
+    QString strHexV1=QString("%1").arg(v1,2,10,QLatin1Char('0')).toUtf8();
+    QByteArray byHexV1=QByteArray::fromHex(QByteArray(strHexV1.toLatin1()));
+    sendText.append(byHexV1);
+
+    QString strHexV2=QString("%1").arg(v2,8,16,QLatin1Char('0')).toUtf8();
+    QByteArray byHexV2=QByteArray::fromHex(QByteArray(strHexV2.toLatin1()));
+    sendText.append(byHexV2);
+    sendText =sendText.toHex().toUpper();
+
+
+    QByteArray receivedByArray;
+    QVector<int> vecTmp;
+
+    bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommandSim(sendText,receivedByArray,vecTmp,1);
+    appendInfoText( "KTSim", ret, sendText,receivedByArray);
+    qDebug()<<"ret,"<<ret<<endl;
+}
+
+void dlgphotoelectricitycfg::on_comboBox_qzcurrentCodeVal_currentIndexChanged(int index)
+{
+    ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
+
+    ui->lineEdit_qzcurrentCodeVal->setText(QString::number(pheConfig->getProCurrentCodeValSim(1,m_mapProbVal[index+1]-1)));
+
+}
+
+void dlgphotoelectricitycfg::on_comboBox_ktcurrentCodeVal_currentIndexChanged(int index)
+{
+    ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
+
+    ui->lineEdit_ktcurrentCodeVal->setText(QString::number(pheConfig->getProCurrentCodeValSim(2,m_mapProbVal[index+1]-1)));
 }

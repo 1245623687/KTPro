@@ -70,3 +70,27 @@ int Fitgpio::setLevel(unsigned char iPin, unsigned int idTypeVal, unsigned int s
     }
 }
 
+
+int Fitgpio::getLevel(int iPin, int &getVal)
+{
+    // if(iPin==0)
+    // m_cnt++;
+    unsigned char value;
+    if (!(*GPIO_Int)(iPin, &value))
+    {
+        //        if(iPin==0)
+        //        DSDEBUG<<QString("gpio setLevel_failed,index_%1,val_%2 ,cnt_%3").arg(iPin).arg(val).arg(m_cnt)<<endl;
+        return 1;
+    }
+    else
+    {
+        //        if(iPin==0)
+        //        DSDEBUG<< QString("gpio setLevel_sucess,index_%1,val_%2,cnt_%3").arg(iPin).arg(val).arg(m_cnt)<<endl;
+        getVal=value;
+        return 0;
+    }
+}
+
+
+
+
