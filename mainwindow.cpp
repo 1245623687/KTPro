@@ -733,12 +733,11 @@ void MainWindow::onTimeout()
 
 
     //获取针脚电平信号
-
     int getVal=-1;
     //获取输入0号针脚的电平值,缺支剔除异常
     PackageChecker* pc=PackageChecker::getInstance();
-    pc->IOContol->getLevel(0x20,getVal);
-    if(m_lastPinVal==0&&getVal==1)
+    pc->IOContol->getLevel(0x00,getVal);
+    if(m_lastPinVal==1&&getVal==0)
     {
         //高电平，要报警
         m_Timer1->start(500);
@@ -748,14 +747,13 @@ void MainWindow::onTimeout()
 
     //获取输入1号针脚的电平值,空头剔除异常
     int getVal2=-1;
-    pc->IOContol->getLevel(0x21,getVal2);
-    if(m_lastPinVal2==0&&getVal2==1)
+    pc->IOContol->getLevel(0x01,getVal2);
+    if(m_lastPinVal2==1&&getVal2==0)
     {
         //高电平，要报警
         m_Timer2->start(500);
         m_bIsWarning2=true;
     }
-
     m_lastPinVal2=getVal2;
 }
 
@@ -765,14 +763,15 @@ void MainWindow::onTimeout1()
     if( m_warningCnt1%2==0)
     {
         ui->label->setStyleSheet("color:rgb(255,0,0)");
-        ui->label->setText("缺支剔除异常报警！");
+        ui->label->setText("剔除异常报警！");
+        ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
     else
     {
 
         ui->label->setStyleSheet("color:rgb(255,0,255)");
         ui->label->setText("点击消除报警");
-
+        ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
 
 }
@@ -783,12 +782,14 @@ void MainWindow::onTimeout2()
     if( m_warningCnt2%2==0)
     {
         ui->label->setStyleSheet("color:rgb(255,0,0)");
-        ui->label->setText("空头剔除异常报警！");
+        ui->label->setText("剔除异常报警！");
+        ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
     else
     {
         ui->label->setStyleSheet("color:rgb(255,0,255)");
         ui->label->setText("点击消除报警");
+        ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
 
 }
@@ -1494,8 +1495,9 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
             m_bIsWarning1=false;
             ui->label->setStyleSheet("color:rgb(252, 252, 0)");
             m_Timer1->stop();
-             m_warningCnt1=0;
-
+            m_warningCnt1=0;
+            ui->label->setText(" 大树智能烟支检测系统");
+            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
         }
         if( m_bIsWarning2)
         {
@@ -1504,6 +1506,8 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
             ui->label->setStyleSheet("color:rgb(252, 252, 0)");
             m_warningCnt2=0;
             m_Timer2->stop();
+            ui->label->setText(" 大树智能烟支检测系统");
+            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
         }
 
     }

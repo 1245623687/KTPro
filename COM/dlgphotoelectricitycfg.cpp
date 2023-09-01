@@ -2559,6 +2559,7 @@ void dlgphotoelectricitycfg::buttonJudge2(int index)
     {
         for(int i=2;i<22;i++)
         {
+            if(m_cntQZ==0) m_cntQZ=1;
             m_qzLabels2[i-2]->setText(QString("%1").arg(m_vecValQZ[i-2]/m_cntQZ,4,10,QLatin1Char('0')));
         }
     }
@@ -2582,6 +2583,8 @@ void dlgphotoelectricitycfg::buttonJudge3(int index)
     {
         for(int i=2;i<22;i++)
         {
+
+            if(m_cntKT==0) m_cntKT=1;
             m_ktLabels2[i-2]->setText(QString("%1").arg(m_vecValKT[i-2]/m_cntKT,4,10,QLatin1Char('0')));
         }
     }

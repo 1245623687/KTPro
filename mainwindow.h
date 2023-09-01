@@ -83,6 +83,7 @@ private:
     int SHOWWID=696;
     int SHOWHEI=223;
 
+
     QTimer* m_Timer;
     QTimer* m_Timer1;
     QTimer* m_Timer2;
@@ -97,8 +98,8 @@ private:
 private:
     bool onWarning;
     int countSeconds;
-    int m_lastPinVal=0;
-    int m_lastPinVal2=0;
+    int m_lastPinVal=1;
+    int m_lastPinVal2=1;
 
     std::mutex m_MutexScene;
     QStandardItemModel* m_ModelLog;
