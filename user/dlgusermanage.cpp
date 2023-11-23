@@ -48,19 +48,19 @@ void DlgUserManage::InitControl()
     QAction *usernameAction = new QAction(ui->lineEditLoginusername);
     usernameAction->setIcon(QIcon(":/username.png"));
     ui->lineEditLoginusername->addAction(usernameAction,QLineEdit::LeadingPosition);
-    ui->lineEditLoginusername->setPlaceholderText("请输入用户名");
+    ui->lineEditLoginusername->setPlaceholderText(tr("请输入用户名"));
 
     QAction *passwordAction = new QAction(ui->lineEditLoginpassword);
     passwordAction->setIcon(QIcon(":/password.png"));
     ui->lineEditLoginpassword->addAction(passwordAction,QLineEdit::LeadingPosition);
-    ui->lineEditLoginpassword->setPlaceholderText("请输入密码");
+    ui->lineEditLoginpassword->setPlaceholderText(tr("请输入密码"));
 
     QToolButton *btnchangepwd=new QToolButton(ui->lineEditLoginpassword);
     btnchangepwd->setStyleSheet("QToolButton{background:transparent;color: rgb(88,88,88);}"
                                 "QToolButton:hover{color: rgb(15,149,45);}"
                                 "QToolButton:pressed{color: rgb(203,254,208);}");
 
-    btnchangepwd->setText("重设密码");
+    btnchangepwd->setText(tr("重设密码"));
     btnchangepwd->setGeometry(btnchangepwd->geometry().x(),btnchangepwd->geometry().y(),btnchangepwd->width()-20,btnchangepwd->geometry().height());
     btnchangepwd->setGeometry(ui->lineEditLoginpassword->geometry().width()-btnchangepwd->geometry().width(),
                               (ui->lineEditLoginpassword->geometry().height()-btnchangepwd->geometry().height())/2,
@@ -84,33 +84,33 @@ void DlgUserManage::InitControl()
     QAction *pwdoldAction = new QAction(ui->lineEditChangeoldpwd);
     pwdoldAction->setIcon(QIcon(":/oldpwd.png"));
     ui->lineEditChangeoldpwd->addAction(pwdoldAction,QLineEdit::LeadingPosition);
-    ui->lineEditChangeoldpwd->setPlaceholderText("请输入原始密码");
+    ui->lineEditChangeoldpwd->setPlaceholderText(tr("请输入原始密码"));
 
     QAction *pwdnewAction1 = new QAction(ui->lineEditChangenewpwd);
     pwdnewAction1->setIcon(QIcon(":/password.png"));
     ui->lineEditChangenewpwd->addAction(pwdnewAction1,QLineEdit::LeadingPosition);
-    ui->lineEditChangenewpwd->setPlaceholderText("请输入新密码");
+    ui->lineEditChangenewpwd->setPlaceholderText(tr("请输入新密码"));
 
     QAction *pwdnewAction2 = new QAction(ui->lineEditChangenewpwd2);
     pwdnewAction2->setIcon(QIcon(":/password.png"));
     ui->lineEditChangenewpwd2->addAction(pwdnewAction2,QLineEdit::LeadingPosition);
-    ui->lineEditChangenewpwd2->setPlaceholderText("请确认新密码");
+    ui->lineEditChangenewpwd2->setPlaceholderText(tr("请确认新密码"));
 
     //新增用户
     QAction *addUserNameAction = new QAction(ui->lineEditaddusername);
     addUserNameAction->setIcon(QIcon(":/username.png"));
     ui->lineEditaddusername->addAction(addUserNameAction,QLineEdit::LeadingPosition);
-    ui->lineEditaddusername->setPlaceholderText("请输入用户名");
+    ui->lineEditaddusername->setPlaceholderText(tr("请输入用户名"));
 
     QAction *addPwdAction = new QAction(ui->lineEditaddpwd);
     addPwdAction->setIcon(QIcon(":/password.png"));
     ui->lineEditaddpwd->addAction(addPwdAction,QLineEdit::LeadingPosition);
-    ui->lineEditaddpwd->setPlaceholderText("请输入密码");
+    ui->lineEditaddpwd->setPlaceholderText(tr("请输入密码"));
 
     QAction *addPwdAction2 = new QAction(ui->lineEditaddpwd2);
     addPwdAction2->setIcon(QIcon(":/password.png"));
     ui->lineEditaddpwd2->addAction(addPwdAction2,QLineEdit::LeadingPosition);
-    ui->lineEditaddpwd2->setPlaceholderText("请再次输入密码");
+    ui->lineEditaddpwd2->setPlaceholderText(tr("请再次输入密码"));
 
     ui->comboBox->addItem(QIcon(":/supermanager.png"),"超级管理员");
     ui->comboBox->addItem(QIcon(":/manager.png"),"管理员");
@@ -205,7 +205,7 @@ void DlgUserManage::on_Changepwd_clicked(bool b)
 
     frmMessageBox *msg = new frmMessageBox;
 
-    msg->SetMessage("请输入正确的用户名", 0);
+    msg->SetMessage(tr("请输入正确的用户名"), 0);
     msg->exec();
     this->ui->lineEditLoginusername->setFocus();
 
@@ -318,7 +318,7 @@ void DlgUserManage::on_toolButtonAddUser_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请使用管理员账户登录!", 0);
+        msg->SetMessage(tr("请使用管理员账户登录!"), 0);
         msg->exec();
 
         return;
@@ -339,7 +339,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入用户名!", 0);
+        msg->SetMessage(tr("请输入用户名!"), 0);
         msg->exec();
         ui->lineEditaddusername->setFocus();
         return;
@@ -348,7 +348,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入用户密码!", 0);
+        msg->SetMessage(tr("请输入用户密码!"), 0);
         msg->exec();
         ui->lineEditaddpwd->setFocus();
         return;
@@ -357,7 +357,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请确认输入的用户密码!", 0);
+        msg->SetMessage(tr("请确认输入的用户密码!"), 0);
         msg->exec();
         ui->lineEditaddpwd2->setFocus();
         return;
@@ -367,7 +367,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("两次输入的密码不一致!", 0);
+        msg->SetMessage(tr("两次输入的密码不一致!"), 0);
         msg->exec();
         ui->lineEditaddpwd->clear();
         ui->lineEditaddpwd2->clear();
@@ -382,7 +382,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
         {
             frmMessageBox *msg = new frmMessageBox;
 
-            msg->SetMessage("当前用户已存在,请重新输入用户名!", 0);
+            msg->SetMessage(tr("当前用户已存在,请重新输入用户名!"), 0);
             msg->exec();
             ui->lineEditaddusername->clear();
             ui->lineEditaddusername->setFocus();
@@ -398,7 +398,7 @@ void DlgUserManage::on_toolButtonadduserok_clicked()
 
     frmMessageBox *msg = new frmMessageBox;
 
-    msg->SetMessage("用户添加成功!", 0);
+    msg->SetMessage(tr("用户添加成功!"), 0);
     msg->exec();
 
     //清空
@@ -428,7 +428,7 @@ void DlgUserManage::on_toolButtonManage_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请用超级管理员账户登录", 0);
+        msg->SetMessage(tr("请用超级管理员账户登录"), 0);
         msg->exec();
         return;
     }
@@ -450,7 +450,7 @@ void DlgUserManage::on_toolButtonLogin_clicked()
 {
     if(this->ui->lineEditLoginpassword->text().toUpper()=="DASHU")
     {
-        PackageChecker::getInstance()->user.setUserName("超管");
+        PackageChecker::getInstance()->user.setUserName(tr("超管"));
         PackageChecker::getInstance()->user.setUserGroup(ENUMUSERGROUP_ADMIN);
 
 
@@ -462,7 +462,7 @@ void DlgUserManage::on_toolButtonLogin_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入用户名", 0);
+        msg->SetMessage(tr("请输入用户名"), 0);
         msg->exec();
         this->ui->lineEditLoginusername->setFocus();
         return;
@@ -471,7 +471,7 @@ void DlgUserManage::on_toolButtonLogin_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入用户密码", 0);
+        msg->SetMessage(tr("请输入用户密码"), 0);
         msg->exec();
         this->ui->lineEditLoginpassword->setFocus();
         return;
@@ -499,7 +499,7 @@ void DlgUserManage::on_toolButtonLogin_clicked()
             {
                 frmMessageBox *msg = new frmMessageBox;
 
-                msg->SetMessage("请输入正确的用户密码!", 0);
+                msg->SetMessage(tr("请输入正确的用户密码!"), 0);
                 msg->exec();
                 this->ui->lineEditLoginpassword->clear();
                 this->ui->lineEditLoginpassword->setFocus();
@@ -512,7 +512,7 @@ void DlgUserManage::on_toolButtonLogin_clicked()
 
     frmMessageBox *msg = new frmMessageBox;
 
-    msg->SetMessage("当前用户不存在", 0);
+    msg->SetMessage(tr("当前用户不存在"), 0);
     msg->exec();
     this->ui->lineEditLoginusername->clear();
     this->ui->lineEditLoginusername->setFocus();
@@ -528,7 +528,7 @@ void DlgUserManage::on_toolButtonChangepwdOk_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入新的用户密码!", 0);
+        msg->SetMessage(tr("请输入新的用户密码!"), 0);
         msg->exec();
         ui->lineEditChangenewpwd->setFocus();
         return;
@@ -537,7 +537,7 @@ void DlgUserManage::on_toolButtonChangepwdOk_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请确认新的用户密码!", 0);
+        msg->SetMessage(tr("请确认新的用户密码!"), 0);
         msg->exec();
         ui->lineEditChangenewpwd2->setFocus();
         return;
@@ -546,7 +546,7 @@ void DlgUserManage::on_toolButtonChangepwdOk_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("两次输入的密码不一致!", 0);
+        msg->SetMessage(tr("两次输入的密码不一致!"), 0);
         msg->exec();
         ui->lineEditChangenewpwd->clear();
         ui->lineEditChangenewpwd2->clear();
@@ -566,7 +566,7 @@ void DlgUserManage::on_toolButtonChangepwdOk_clicked()
         {
             frmMessageBox *msg = new frmMessageBox;
 
-            msg->SetMessage("请输入正确的用户密码!", 0);
+            msg->SetMessage(tr("请输入正确的用户密码!"), 0);
             msg->exec();
             this->ui->lineEditChangeoldpwd->clear();
             this->ui->lineEditChangeoldpwd->setFocus();
@@ -579,7 +579,7 @@ void DlgUserManage::on_toolButtonChangepwdOk_clicked()
 
             frmMessageBox *msg = new frmMessageBox;
 
-            msg->SetMessage("密码修改成功!", 0);
+            msg->SetMessage(tr("密码修改成功!"), 0);
             msg->exec();
 
         }
@@ -604,7 +604,7 @@ void DlgUserManage::updateUserTableView()
 {
     m_UserModel->clear();
     QStringList listmodelMain;
-    listmodelMain<<"姓名"<<"密码"<<"用户组"<<"操作";
+    listmodelMain<<tr("姓名")<<tr("密码")<<tr("用户组")<<tr("操作");
     m_UserModel->setHorizontalHeaderLabels(listmodelMain);
     QFont font;
     font.setUnderline(true);
@@ -615,7 +615,7 @@ void DlgUserManage::updateUserTableView()
         QStandardItem *itemName=new QStandardItem(m_lstUserInfo[idx].UserName());
         QStandardItem* itemPwd=new QStandardItem(m_lstUserInfo[idx].Password());
         QStandardItem* itemGroup=new QStandardItem(getGroupName(m_lstUserInfo[idx].UserGroup()));
-        QStandardItem* itemDel=new QStandardItem("删除");
+        QStandardItem* itemDel=new QStandardItem(tr("删除"));
         itemDel->setFont(font);
         itemDel->setForeground(QBrush(QColor(255,0,0)));
 
@@ -642,7 +642,7 @@ void DlgUserManage::on_tableView_clicked(const QModelIndex &index)
     UserInfo ui=m_lstUserInfo[index.row()];
 
     frmMessageBox* msg = new frmMessageBox;
-    msg->SetMessage(QString("是否删除用户%1").arg(ui.UserName()), 1);
+    msg->SetMessage(QString(tr("是否删除用户%1")).arg(ui.UserName()), 1);
     if(msg->exec())
     {
         UserInfoSqliteHelper::delUserbyName(ui.UserName());
@@ -670,7 +670,7 @@ void DlgUserManage::on_toolButtonCurUserManage_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请用超级管理员账户登录", 0);
+        msg->SetMessage(tr("请用超级管理员账户登录"), 0);
         msg->exec();
         return;
     }
@@ -688,7 +688,7 @@ void DlgUserManage::on_toolButtonCurUserManage_clicked()
 
 void DlgUserManage::on_toolButtonCurUserLogoff_clicked()
 {
-    PackageChecker::getInstance()->user.setUserName("操作员");
+    PackageChecker::getInstance()->user.setUserName(tr("操作员"));
     PackageChecker::getInstance()->user.setUserGroup(ENUMUSERGROUP_OPERATOR);
     PackageChecker::getInstance()->m_TimerLog->stop();
     this->ui->stackedWidget->setCurrentIndex(0);
@@ -701,12 +701,9 @@ void DlgUserManage::on_toolButtonCurAddUser_clicked()
     if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
     {
         frmMessageBox *msg = new frmMessageBox;
-
-        msg->SetMessage("请使用管理员账户登录!", 0);
+        msg->SetMessage(tr("请使用管理员账户登录!"), 0);
         msg->exec();
-
         return;
-
     }
 
 

@@ -17,6 +17,7 @@
 #include"basecom.h"
 #include<QStandardItemModel>
 #include<QAtomicInteger>
+#include<QElapsedTimer>
 
 
 namespace Ui {
@@ -80,15 +81,16 @@ private slots:
 
     void on_pushButton_ktStopApply_clicked();
 
-    //    void showQZAngleAndADCValue(bool,int,int,int,int);
-    //    void showKTAngleAndADCValue(bool,int,int,int,int);
+
 
 
     void showQZAngleAndADCValue();
     void showKTAngleAndADCValue();
 
+    void showQZAngleAndADCValueSim();
+    void showKTAngleAndADCValueSim();
 
-    void on_radioButton_runMode_toggled(bool checked);
+
     void on_pushButtonSaveCfg_clicked();
 
     void on_comboBox_qzcapangle_currentIndexChanged(int index);
@@ -131,11 +133,71 @@ private slots:
 
     void on_pushButton_ktprobRatio_clicked();
 
+
+    void buttonJudge(int);
+    void buttonJudge2(int);
+    void buttonJudge3(int);
+
+
+
+    //模拟板
+    void on_pushButton_qzcurrent_clicked();
+    void on_pushButton_qzgain_clicked();
+
+    void on_pushButton_qzprobSim_clicked();
+    void on_pushButton_qzprobRatioSim_clicked();
+    void on_pushButton_qzgetgc_clicked();
+
+    void on_pushButton_qzcurrentRatio_clicked();
+    
+
+    void on_pushButton_ktcurrent_clicked();
+
+    void on_pushButton_ktgain_clicked();
+
+    void on_pushButton_ktprobSim_clicked();
+
+    void on_pushButton_ktprobRatioSim_clicked();
+
+    void on_pushButton_ktgetgc_clicked();
+
+
+    void on_pushButton_ktcurrentRatio_clicked();
+    
+
+    void on_comboBox_qzcurrent_currentIndexChanged(int index);
+    void on_comboBox_qzgain_currentIndexChanged(int index);
+    void on_comboBox_qzprobSim_currentIndexChanged(int index);
+    
+    void on_comboBox_ktcurrent_currentIndexChanged(int index);
+    void on_comboBox_ktgain_currentIndexChanged(int index);
+    void on_comboBox_ktprobSim_currentIndexChanged(int index);
+
+    
+    void on_pushButton_qzApplySim_clicked();
+    void on_pushButton_qzStopApplySim_clicked();
+    void on_pushButton_ktApplySim_clicked();
+    void on_pushButton_ktStopApplySim_clicked();
+
+    void  updateTipText(QString str);
+
+
+
+    void on_pushButton_qzcurrentCodeVal_clicked();
+
+    void on_pushButton_ktcurrentCodeVal_clicked();
+
+    void on_comboBox_qzcurrentCodeVal_currentIndexChanged(int index);
+
+    void on_comboBox_ktcurrentCodeVal_currentIndexChanged(int index);
+
 private:
     Ui::dlgphotoelectricitycfg *ui;
 
     void InitStyle();
     void InitControl();
+
+    void InitArrangement();
 
     QPoint mousePoint;
     bool mousePressed;
@@ -147,17 +209,29 @@ private:
     void appendInfoText(QString ,bool ret,QString );
 
     QByteArray genSendByArray(int OperaCode,int v1,int v2 );
+   QByteArray genSendByArraySim(int OperaCode,int v1,int v2 );
+
     QStringListModel* m_listModel;
 
     QFuture<void>  m_QZFuture;
     QFuture<void>  m_KTFuture;
 
+    QFuture<void>  m_QZFutureSim;
+    QFuture<void>  m_KTFutureSim;
+
     bool m_bQZisRuning;
     bool m_bKTisRuning;
+
+    bool m_bQZisRuningSim;
+    bool m_bKTisRuningSim;
+
 
 
     void  startQZTestRunModel();
     void  startKTTestRunModel();
+
+    void  startQZTestRunModelSim();
+    void  startKTTestRunModelSim();
 
     int m_ktangle, ktprobv1, ktprobv2, ktprobv3;
     int m_qzangle, qzprobv1, qzprobv2, qzprobv3;
@@ -167,8 +241,20 @@ private:
     QList<QLabel*> m_qzLabels;
     QList<QLabel*> m_ktLabels;
 
+    QList<QLabel*> m_qzLabelsSim;
+    QList<QLabel*> m_ktLabelsSim;
+
+
+
     QList<QLabel*> m_qzLabels2;
     QList<QLabel*> m_ktLabels2;
+
+
+    QList<QLabel*> m_qzLabelsCurrentSim;
+    QList<QLabel*> m_qzLabelsGainSim;
+
+    QList<QLabel*> m_ktLabelsCurrentSim;
+    QList<QLabel*> m_ktLabelsGainSim;
 
 
 
@@ -180,6 +266,8 @@ private:
     QQueue<QPair<int,int>> m_qzQue;
     QMap<QString,QVector<int>> m_qzMap;
     QMutex m_mutexMap;
+    QMutex m_mutexMapKT;
+
     QMap<QString,QVector<int>> qzMap;
 
 
@@ -196,6 +284,27 @@ private:
     int m_ktCurIndex;
 
 
+
+    QButtonGroup * btnGroup;
+
+    QButtonGroup * btnGroup2;
+    QButtonGroup * btnGroup3;
+
+
+    QVector<long long> m_vecValQZ;
+    QVector<int > m_vecKickValQZ;
+
+    QVector<long long> m_vecValKT;
+    QVector<int > m_vecKickValKT;
+    int m_cntQZ=0;
+    int m_cntKT=0;
+
+    int tmp=0;
+
+    QMap<int ,int> m_mapProbVal;
+
+
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void mouseMoveEvent(QMouseEvent *e)override;
@@ -207,6 +316,10 @@ signals:
     void updataQZADCValueSig();
     void updataKTADCValueSig();
 
+    void updataQZADCValueSigSim();
+    void updataKTADCValueSigSim();
+
+    void updateMainSceenSig();
 };
 
 #endif // DLGPHOTOELECTRICITYCFG_H

@@ -56,22 +56,20 @@ DlgSystemConfig::DlgSystemConfig(QWidget *parent) :
 
     ui->groupBoxResult_2->setVisible(false);
     ui->groupBox_5->setVisible(false);
-
 #endif
-
     ui->radioButtonPicAndEph->setVisible(false);
 }
 
 void DlgSystemConfig::initControl()
 {
-    //    ui->tab_3->setVisible(false);
-    //    ui->tabWidget->setTabEnabled(2, false);
+
+
+
     ui->tabWidget->setTabEnabled(2, false);
 
-    //    ui->pushButton_1->setVisible(false);
-    //    ui->pushButton_2->setVisible(false);
-    //    ui->pushButton_3->setVisible(false);
-    //    ui->pushButton_4->setVisible(false);
+
+
+
     PackageChecker* pc=PackageChecker::getInstance();
     this->ui->lineEditMachineName->setText( pc->Options->MachineName());
     this->ui->lineEditImgSavePath->setText(pc->Options->ImgSavePath());
@@ -113,15 +111,7 @@ void DlgSystemConfig::initControl()
     connect(btnEphDisplay,SIGNAL(buttonClicked(int)),this,SLOT(buttonEphDisplayJudge(int)));
 
 
-
-
-
-
-
-
     ui->spinBoxSaveDaysNum->setValue(pc->Options->SaveDaysNum());
-
-
     switch (pc->Options->SaveType())
     {
     case 0:
@@ -182,9 +172,7 @@ void DlgSystemConfig::initControl()
     case 1:
         this->ui->radioButtonEphNoDisplay->click();
         break;
-
     }
-
 
 
     ui->label_7->setVisible(false);
@@ -192,8 +180,20 @@ void DlgSystemConfig::initControl()
     ui->checkBoxNGNum->setVisible(false);
 
 
+    //数据采集
+    ui->lineEditIP->setText(pc->Options->getIPAddress());
+    ui->lineEditPort->setText(QString::number(pc->Options->getIPPort()));
+    ui->lineEditSendInterval->setText(QString::number(pc->Options->getSendInterval()));
 
-
+    ui->label_ConnectStatus->setText(pc->m_cBaseServerTCP->m_strConnectStatus);
+    if(pc->m_cBaseServerTCP->m_strConnectStatus=="连接成功")
+    {
+         ui->label_ConnectStatus->setStyleSheet("color:rgb(0,255,0)");
+    }
+    else
+    {
+        ui->label_ConnectStatus->setStyleSheet("color:rgb(255,0,0)");
+    }
 }
 
 void DlgSystemConfig::buttonJudge(int idx)
@@ -374,18 +374,12 @@ void DlgSystemConfig::buttonCheckModeJudge(int type)
     PackageChecker::getInstance()->m_pBaseCom->togleConnect();
 #endif
 
-
-
-
 }
 
 void DlgSystemConfig::buttonEphDisplayJudge(int type)
 {
     this->m_EphDispType=static_cast<ENUMEPHDISPLAYTYPE>(type);
 }
-
-
-
 
 
 void DlgSystemConfig::on_pushButtonSaveRet_clicked()
@@ -404,6 +398,11 @@ void DlgSystemConfig::on_pushButtonSaveRet_clicked()
 
     pc->Options->setCheckMode(this->m_CheckModeType);
     pc->Options->setEphDisplay(this->m_EphDispType);
+
+    //数据采集
+    pc->Options->setIPAddress(ui->lineEditIP->text());
+    pc->Options->setIPPort(ui->lineEditPort->text().toInt());
+    pc->Options->setSaveDaysNum(ui->lineEditSendInterval->text().toInt());
 
 
     pc->Options->save();
@@ -439,6 +438,13 @@ void DlgSystemConfig::on_pushButtonSave_clicked()
 
     pc->Options->setCheckMode(this->m_CheckModeType);
     pc->Options->setEphDisplay(this->m_EphDispType);
+
+
+    //数据采集
+    pc->Options->setIPAddress(ui->lineEditIP->text());
+    pc->Options->setIPPort(ui->lineEditPort->text().toInt());
+    pc->Options->setSaveDaysNum(ui->lineEditSendInterval->text().toInt());
+
 
     //    pc->Options->savebackup();
     //    QThread::msleep(100);
@@ -482,8 +488,6 @@ void DlgSystemConfig::on_pushButtonClearData_clicked()
     pc->RunParam_CalcTimeCams[1]=0;
 
 
-
-
     for(int i=0;i<CAMERANUM_MAX;++i)
     {
         for(int j=0;j<CHECKOPERATORNUM_MAX;++j)
@@ -525,8 +529,8 @@ void DlgSystemConfig::on_pushButton_4_clicked()
     CIOBase* io=  PackageChecker::getInstance()->IOContol;
     io->setDirection(0,0xFFFFFFFF,0x00);
     io->setLevel(0, 0xFFFFFFFF, 0xFF);
-
 }
+
 
 
 
@@ -541,6 +545,7 @@ void DlgSystemConfig::on_pushButton_1_clicked()
 
 void DlgSystemConfig::on_pushButton_7_clicked()
 {
+    on_pushButtonSave_clicked();
     this->close();
 }
 
@@ -553,4 +558,18 @@ void DlgSystemConfig::on_pushButton_8_clicked()
 void DlgSystemConfig::on_checkBoxNGNum_clicked()
 {
 
+}
+
+void DlgSystemConfig::updateConncetStatus(int )
+{
+    ui->label_ConnectStatus->setText(PackageChecker::getInstance()->m_cBaseServerTCP->m_strConnectStatus);
+
+    if(PackageChecker::getInstance()->m_cBaseServerTCP->m_strConnectStatus=="连接成功")
+    {
+         ui->label_ConnectStatus->setStyleSheet("color:rgb(0,255,0)");
+    }
+    else
+    {
+        ui->label_ConnectStatus->setStyleSheet("color:rgb(255,0,0)");
+    }
 }

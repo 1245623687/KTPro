@@ -657,8 +657,9 @@ public:
 class CheckOperatorDLObjectDetect:public CheckOperatorBasic
 {
 public:
-    CheckOperatorDLObjectDetect(int confidence=25, int minArea=50,int minVal=110, int valUpLimt=250, int accuracyType=0,ENUMCHECKOPERATORTYPE checkType = ENUMCHECKOPERATORTYPE_DLOBJECTDETECT,
+    CheckOperatorDLObjectDetect(int confidence=25, int minArea=50,int minVal=110, int valUpLimt=250, int accuracyType=0,int iCigaTotalNum=20,ENUMCHECKOPERATORTYPE checkType = ENUMCHECKOPERATORTYPE_DLOBJECTDETECT,
         StuCheckOperatorBasic* stuCheckOperatorBasic =new StuCheckOperatorBasic()):m_iConfidence(confidence),m_iMinArea(minArea),m_iMinGrayVal(minVal),m_iValUpLimt(valUpLimt),m_iaccuracyType(accuracyType),
+       m_iCigaTotalNum(iCigaTotalNum),
         CheckOperatorBasic(checkType,stuCheckOperatorBasic)
     {
 
@@ -671,6 +672,7 @@ public:
         this->m_iValUpLimt=another.m_iValUpLimt;
 
         this->m_iaccuracyType=another.m_iaccuracyType;
+         this->m_iCigaTotalNum=another.m_iCigaTotalNum;
     }
     CheckOperatorDLObjectDetect& operator =( CheckOperatorDLObjectDetect& another)
     {
@@ -683,6 +685,7 @@ public:
             this->m_iMinGrayVal=another.m_iMinGrayVal;
 
             this->m_iaccuracyType=another.m_iaccuracyType;
+            this->m_iCigaTotalNum=another.m_iCigaTotalNum;
         }
         return *this;
     }
@@ -697,6 +700,7 @@ public:
         pCopyto->m_iValUpLimt=this->m_iValUpLimt;
 
         pCopyto->m_iaccuracyType=this->m_iaccuracyType;
+         pCopyto->m_iCigaTotalNum=this->m_iCigaTotalNum;
     }
 
     virtual void function() {} ;
@@ -711,6 +715,8 @@ public:
     int m_iMinGrayVal;
     int m_iValUpLimt;
     int m_iaccuracyType;
+
+    int m_iCigaTotalNum;
 };
 
 

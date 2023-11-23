@@ -105,6 +105,67 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btnMainUnWarning">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>48</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>用户管理</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+
+
+QPushButton
+{background-color: rgb(255, 255, 0);
+color: rgb(0, 0, 0);
+border-radius:3px;
+font: 75 10pt &quot;微软雅黑&quot;;}
+
+QPushButton:hover{
+	background-color: rgb(200, 200, 0);
+	color: rgb(0, 0, 0);
+	border-radius:3px;
+	font: 75 8pt &quot;微软雅黑&quot;;
+ }
+QPushButton:pressed{
+	background-color: rgb(100,100, 0);
+	color: rgb(0, 0, 0);
+	border-radius:3px;
+	font: 75 8pt &quot;微软雅黑&quot;;
+}</string>
+           </property>
+           <property name="text">
+            <string>清除
+报警</string>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btnMainUserManage">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -602,7 +663,7 @@ QPushButton:pressed{
            </property>
            <property name="minimumSize">
             <size>
-             <width>40</width>
+             <width>42</width>
              <height>48</height>
             </size>
            </property>
@@ -1082,9 +1143,9 @@ color:rgb(46, 232, 232)</string>
 font: 75 16pt &quot;微软雅黑&quot;;</string>
                             </property>
                             <property name="text">
-                             <string>光
+                             <string>相
 
-电
+机
 
 2</string>
                             </property>
@@ -1405,9 +1466,9 @@ font: 75 12pt &quot;微软雅黑&quot;;</string>
 font: 75 16pt &quot;微软雅黑&quot;;</string>
                             </property>
                             <property name="text">
-                             <string>光
+                             <string>相
 
-电
+机
 
 2</string>
                             </property>
@@ -2216,8 +2277,8 @@ color: rgb(0, 198, 198);
 background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0#4D4D4D, stop:1 #292929);</string>
                   </property>
                   <property name="text">
-                   <string>光
-电
+                   <string>相
+机
 2</string>
                   </property>
                   <property name="alignment">

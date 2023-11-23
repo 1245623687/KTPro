@@ -61,6 +61,10 @@ private slots:
 
     void updateMainSceen();
 
+    void on_btnMainUnWarning_clicked();
+
+    void onTimeoutShuCai();
+
 private:
     void InitStyle();
     QPoint mousePoint;
@@ -92,14 +96,16 @@ private:
     bool m_bIsWarning1=false;
     bool m_bIsWarning2=false;
 
+        QTimer* m_TimerShucai;
+
 
 //QTimer* m_TimerWarning;
 
 private:
     bool onWarning;
     int countSeconds;
-    int m_lastPinVal=1;
-    int m_lastPinVal2=1;
+    int m_lastPinVal=-1;
+    int m_lastPinVal2=-1;
 
     std::mutex m_MutexScene;
     QStandardItemModel* m_ModelLog;
@@ -125,7 +131,7 @@ private:
 
     int ii=0;
 
-    double m_phePosArr[3][3];
+    double m_phePosArr[2][3][3];
 };
 
 #endif // MAINWINDOW_H

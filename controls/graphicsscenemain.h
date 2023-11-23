@@ -116,6 +116,7 @@ public:
 
     void addPheTextIterm(int index,QPointF& qpoint);
     void clearPheText();
+     void hidePheText();
     void updateTextIterm(int * rets,int* retsMap);
 
 

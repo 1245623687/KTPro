@@ -197,6 +197,8 @@ private:
     void InitStyle();
     void InitControl();
 
+    void InitArrangement();
+
     QPoint mousePoint;
     bool mousePressed;
     bool max;

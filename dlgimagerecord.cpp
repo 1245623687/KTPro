@@ -25,7 +25,7 @@ DlgImageRecord::DlgImageRecord(QWidget *parent) :
     ui->setupUi(this);
 
     this->setWindowTitle("图像查询");
-    this->m_ImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString("/图像保存/%1/NG").arg(DSSystemParam::BrandName);
+    this->m_ImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString(tr("/图像保存/%1/NG")).arg(DSSystemParam::BrandName);
 
     InitStyle();
     InitControl();
@@ -125,7 +125,7 @@ void DlgImageRecord::InitControl()
     this->ui->dateEditChose->setDate(QDate::currentDate());
 
 
-    m_ImagePath=QString("%1/图像保存/%2/%3/%4").arg(PackageChecker::getInstance()->Options->ImgSavePath()).arg(DSSystemParam::BrandName).arg("NG").arg(QDate::currentDate().toString("yyyy-MM-dd"));
+    m_ImagePath=QString(tr("%1/图像保存/%2/%3/%4")).arg(PackageChecker::getInstance()->Options->ImgSavePath()).arg(DSSystemParam::BrandName).arg("NG").arg(QDate::currentDate().toString("yyyy-MM-dd"));
     loadImageInfo();
     // connect(ui->slideButton,SIGNAL(enable(bool)),m_Scene,SLOT(setResultImgEnable(bool)));
 
@@ -456,7 +456,7 @@ void DlgImageRecord::on_dateEditChose_dateChanged(const QDate &date)
 
 void DlgImageRecord::on_toolButtonShowAll_clicked()
 {
-    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString("/图像保存/%1/所有图像/%2").arg(DSSystemParam::BrandName).arg(ui->dateEditChose->date().toString("yyyy-MM-dd"));
+    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString(tr("/图像保存/%1/所有图像/%2")).arg(DSSystemParam::BrandName).arg(ui->dateEditChose->date().toString("yyyy-MM-dd"));
     if( this->m_ImagePath==newImagePath) return;
     this->m_ImagePath=newImagePath;
     loadImageInfo();
@@ -466,7 +466,7 @@ void DlgImageRecord::on_toolButtonShowAll_clicked()
 
 void DlgImageRecord::on_toolButtonShowNg_clicked()
 {
-    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString("/图像保存/%1/NG/%2").arg(DSSystemParam::BrandName).arg(ui->dateEditChose->date().toString("yyyy-MM-dd"));
+    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+QString(tr("/图像保存/%1/NG/%2")).arg(DSSystemParam::BrandName).arg(ui->dateEditChose->date().toString("yyyy-MM-dd"));
     if( this->m_ImagePath==newImagePath) return;
     this->m_ImagePath=newImagePath;
     loadImageInfo();

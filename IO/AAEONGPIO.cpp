@@ -7,6 +7,7 @@ AAEONGPIO::AAEONGPIO()
 {
 
     DSDEBUG<<"gpio start init";
+
    if(init())
    {
        DSDEBUG<<"GPIO 初始化失败!";
@@ -49,6 +50,17 @@ int AAEONGPIO::setDirection(unsigned char iPin,unsigned int idTypeVal,unsigned i
 int AAEONGPIO::setLevel(unsigned char iPin,unsigned int idTypeVal,unsigned int setVal)
 {
     uint32_t err = EApiGPIOSetLevel((unsigned int)iPin, idTypeVal, setVal);
+    return err;
+}
+
+int AAEONGPIO::getLevel(int iPin, int &pvalue)
+{
+    iPin=iPin+0x04;
+
+    uint32_t getVal=0;
+
+    uint32_t err = EApiGPIOGetLevel(iPin, 0xFFFFFFFF, &getVal);
+    pvalue=getVal;
     return err;
 }
 

@@ -69,7 +69,7 @@ void FileHelper::getAllImgFilesInFolder(QString dirPath,QVector<QString> &files)
 {
     QDir dir(dirPath);
 
-   // QString dirpa="C:/Users/Admin/Desktop/YK/KTOBACCOCHECKER/release/图像保存/薄壁嘴棒/NG/2022-06-06";
+
    // bool ret=dirpa==dirPath;
    // QDir dir(dirpa);
     if(!dir.exists()) return;

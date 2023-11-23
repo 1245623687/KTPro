@@ -328,7 +328,7 @@ void DlgAssociatedInspect2::loadHVPos()
     this->m_ModelHPos->clear();
     this->m_ModelVPos->clear();
     QStringList listmodelMain;
-    listmodelMain<<"序号 "<<"编号"<<"算子名称"<<"是否关联";
+    listmodelMain<<tr("序号 ")<<tr("编号")<<tr("算子名称")<<tr("是否关联");
 
 
 
@@ -593,7 +593,7 @@ void DlgAssociatedInspect2::initControl()
     this->m_ModelVPos->clear();
 
     QStringList listmodelMain;
-    listmodelMain<<"序号 "<<"编号"<<"算子名称"<<"是否关联";
+    listmodelMain<<tr("序号 ")<<tr("编号")<<tr("算子名称")<<tr("是否关联");
     this->m_ModelVPos->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewV->verticalHeader()->hide();
     ui->tableViewV->setModel(this->m_ModelVPos);

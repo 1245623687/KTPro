@@ -48,32 +48,29 @@ void GraphicsSceneMain::updateRectState(unsigned char * pState,bool bIsBadSceen)
 
         for (;itor!=m_RectArr2.end();++itor)
         {
-                if(pState[itor.key()]==1)
+            if(pState[itor.key()]==1)
+            {
+                itor.value()->setCalcState(1);
+                itor.value()->show();
+            }
+            if(pState[itor.key()]==0)
+            {
+                if(bIsBadSceen)
                 {
-                    itor.value()->setCalcState(1);
+                    itor.value()->setCalcState(0);
+                    itor.value()->hide();
+                }
+                else
+                {
+                    itor.value()->setCalcState(0);
                     itor.value()->show();
                 }
-                if(pState[itor.key()]==0)
-                {
-                    if(bIsBadSceen)
-                    {
-                        itor.value()->setCalcState(0);
-                        itor.value()->hide();
-                    }
-                    else
-                    {
-                        itor.value()->setCalcState(0);
-                        itor.value()->show();
-                    }
-
-                }
-                if(pState[itor.key()]==2)
-                {
-                    itor.value()->setCalcState(2);
-                    itor.value()->show();
-                }
-
-
+            }
+            if(pState[itor.key()]==2)
+            {
+                itor.value()->setCalcState(2);
+                itor.value()->show();
+            }
         }
     }
         break;
@@ -106,8 +103,8 @@ void GraphicsSceneMain::updateRectState(unsigned char * pState,bool bIsBadSceen)
 //void GraphicsSceneMain::setMode(GRAPHICSSCENEMAINMODE mode)
 //{
 //    this->m_Mode=mode;
-
 //}
+
 
 void GraphicsSceneMain::clearRect()
 {
@@ -117,7 +114,6 @@ void GraphicsSceneMain::clearRect()
     //        this->removeItem(itor.value());
     //        delete itor.value();
     //    }
-
     //    m_RectArr.clear();
 
     QMap<int,GraphicsItemConfig*>::iterator itor= m_RectArr2.begin();
@@ -133,12 +129,12 @@ void GraphicsSceneMain::clearRect()
 void GraphicsSceneMain::addPheTextIterm(int index,QPointF& qpoint)
 {
     QGraphicsSimpleTextItem *newIterm=new QGraphicsSimpleTextItem();
-    QFont font("Times", 40, QFont::Thin);
+    QFont font("Times", 32, QFont::Thin);
     newIterm->setFont(font);
     newIterm->setPos(qpoint);
     newIterm->setBrush(QBrush(QColor(230,230,230)));
-     newIterm->setText("0000");
-     this->addItem(newIterm);
+    newIterm->setText("0000");
+    this->addItem(newIterm);
 
     m_TextArr.insert(index,newIterm);
 }
@@ -148,38 +144,47 @@ void GraphicsSceneMain::clearPheText()
     m_TextArr.clear();
 }
 
+void GraphicsSceneMain::hidePheText()
+{
+        for(int i=0;i<m_TextArr.size();i++)
+        {
+            m_TextArr[i]->hide();
+        }
+}
+
+
+
 void GraphicsSceneMain::updateTextIterm(int * rets,int * retsMap)
 {
 
-int tmp[20];
-memcpy(tmp,retsMap,sizeof (int)*20);
-
-
+    int tmp[20];
+    memcpy(tmp,retsMap,sizeof (int)*20);
 
     for(int i=0;i<m_TextArr.size();i++)
     {
 
-
-         m_TextArr[i]->setText(QString("%1").arg(rets[i],4, 10, QLatin1Char('0')));
+        m_TextArr[i]->setText(QString("%1").arg(rets[i],4, 10, QLatin1Char('0')));
 
         if(retsMap[i])
         {
-             m_TextArr[i]->setBrush(QBrush(QColor(255,0,0)));
+            m_TextArr[i]->setBrush(QBrush(QColor(255,0,0)));
         }
         else
         {
             m_TextArr[i]->setBrush(QBrush(QColor(230,230,230)));
         }
 
-        if(static_cast<int>(PackageChecker::getInstance()->Options->ephDisplay()) )
+       if(static_cast<int>(PackageChecker::getInstance()->Options->ephDisplay()) )
         {
             m_TextArr[i]->show();
         }
         else
         {
-            m_TextArr[i+1]->hide();
+            m_TextArr[i]->hide();
         }
     }
+
+
 }
 
 

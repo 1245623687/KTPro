@@ -194,7 +194,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="tab">
          <property name="font">
@@ -1201,70 +1201,164 @@ border:1px solid rgb(77, 77, 77);</string>
             </property>
             <item>
              <widget class="QWidget" name="widget_4" native="true">
-              <widget class="QPushButton" name="pushButtonClearData">
+              <widget class="QGroupBox" name="groupBox_6">
                <property name="geometry">
                 <rect>
-                 <x>150</x>
-                 <y>90</y>
-                 <width>151</width>
-                 <height>41</height>
+                 <x>0</x>
+                 <y>10</y>
+                 <width>789</width>
+                 <height>102</height>
                 </rect>
                </property>
-               <property name="text">
-                <string>统计清空</string>
+               <property name="title">
+                <string>数据采集</string>
                </property>
-              </widget>
-              <widget class="QPushButton" name="pushButton_1">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>240</y>
-                 <width>111</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="geometry">
-                <rect>
-                 <x>170</x>
-                 <y>240</y>
-                 <width>161</width>
-                 <height>41</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="geometry">
-                <rect>
-                 <x>350</x>
-                 <y>230</y>
-                 <width>121</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="pushButton_4">
-               <property name="geometry">
-                <rect>
-                 <x>510</x>
-                 <y>240</y>
-                 <width>111</width>
-                 <height>51</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>PushButton</string>
-               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_18">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>IP地址:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="KLineEditKb" name="lineEditIP">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_5">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>端口:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="KLineEditKb" name="lineEditPort">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_10">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_17">
+                    <property name="text">
+                     <string>连接状态:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_ConnectStatus">
+                    <property name="text">
+                     <string>连接成功</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>采集间隔:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="KLineEditKb" name="lineEditSendInterval">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_18">
+                    <property name="text">
+                     <string>(s)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_8">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
               </widget>
              </widget>
             </item>
@@ -1418,6 +1512,13 @@ border:1px solid rgb(77, 77, 77);</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEditKb</class>
+   <extends>QLineEdit</extends>
+   <header>kcontrols/klineeditkb.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

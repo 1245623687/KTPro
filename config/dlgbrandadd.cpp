@@ -169,7 +169,7 @@ void DlgBrandAdd::buttonCameraJudge(int cameraNum)
     ui->comboBoxCamNum->clear();
     for(int i=0;i<cameraNum;i++)
     {
-        ui->comboBoxCamNum->addItem(QString("相机%1").arg(i+1));
+        ui->comboBoxCamNum->addItem(QString(tr("相机%1")).arg(i+1));
     }
 
 
@@ -195,7 +195,7 @@ void DlgBrandAdd::on_pushButtonSave_clicked()
         {
             frmMessageBox *msg = new frmMessageBox;
 
-            msg->SetMessage("当前料号已经存在,请从新输入料号!", 2);
+            msg->SetMessage(tr("当前料号已经存在,请从新输入料号!"), 2);
             msg->exec();
             ui->lineEditBrandName->setFocus();
             return;
@@ -209,7 +209,7 @@ void DlgBrandAdd::on_pushButtonSave_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请选择相机数量!", 2);
+        msg->SetMessage(tr("请选择相机数量!"), 2);
         msg->exec();
         return;
     }
@@ -217,7 +217,7 @@ void DlgBrandAdd::on_pushButtonSave_clicked()
     {
         frmMessageBox *msg = new frmMessageBox;
 
-        msg->SetMessage("请输入产品名称!", 2);
+        msg->SetMessage(tr("请输入产品名称!"), 2);
         msg->exec();
         return;
     }
@@ -227,7 +227,7 @@ void DlgBrandAdd::on_pushButtonSave_clicked()
        {
            frmMessageBox *msg = new frmMessageBox;
 
-           msg->SetMessage(QString("图像%1尺寸设置错误!").arg(i+1), 2);
+           msg->SetMessage(QString(tr("图像%1尺寸设置错误!")).arg(i+1), 2);
            msg->exec();
            return;
        }

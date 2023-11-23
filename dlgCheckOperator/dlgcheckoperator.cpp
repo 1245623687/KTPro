@@ -35,7 +35,7 @@ DlgCheckOperator::DlgCheckOperator(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("算子配置");
-    m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+QDate::currentDate().toString("yyyy-MM-dd");
+    m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+QDate::currentDate().toString("yyyy-MM-dd");
 
 
     m_ThreadGrab=new KThreadGrab();
@@ -147,10 +147,18 @@ void DlgCheckOperator::InitControl()
     ui->PushBtnCO_DoubleStayInspect->setVisible(false);
     ui->PushBtnCO_Template->setEnabled(false);
 
+
+
     ui->checkBox->setEnabled(false);
     ui->pushButtonAnaDel->setVisible(false);
     //
     ui->dateEditChose->setDate(QDate::currentDate());
+
+    ui->PushBtnCO_GrayMeasurement->setEnabled(false);
+    ui->PushBtnCO_AssociatedInspect->setEnabled(false);
+
+//    ui->pushButtonCO_CircleInspect->setEnabled(false);
+//    ui->PushBtnCO_DLObjectDetect->setEnabled(false);
 
 
     //模式切换
@@ -184,7 +192,7 @@ void DlgCheckOperator::InitControl()
 
     for (int i=1;i<=cameraNumTmp;++i)
     {
-        ui->comboBoxCamera->addItem(QString("相机%1").arg(i),i);
+        ui->comboBoxCamera->addItem(QString(tr("相机%1")).arg(i),i);
     }
 
 
@@ -243,7 +251,7 @@ void DlgCheckOperator::InitCheckOperatorAnaModel()
 {
     m_ModelCheckOperatorAna->clear();
     QStringList listmodelMain;
-    listmodelMain<<"编号"<<"名称"<<"是否有效"<<"状态"<<"删除";
+    listmodelMain<<tr("编号")<<tr("名称")<<tr("是否有效")<<tr("状态")<<tr("删除");
     m_ModelCheckOperatorAna->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewCheckOperatorAna->setColumnWidth(0,50);
     ui->tableViewCheckOperatorAna->setColumnWidth(1,90);
@@ -256,7 +264,7 @@ void DlgCheckOperator::InitCheckOperatorSetModel()
 {
     m_ModelCheckOperatorSet->clear();
     QStringList listmodelMain;
-    listmodelMain<<"编号"<<"名称"<<"是否有效"<<"状态"<<"删除";
+    listmodelMain<<tr("编号")<<tr("名称")<<tr("是否有效")<<tr("状态")<<tr("删除");
     m_ModelCheckOperatorSet->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewCheckOperatorSet->setColumnWidth(0,50);
     ui->tableViewCheckOperatorSet->setColumnWidth(1,90);
@@ -711,7 +719,7 @@ void DlgCheckOperator::InitImgLstModel()
 {
     m_ModelImgLst->clear();
     QStringList listmodelMain;
-    listmodelMain<<"编号"<<"日期"<<"相机";
+    listmodelMain<<tr("编号")<<tr("日期")<<tr("相机");
     m_ModelImgLst->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewImgLst->setColumnWidth(0,90);
     ui->tableViewImgLst->setColumnWidth(1,160);
@@ -738,7 +746,7 @@ void DlgCheckOperator::buttonModeJudge(int mode)
         if(ui->checkBox->checkState()==Qt::Checked)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage(QString("请先停止动态采集"), 0);
+            msg->SetMessage(QString(tr("请先停止动态采集")), 0);
             msg->exec();
             return ;
         }
@@ -918,10 +926,10 @@ void DlgCheckOperator::loadCheckOperatorSetModel(int cameraNo)
         }
 
         QStandardItem * itemName=new QStandardItem(getCheckOperatorName((*itor)->CheckType));
-        QStandardItem * itemValid=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_IsCheck?"有效":"无效");
+        QStandardItem * itemValid=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_IsCheck?tr("有效"):tr("无效"));
         //qDebug()<<"itemValid:"<<itemValid->text()<<endl;;
-        QStandardItem* itemState=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_Vaild?"完成":"未设置");
-        QStandardItem* itemDel=new QStandardItem("删除");
+        QStandardItem* itemState=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_Vaild?tr("完成"):tr("未设置"));
+        QStandardItem* itemDel=new QStandardItem(tr("删除"));
 
         itemNo->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         itemName->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -989,10 +997,10 @@ void DlgCheckOperator::loadCheckOperatorAnaModel(int cameraNo)
         }
 
         QStandardItem * itemName=new QStandardItem(getCheckOperatorName((*itor)->CheckType));
-        QStandardItem * itemValid=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_IsCheck?"有效":"无效");
+        QStandardItem * itemValid=new QStandardItem((*itor)->stu_CheckOperatorBasic->Basic_IsCheck?tr("有效"):tr("无效"));
         //qDebug()<<"itemValid:"<<itemValid->text()<<endl;;
-        QStandardItem* itemState=new QStandardItem(AnalysisCalcResult[(*itor)->stu_CheckOperatorBasic->Index]==1?"失败":"完成");
-        QStandardItem* itemDel=new QStandardItem("删除");
+        QStandardItem* itemState=new QStandardItem(AnalysisCalcResult[(*itor)->stu_CheckOperatorBasic->Index]==1?tr("失败"):tr("完成"));
+        QStandardItem* itemDel=new QStandardItem(tr("删除"));
 
         itemNo->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         itemName->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -1028,7 +1036,7 @@ void DlgCheckOperator::loadCheckOperatorAnaModel(int cameraNo)
 
 DlgCheckOperator::~DlgCheckOperator()
 {
-    QString imgPathAna=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/分析图像/";
+    QString imgPathAna=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+tr("/分析图像/");
     QVector<ImageInfo> m_VImageInfoDel;
     QVector<QString> Imgfiles;
     FileHelper::getAllImgFilesInFolder(imgPathAna,Imgfiles);
@@ -1218,7 +1226,7 @@ void DlgCheckOperator::on_btnMenu_Close_clicked()
     if(m_Capturing)
     {
         m_ThreadGrab->stop();
-        this->ui->toolButtonCapture->setText("取图");
+        this->ui->toolButtonCapture->setText(tr("取图"));
         m_Capturing=!m_Capturing;
     }
 
@@ -1309,43 +1317,43 @@ QString DlgCheckOperator::getCheckOperatorName(ENUMCHECKOPERATORTYPE t)
     switch (t)
     {
     case ENUMCHECKOPERATORTYPE_TEMPLATEMATCH:
-        ret="对象搜索";
+        ret=tr("对象搜索");
         break;
     case ENUMCHECKOPERATORTYPE_EDGEPOSITIONING:
-        ret="边缘定位";
+        ret=tr("边缘定位");
         break;
     case ENUMCHECKOPERATORTYPE_DEFECTINSPECT:
-        ret="缺陷检查";
+        ret=tr("缺陷检查");
         break;
     case ENUMCHECKOPERATORTYPE_CIRCLEINSPECT:
-        ret="嘴棒检查";
+        ret=tr("嘴棒检查");
         break;
     case ENUMCHECKOPERATORTYPE_DEFECTINSPECT2:
-        ret="异型检查";
+        ret=tr("异型检查");
         break;
     case ENUMCHECKOPERATORTYPE_ASSOCIATEDINSPECT2:
-        ret="关联检查";
+        ret=tr("关联检查");
         break;
     case ENUMCHECKOPERATORTYPE_BROKENLINEINSPECT:
-        ret="折线检查";
+        ret=tr("折线检查");
         break;
     case ENUMCHECKOPERATORTYPE_GRAYMEASUREMENT:
-        ret="灰度测量";
+        ret=tr("灰度测量");
         break;
     case ENUMCHECKOPERATORTYPE_LINEINSPECT:
-        ret="直线查找";
+        ret=tr("直线查找");
         break;
     case ENUMCHECKOPERATORTYPE_ASSOCIATEDINSPECT:
-        ret="关联检查";
+        ret=tr("关联检查");
         break;
     case ENUMCHECKOPERATORTYPE_STAYINSPECT:
-        ret="拉线检查";
+        ret=tr("拉线检查");
         break;
     case ENUMCHECKOPERATORTYPE_DOUBLESTAYINSPECT:
-        ret="双线检查";
+        ret=tr("双线检查");
         break;
     case ENUMCHECKOPERATORTYPE_DLOBJECTDETECT:
-        ret="空头检测";
+        ret=tr("空头检测");
         break;
     }
     return ret;
@@ -1366,7 +1374,7 @@ void DlgCheckOperator::on_tableViewCheckOperatorSet_clicked(const QModelIndex &i
     {
 
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("确认删除当前算子吗？"), 1);
+        msg->SetMessage(QString(tr("确认删除当前算子吗？")), 1);
         int res= msg->exec();
         if(!res) return;
 
@@ -1446,15 +1454,15 @@ void DlgCheckOperator::on_tableViewImgLst_clicked(const QModelIndex &index)
     QString text="";
     if(m_VImageInfo[m_AnalysisImgInfoIdx].m_iNgType==1)
     {
-        text="图像";
+        text=tr("图像");
     }
     if(m_VImageInfo[m_AnalysisImgInfoIdx].m_iNgType==2)
     {
-        text="光电";
+        text=tr("光电");
     }
     if(m_VImageInfo[m_AnalysisImgInfoIdx].m_iNgType==3)
     {
-        text="图像+光电";
+        text=tr("图像+光电");
     }
 
     m_SceneAnaArr[m_CurCameraNo]->setText(text);
@@ -1581,7 +1589,7 @@ void DlgCheckOperator::on_tableViewCheckOperatorAna_clicked(const QModelIndex &i
     case 4:
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("确认删除当前算子吗？"), 1);
+        msg->SetMessage(QString(tr("确认删除当前算子吗？")), 1);
         int res= msg->exec();
         if(!res) return;
 
@@ -1703,14 +1711,14 @@ void DlgCheckOperator::on_tableViewCheckOperatorSet_doubleClicked(const QModelIn
                 if((*itor)->stu_CheckOperatorBasic->Basic_IsCheck)
                 {
                     frmMessageBox *msg = new frmMessageBox;
-                    msg->SetMessage(QString("是否禁用当前算子?"), 1);
+                    msg->SetMessage(QString(tr("是否禁用当前算子?")), 1);
                     res= msg->exec();
                 }
                 else
                 {
 
                     frmMessageBox *msg = new frmMessageBox;
-                    msg->SetMessage(QString("是否启用当前算子?"), 1);
+                    msg->SetMessage(QString(tr("是否启用当前算子?")), 1);
                     res= msg->exec();
                 }
                 if(res)
@@ -2202,13 +2210,13 @@ void DlgCheckOperator::on_tableViewCheckOperatorAna_doubleClicked(const QModelIn
                 if((*itor)->stu_CheckOperatorBasic->Basic_IsCheck)
                 {
                     frmMessageBox *msg = new frmMessageBox;
-                    msg->SetMessage(QString("是否禁用当前算子?"), 1);
+                    msg->SetMessage(QString(tr("是否禁用当前算子?")), 1);
                     res= msg->exec();
                 }
                 else
                 {
                     frmMessageBox *msg = new frmMessageBox;
-                    msg->SetMessage(QString("是否启用当前算子?"), 1);
+                    msg->SetMessage(QString(tr("是否启用当前算子?")), 1);
                     res= msg->exec();
                 }
                 DSDEBUG<<res;
@@ -2281,7 +2289,7 @@ void DlgCheckOperator::on_toolButtonUpdate_clicked()
     if(ui->checkBox->checkState()==Qt::Checked)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请先停止动态采集"), 0);
+        msg->SetMessage(QString(tr("请先停止动态采集")), 0);
         msg->exec();
         return ;
 
@@ -2290,7 +2298,7 @@ void DlgCheckOperator::on_toolButtonUpdate_clicked()
     ui->pushButtonAnaDel->setVisible(false);
     ui->dateEditChose->setEnabled(true);
     ui->pushButtonShowAna->setStyleSheet("QPushButton{border-style: none;border: 0px;color: #F0F0F0; padding: 5px;min-height: 20px;border-radius:5px;font: 11pt \"微软雅黑\";background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }");
-    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
+    QString newImagePath=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
     this->m_DirAnalysis=newImagePath;
     loadAnaImageInfo(this->ui->comboBoxCamera->currentIndex());
     updateImgLstModel();
@@ -2314,7 +2322,7 @@ void DlgCheckOperator::on_toolButtonShowAll_clicked()
     if(ui->checkBox->checkState()==Qt::Checked)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请先停止动态采集"), 0);
+        msg->SetMessage(QString(tr("请先停止动态采集")), 0);
         msg->exec();
         return ;
 
@@ -2324,7 +2332,7 @@ void DlgCheckOperator::on_toolButtonShowAll_clicked()
     ui->dateEditChose->setEnabled(true);
     ui->pushButtonShowAna->setStyleSheet("QPushButton{border-style: none;border: 0px;color: #F0F0F0; padding: 5px;min-height: 20px;border-radius:5px;font: 11pt \"微软雅黑\";background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }");
 
-    QString newImagePath= m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/所有图像/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
+    QString newImagePath= m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+tr("/所有图像/")+ui->dateEditChose->date().toString("yyyy-MM-dd");
     this->m_DirAnalysis=newImagePath;
     loadAnaImageInfo(this->ui->comboBoxCamera->currentIndex());
     updateImgLstModel();
@@ -2347,7 +2355,7 @@ void DlgCheckOperator::on_toolButtonShowNg_clicked()
     if(ui->checkBox->checkState()==Qt::Checked)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请先停止动态采集"), 0);
+        msg->SetMessage(QString(tr("请先停止动态采集")), 0);
         msg->exec();
         return ;
 
@@ -2357,7 +2365,7 @@ void DlgCheckOperator::on_toolButtonShowNg_clicked()
     ui->dateEditChose->setEnabled(true);
     ui->pushButtonShowAna->setStyleSheet("QPushButton{border-style: none;border: 0px;color: #F0F0F0; padding: 5px;min-height: 20px;border-radius:5px;font: 11pt \"微软雅黑\";background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }");
 
-    QString newImagePath= m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
+    QString newImagePath= m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
     this->m_DirAnalysis=newImagePath;
     loadAnaImageInfo(this->ui->comboBoxCamera->currentIndex());
     updateImgLstModel();
@@ -2555,7 +2563,7 @@ void DlgCheckOperator::on_checkBox_stateChanged(int arg1)
         this->m_SceneAnaArr[m_CurCameraNo]->clear();
         InitCheckOperatorAnaModel();
 
-        m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/分析图像/";
+        m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+tr("/分析图像/");
 
 
         connect(m_Timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
@@ -2585,7 +2593,7 @@ void DlgCheckOperator::on_checkBox_stateChanged(int arg1)
 
 
         this->m_TimerImageNum=0;
-        //        m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
+        //        m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+ui->dateEditChose->date().toString("yyyy-MM-dd");
     }
 }
 
@@ -2615,7 +2623,7 @@ void DlgCheckOperator::on_toolButtonSave_clicked()
     {
 
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请先停止获取图像"), 0);
+        msg->SetMessage(QString(tr("请先停止获取图像")), 0);
         msg->exec();
         return ;
     }
@@ -2647,7 +2655,7 @@ void DlgCheckOperator::on_toolButtonCancel_clicked()
     if(m_Capturing)
     {
         m_ThreadGrab->stop();
-        this->ui->toolButtonCapture->setText("取图");
+        this->ui->toolButtonCapture->setText(tr("取图"));
         m_Capturing=!m_Capturing;
     }
 
@@ -2660,7 +2668,7 @@ void DlgCheckOperator::on_toolButtonSaveReturn_clicked()
     if(m_Capturing)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请先停止获取图像"), 0);
+        msg->SetMessage(QString(tr("请先停止获取图像")), 0);
         msg->exec();
         return ;
     }
@@ -2729,7 +2737,7 @@ void DlgCheckOperator::on_toolButtonCapture_clicked()
     if(this->m_Mode==ENUMDLGCHECKOPERATORMODE_ANA)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("请切换至设定模式!"), 0);
+        msg->SetMessage(QString(tr("请切换至设定模式!")), 0);
         msg->exec();
         return;
 
@@ -2738,7 +2746,7 @@ void DlgCheckOperator::on_toolButtonCapture_clicked()
     if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_RUNNING)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("当前系统正在运行,请停止运行系统!"), 0);
+        msg->SetMessage(QString(tr("当前系统正在运行,请停止运行系统!")), 0);
         msg->exec();
         return;
     }
@@ -2748,7 +2756,7 @@ void DlgCheckOperator::on_toolButtonCapture_clicked()
     if(!pc->Cameras[m_CurCameraNo]->IsOpen())
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("相机%1无法打开,请检查相机%1是否连接!").arg(m_CurCameraNo), 0);
+        msg->SetMessage(QString(tr("相机%1无法打开,请检查相机%1是否连接!")).arg(m_CurCameraNo), 0);
         int res= msg->exec();
         return;
     }
@@ -2756,14 +2764,14 @@ void DlgCheckOperator::on_toolButtonCapture_clicked()
     if(m_Capturing)
     {
         m_ThreadGrab->stop();
-        this->ui->toolButtonCapture->setText("取图");
+        this->ui->toolButtonCapture->setText(tr("取图"));
         m_Capturing=!m_Capturing;
     }
     else
     {
         m_ThreadGrab->setCameraIdx(m_CurCameraNo);
         m_ThreadGrab->start();
-        this->ui->toolButtonCapture->setText("停取");
+        this->ui->toolButtonCapture->setText(tr("停取"));
         m_Capturing=!m_Capturing;
     }
 
@@ -2779,7 +2787,7 @@ void DlgCheckOperator::on_pushButtonShowAna_clicked()
     this->m_SceneAnaArr[m_CurCameraNo]->clear();
     InitCheckOperatorAnaModel();
 
-    m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/分析图像/";
+    m_DirAnalysis=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+tr("/分析图像/");
 
     //    QStringList strLst;
     //    QDir dir(m_DirAnalysis);

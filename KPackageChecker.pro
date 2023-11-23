@@ -3,8 +3,10 @@ QT       += core xml
 QT       += sql
 QT += concurrent
 QT += serialport
+QT  += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+TRANSLATIONS = English.ts
 CONFIG += c++11
 
 unix: LIBS += -lbiodaq
@@ -17,8 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += GLOG_NO_ABBREVIATED_SEVERITIES
 
 DEFINES += FLAG_KONGTOU
-#DEFINES += FLAG_GIGE
-#DEFINES+=FALG_LABELIMG
+
 DEFINES+=FALG_PHE
 
 
@@ -157,6 +158,7 @@ SOURCES += \
     thread/kthreadgrab.cpp \
     thread/kthreadproc.cpp \
     thread/kthreadsaveimage.cpp \
+    TCP/cbaseserver.cpp \
     user/dlgusermanage.cpp \
     user/userinfo.cpp \
     user/userinfosqlitehelper.cpp
@@ -275,6 +277,7 @@ HEADERS += \
     thread/kthreadgrab.h \
     thread/kthreadproc.h \
     thread/kthreadsaveimage.h \
+    TCP/cbaseserver.h \
     user/dlgusermanage.h \
     user/userinfo.h \
     user/userinfosqlitehelper.h

@@ -138,8 +138,8 @@ int  BaseCom::openComPort()
 
     ret=openKTComPort();
     if(!ret) return 2;
-    //        ret=openQZComPortSim();
-    //        if(!ret) return 3;
+    // ret=openQZComPortSim();
+    // if(!ret) return 3;
     ret=openKTComPortSim();
     if(!ret) return 4;
     return 0;
@@ -195,20 +195,7 @@ bool BaseCom::sendQZCommand(QByteArray strCommand, QByteArray &receivedByArray)
     return ret;
 }
 
-//bool BaseCom::sendQZCommand(QByteArray strCommand, QByteArray &receivedByArray)
-//{
-//    bool ret=true;
 
-//    int sendLen=  m_QZPort.write(strCommand);
-//    if(!m_QZPort.waitForBytesWritten(m_waitTime))
-//    {
-//        qDebug() << "waitForBytesWritten Error";
-//        return  false;
-//    }
-//    m_QZPort.flush();
-//    m_QZFuture=QtConcurrent::run(this,&BaseCom::threadGetReceivedDataQZ,strCommand);
-//    return ret;
-//}
 
 
 int BaseCom::sendKTCommand(QByteArray strCommand, QByteArray &receivedByArray)
@@ -324,9 +311,9 @@ bool BaseCom::sendQZCommandSim(QByteArray strCommand, QByteArray &receivedByArra
     }
 
     //3个探头
-    if(receivedByArray.size()==172)
+    if(receivedByArray.size()==58)
     {
-        receivedByArray=receivedByArray.mid(17,154);
+        receivedByArray=receivedByArray.mid(17,40);
         bool ok;
         QByteArray tmpReadData=receivedByArray;
         QByteArray mid;
@@ -334,7 +321,6 @@ bool BaseCom::sendQZCommandSim(QByteArray strCommand, QByteArray &receivedByArra
         for(int i=0;i<3;i++)
         {
             mid= tmpReadData.mid(4+i*8,8);
-
             //电流
             int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
             receivedVec.push_back(value);
@@ -342,59 +328,45 @@ bool BaseCom::sendQZCommandSim(QByteArray strCommand, QByteArray &receivedByArra
             value=QByteArray::fromHex(mid.mid(5,4)).toHex().toInt(&ok,16);
             receivedVec.push_back(value);
         }
-
-        //20个门槛值
-        for(int i=0;i<20;i++)
-        {
-            mid= tmpReadData.mid(28+i*6,6);
-            //电流
-            mid= mid.mid(2,4);
-            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            receivedVec.push_back(value);
-        }
-        //1个门槛值系数
-        mid= tmpReadData.mid(148,2);
-        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-        receivedVec.push_back(value);
-
         return true;
     }
 
+    //20个探头
+     if(receivedByArray.size()==308)
+     {
+         receivedByArray=receivedByArray.mid(17,290);
+         bool ok;
+         QByteArray tmpReadData=receivedByArray;
 
+         QByteArray mid;
+         for(int i=0;i<20;i++)
+         {
+             mid= tmpReadData.mid(4+i*8,8);
 
-    if(receivedByArray.size()==249)
-    {
-        receivedByArray.truncate(248);
+             //电流
+             int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
+             receivedVec.push_back(value);
+             //增益
+             value=QByteArray::fromHex(mid.mid(4,4)).toHex().toInt(&ok,16);
+             receivedVec.push_back(value);
+         }
 
-        bool ok;
-        QByteArray tmpReadData=receivedByArray;
-        QByteArray mid;
+         //20个门槛值
+         for(int i=0;i<20;i++)
+         {
+             mid= tmpReadData.mid(164+i*6,6);
 
-        for(int i=0;i<20;i++)
-        {
-            mid= tmpReadData.mid(4+i*8,8);
-            //电流
-            int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
-            receivedVec.push_back(value);
-            //增益
-            value=QByteArray::fromHex(mid.mid(5,4)).toHex().toInt(&ok,16);
-            receivedVec.push_back(value);
-        }
-
-        //20个门槛值
-        for(int i=0;i<20;i++)
-        {
-            mid= tmpReadData.mid(164+i*4,4);
-            //电流
-            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            receivedVec.push_back(value);
-        }
-        // vecQZCheckRets一共有60个值
-
-
-
-        return true;
-    }
+             mid= mid.mid(2,4);
+             int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+             receivedVec.push_back(value);
+         }
+         //1个门槛值系数
+         mid= tmpReadData.mid(284,2);
+         int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+         receivedVec.push_back(value);
+         // vecQZCheckRets一共有60个值
+         return true;
+     }
 
     return ret;
 }
@@ -463,11 +435,47 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
         return true;
     }
 
+//    //3个探头
+//    if(receivedByArray.size()==172)
+//    {
+//        receivedByArray=receivedByArray.mid(17,154);
+//        bool ok;
+//        QByteArray tmpReadData=receivedByArray;
+//        QByteArray mid;
+
+//        for(int i=0;i<3;i++)
+//        {
+//            mid= tmpReadData.mid(4+i*8,8);
+
+//            //电流
+//            int  value=QByteArray::fromHex(mid.mid(2,2)).toHex().toInt(&ok,16);
+//            receivedVec.push_back(value);
+//            //增益
+//            value=QByteArray::fromHex(mid.mid(5,4)).toHex().toInt(&ok,16);
+//            receivedVec.push_back(value);
+//        }
+
+//        //20个门槛值
+//        for(int i=0;i<20;i++)
+//        {
+//            mid= tmpReadData.mid(28+i*6,6);
+//            //电流
+//            mid= mid.mid(2,4);
+//            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+//            receivedVec.push_back(value);
+//        }
+//        //1个门槛值系数
+//        mid= tmpReadData.mid(148,2);
+//        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+//        receivedVec.push_back(value);
+
+//        return true;
+//    }
 
     //3个探头
-    if(receivedByArray.size()==172)
+    if(receivedByArray.size()==58)
     {
-        receivedByArray=receivedByArray.mid(17,154);
+        receivedByArray=receivedByArray.mid(17,40);
         bool ok;
         QByteArray tmpReadData=receivedByArray;
         QByteArray mid;
@@ -484,63 +492,24 @@ int BaseCom::sendKTCommandSim(QByteArray strCommand, QByteArray &receivedByArray
             receivedVec.push_back(value);
         }
 
-        //20个门槛值
-        for(int i=0;i<20;i++)
-        {
-            mid= tmpReadData.mid(28+i*6,6);
-            //电流
-            mid= mid.mid(2,4);
-            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-            receivedVec.push_back(value);
-        }
-        //1个门槛值系数
-        mid= tmpReadData.mid(148,2);
-        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-        receivedVec.push_back(value);
+//        //20个门槛值
+//        for(int i=0;i<20;i++)
+//        {
+//            mid= tmpReadData.mid(28+i*6,6);
+//            //电流
+//            mid= mid.mid(2,4);
+//            int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+//            receivedVec.push_back(value);
+//        }
+//        //1个门槛值系数
+//        mid= tmpReadData.mid(148,2);
+//        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
+//        receivedVec.push_back(value);
 
         return true;
     }
 
    //20个探头
-   //    if(receivedByArray.size()==428)
-   //    {
-   //        receivedByArray=receivedByArray.mid(17,410);
-   //        bool ok;
-   //        QByteArray tmpReadData=receivedByArray;
-   //        QByteArray mid;
-   //        for(int i=0;i<20;i++)
-   //        {
-   //            mid= tmpReadData.mid(4+i*14,14);
-
-   //            //电流码值
-   //            int  value=QByteArray::fromHex(mid.mid(2,8)).toHex().toInt(&ok,16);
-   //            if(value>0x340C63C0)
-   //            {
-   //                DSDEBUG_<<"初始化获取码值错误：index "<<"i"<<"value: "<<value;
-   //                return false;
-   //            }
-   //            receivedVec.push_back(value);
-   //            //增益
-   //            value=QByteArray::fromHex(mid.mid(10,4)).toHex().toInt(&ok,16);
-   //            receivedVec.push_back(value);
-   //        }
-    //20个门槛值
-//    for(int i=0;i<20;i++)
-//    {
-//        mid= tmpReadData.mid(284+i*6,6);
-
-//        mid= mid.mid(2,4);
-//        int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-//        receivedVec.push_back(value);
-//    }
-//    //1个门槛值系数
-//    mid= tmpReadData.mid(404,2);
-//    int  value=QByteArray::fromHex(mid).toHex().toInt(&ok,16);
-//    receivedVec.push_back(value);
-//    // vecQZCheckRets一共有60个值
-//    return true;
-
-
     if(receivedByArray.size()==308)
     {
 
@@ -811,6 +780,7 @@ void BaseCom::onQZDataReceived()
             m_queQZFeedBack.push_back(byMsg);
             DSDEBUG_<<"pushQZ  byMsg :"<<byMsg<<endl;
             m_mutex.unlock();
+            emit updateCheckRetSig(1);
             //m_cnt++;
             m_ByQZContainer=m_ByQZContainer.mid(i+1,m_ByQZContainer.size()-(i+1));
             break;
@@ -845,7 +815,6 @@ void BaseCom::onQZDataReceived()
 //                    m_ByKTContainer=m_ByKTContainer.mid(i+1,m_ByKTContainer.size()-(i+1));
 //                    break;
 //                }
-
 //            }
 //        }
 //    }
@@ -875,6 +844,7 @@ void BaseCom::onKTDataReceived()
             m_queKTFeedBack.push_back(byMsg);
             m_mutex.unlock();
             DSDEBUG_<<"pushKT  byMsg :"<<byMsg<<endl;
+            emit updateCheckRetSig(2);
             //m_cnt2++;
             m_ByKTContainer=m_ByKTContainer.mid(i+1,m_ByKTContainer.size()-(i+1));
             break;
@@ -904,8 +874,9 @@ void BaseCom::onQZDataReceivedSim()
             if(m_queQZFeedBackSim.size()>=30)
                 m_queQZFeedBackSim.clear();
             m_queQZFeedBackSim.push_back(byMsg);
-            DSDEBUG__<<"pushQZ  byMsg :"<<byMsg<<endl;
+            DSDEBUG__<<"pushQZ  byMsgSim :"<<byMsg<<endl;
             m_mutex.unlock();
+            emit updateCheckRetSig(3);
             //m_cnt++;
             m_ByQZContainerSim=m_ByQZContainerSim.mid(i+1,m_ByQZContainerSim.size()-(i+1));
             break;
@@ -936,7 +907,7 @@ void BaseCom::onKTDataReceivedSim()
 
             m_queKTFeedBackSim.push_back(byMsg);
             m_mutex.unlock();
-            DSDEBUG__<<"pushKT  byMsg :"<<byMsg<<endl;
+            DSDEBUG__<<"pushKT  byMsgSim :"<<byMsg<<endl;
             emit updateCheckRetSig(4);
 
             //m_cnt2++;

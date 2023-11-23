@@ -111,6 +111,8 @@ private slots:
     void buttonCheckModeJudge(int);
     void buttonEphDisplayJudge(int);
 
+    void updateConncetStatus(int );
+
 
 
 

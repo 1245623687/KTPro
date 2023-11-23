@@ -60,9 +60,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_Timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
     connect(m_Timer1, SIGNAL(timeout()), this, SLOT(onTimeout1()));
     connect(m_Timer2, SIGNAL(timeout()), this, SLOT(onTimeout2()));
-
-
     m_Timer->start(1000);
+
+
+    //数据采集
+    m_TimerShucai= new QTimer(this);
+    connect(m_TimerShucai, SIGNAL(timeout()), this, SLOT(onTimeoutShuCai()));
+    m_TimerShucai->start(PackageChecker::getInstance()->Options->getSendInterval()*1000);
+
+
+    PackageChecker::getInstance()->m_cBaseServerTCP=new CBaseServer();
+    PackageChecker::getInstance()->m_cBaseServerTCP->setHostIP(PackageChecker::getInstance()->Options->getIPAddress());
+    PackageChecker::getInstance()->m_cBaseServerTCP->setHostPort(static_cast<uint16_t>(PackageChecker::getInstance()->Options->getIPPort()));
+    PackageChecker::getInstance()->m_cBaseServerTCP->startListen();
+
+
 
 
     this->ui->lcdNumRunTime->display("00:00:00");
@@ -86,19 +98,35 @@ MainWindow::MainWindow(QWidget *parent) :
     m_dScale1=setting.value("Scale/ScaleRatio1",0.4).toDouble();
     m_dScale2=setting.value("Scale/ScaleRatio2",0.4).toDouble();
 
-
+    //窗口1
     m_deleteTime=setting.value("DeleteTime/Time","02:00:00").toString();
-    m_phePosArr[0][0]=setting.value("DispPosition/X1",122).toDouble();
-    m_phePosArr[0][1]=setting.value("DispPosition/Y1",60).toDouble();
-    m_phePosArr[0][2]=setting.value("DispPosition/D1",150).toDouble();
+    m_phePosArr[0][0][0]=setting.value("DispPosition1/X1",122).toDouble();
+    m_phePosArr[0][0][1]=setting.value("DispPosition1/Y1",60).toDouble();
+    m_phePosArr[0][0][2]=setting.value("DispPosition1/D1",150).toDouble();
 
-    m_phePosArr[1][0]=setting.value("DispPosition/X2",50).toDouble();
-    m_phePosArr[1][1]=setting.value("DispPosition/Y2",240).toDouble();
-    m_phePosArr[1][2]=setting.value("DispPosition/D2",150).toDouble();
+    m_phePosArr[0][1][0]=setting.value("DispPosition1/X2",50).toDouble();
+    m_phePosArr[0][1][1]=setting.value("DispPosition1/Y2",240).toDouble();
+    m_phePosArr[0][1][2]=setting.value("DispPosition1/D2",150).toDouble();
 
-    m_phePosArr[2][0]=setting.value("DispPosition/X3",50).toDouble();
-    m_phePosArr[2][1]=setting.value("DispPosition/Y3",440).toDouble();
-    m_phePosArr[2][2]=setting.value("DispPosition/D3",150).toDouble();
+    m_phePosArr[0][2][0]=setting.value("DispPosition1/X3",50).toDouble();
+    m_phePosArr[0][2][1]=setting.value("DispPosition1/Y3",440).toDouble();
+    m_phePosArr[0][2][2]=setting.value("DispPosition1/D3",150).toDouble();
+
+
+    //窗口2
+    m_phePosArr[1][0][0]=setting.value("DispPosition2/X1",122).toDouble();
+    m_phePosArr[1][0][1]=setting.value("DispPosition2/Y1",60).toDouble();
+    m_phePosArr[1][0][2]=setting.value("DispPosition2/D1",150).toDouble();
+
+    m_phePosArr[1][1][0]=setting.value("DispPosition2/X2",50).toDouble();
+    m_phePosArr[1][1][1]=setting.value("DispPosition2/Y2",240).toDouble();
+    m_phePosArr[1][1][2]=setting.value("DispPosition2/D2",150).toDouble();
+
+    m_phePosArr[1][2][0]=setting.value("DispPosition2/X3",50).toDouble();
+    m_phePosArr[1][2][1]=setting.value("DispPosition2/Y3",440).toDouble();
+    m_phePosArr[1][2][2]=setting.value("DispPosition2/D3",150).toDouble();
+
+
 
 
     InitStyle();
@@ -106,9 +134,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelBrandName->setText(DSSystemParam::BrandName);
     QScreen *screen=QGuiApplication::primaryScreen();
     QRect mm=screen->availableGeometry();
+
+    //     QRect mm=screen->geometry();
     int screen_width=mm.width();
     int screen_height=mm.height();
-    this->setGeometry(int(screen_width*0.1),int(screen_height*0.1),int(screen_width*0.8),int(screen_height*0.8)) ;
+    this->setGeometry(int(screen_width*0.05),int(screen_height*0.05),int(screen_width*0.9),int(screen_height*0.9)) ;
     buttonJudge(9);
     on_pushButtonRun_clicked();
 
@@ -139,6 +169,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lcdNumNgNum_Total4->setVisible(false);
     ui->widget_15->setVisible(false);
 
+
+
+
+
 }
 
 
@@ -154,6 +188,85 @@ void MainWindow::updateInfomation(int cameraIdx)
         m_SceneArr[cameraIdx+2]->updateRectState(PackageChecker::getInstance()->ErrMatrix[cameraIdx],true);
         m_SceneArr[cameraIdx+2]->updateShow();
     }
+
+
+
+     //主界面显示光电数据
+      if(static_cast<int>(PackageChecker::getInstance()->Options->ephDisplay()) )
+      {
+
+          int size=PackageChecker::getInstance()->QueRetPheKT.size();
+
+
+           int size2=PackageChecker::getInstance()->QueRetMapPheKT.size();
+
+          //空头
+          if(PackageChecker::getInstance()->QueRetPheKT.size()>0 &&PackageChecker::getInstance()->QueRetMapPheKT.size()>0&& cameraIdx==2)
+          {
+
+              PackageChecker::getInstance()->m_MutexRetPheKT.lock();
+              std::vector<int> tmp;
+              tmp=PackageChecker::getInstance()->QueRetPheKT.front();
+              PackageChecker::getInstance()->QueRetPheKT.pop();
+
+              std::vector<int> tmp2;
+              tmp2=PackageChecker::getInstance()->QueRetMapPheKT.front();
+              PackageChecker::getInstance()->QueRetMapPheKT.pop();
+
+
+              m_SceneArr[cameraIdx]->updateTextIterm(tmp.data(),tmp2.data());
+
+              if(tmp[20]==1)
+                  m_SceneArr[cameraIdx+2]->updateTextIterm(tmp.data(),tmp2.data());
+
+                PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+          }
+
+           if((PackageChecker::getInstance()->QueRetPheKT.size()==0 || PackageChecker::getInstance()->QueRetMapPheKT.size()==0) && cameraIdx==2)
+           {
+               m_SceneArr[cameraIdx]->hidePheText();
+               m_SceneArr[cameraIdx+2]->hidePheText();
+           }
+
+
+
+          //缺支
+          if(PackageChecker::getInstance()->QueRetPheQZ.size()>0 &&PackageChecker::getInstance()->QueRetMapPheQZ.size()>0&&cameraIdx==1)
+          {
+
+
+              PackageChecker::getInstance()->m_MutexRetPheQZ.lock();
+
+              std::vector<int> tmp;
+              tmp=PackageChecker::getInstance()->QueRetPheQZ.front();
+              PackageChecker::getInstance()->QueRetPheQZ.pop();
+
+              std::vector<int> tmp2;
+              tmp2=PackageChecker::getInstance()->QueRetMapPheQZ.front();
+              PackageChecker::getInstance()->QueRetMapPheQZ.pop();
+
+
+
+              m_SceneArr[cameraIdx]->updateTextIterm(tmp.data(),tmp2.data());
+
+              if(tmp[20]==1)
+                  m_SceneArr[cameraIdx+2]->updateTextIterm(tmp.data(),tmp2.data());
+
+                 PackageChecker::getInstance()->m_MutexRetPheQZ.unlock();
+          }
+
+           if((PackageChecker::getInstance()->QueRetPheQZ.size()==0 || PackageChecker::getInstance()->QueRetMapPheQZ.size()==0)&& cameraIdx==1)
+           {
+               m_SceneArr[cameraIdx]->hidePheText();
+               m_SceneArr[cameraIdx+2]->hidePheText();
+           }
+      }
+      else
+      {
+           m_SceneArr[cameraIdx]->hidePheText();
+           m_SceneArr[cameraIdx+2]->hidePheText();
+      }
+
 }
 
 void MainWindow::doCameraOffline(int camIndex)
@@ -271,7 +384,6 @@ void MainWindow::InitControl()
 #endif
 
 
-
     ui->btnMainImageDistory->setVisible(false);
     m_btnGroup=new QButtonGroup;
     m_btnGroup->addButton(this->ui->btnMainChangeBrand,1);
@@ -364,21 +476,80 @@ void MainWindow::InitControl()
 
 
 #ifdef FALG_PHE
-        //        for(int i=0;i<7;i++)
-        //        {
-        //            QPointF pf(m_phePosArr[0][2]*(i)+m_phePosArr[0][0],m_phePosArr[0][1]);
-        //            newGraphicsScene->addPheTextIterm(i,pf);
-        //        }
-        //        for(int i=0;i<6;i++)
-        //        {
-        //            QPointF pf(m_phePosArr[1][2]*(i)+m_phePosArr[1][0],m_phePosArr[1][1]);
-        //            newGraphicsScene->addPheTextIterm(i,pf);
-        //        }
-        //        for(int i=0;i<7;i++)
-        //        {
-        //            QPointF pf(m_phePosArr[2][2]*(i)+m_phePosArr[2][0],m_phePosArr[2][1]);
-        //            newGraphicsScene->addPheTextIterm(i,pf);
-        //        }
+        //主界面显示光电数据
+
+        //767
+        if( static_cast<int>(PackageChecker::getInstance()->Options->getArrangeType()) ==0)
+        {
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][0][2]*(i)+m_phePosArr[imgIdx-1][0][0],m_phePosArr[imgIdx-1][0][1]);
+                newGraphicsScene->addPheTextIterm(i,pf);
+                newGraphicsScene2->addPheTextIterm(i,pf);
+            }
+            for(int i=0;i<6;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][1][2]*(i)+m_phePosArr[imgIdx-1][1][0],m_phePosArr[imgIdx-1][1][1]);
+                newGraphicsScene->addPheTextIterm(i+7,pf);
+                newGraphicsScene2->addPheTextIterm(i+7,pf);
+            }
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][2][2]*(i)+m_phePosArr[imgIdx-1][2][0],m_phePosArr[imgIdx-1][2][1]);
+                newGraphicsScene->addPheTextIterm(i+13,pf);
+                newGraphicsScene2->addPheTextIterm(i+13,pf);
+            }
+        }
+        //677
+        if( static_cast<int>(PackageChecker::getInstance()->Options->getArrangeType()) ==1)
+        {
+            for(int i=0;i<6;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][0][2]*(i)+m_phePosArr[imgIdx-1][0][0],m_phePosArr[imgIdx-1][0][1]);
+                newGraphicsScene->addPheTextIterm(i,pf);
+                newGraphicsScene2->addPheTextIterm(i,pf);
+            }
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][1][2]*(i)+m_phePosArr[imgIdx-1][1][0],m_phePosArr[imgIdx-1][1][1]);
+                newGraphicsScene->addPheTextIterm(i+6,pf);
+                newGraphicsScene2->addPheTextIterm(i+6,pf);
+            }
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][2][2]*(i)+m_phePosArr[imgIdx-1][2][0],m_phePosArr[imgIdx-1][2][1]);
+                newGraphicsScene->addPheTextIterm(i+13,pf);
+                newGraphicsScene2->addPheTextIterm(i+13,pf);
+            }
+        }
+        //1010
+        if( static_cast<int>(PackageChecker::getInstance()->Options->getArrangeType()) ==2)
+        {
+            for(int i=0;i<10;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][0][2]*(i)+m_phePosArr[imgIdx-1][0][0],m_phePosArr[imgIdx-1][0][1]);
+                newGraphicsScene->addPheTextIterm(i,pf);
+                newGraphicsScene2->addPheTextIterm(i,pf);
+            }
+            for(int i=0;i<10;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-1][1][2]*(i)+m_phePosArr[imgIdx-1][1][0],m_phePosArr[imgIdx-1][1][1]);
+                newGraphicsScene->addPheTextIterm(i+10,pf);
+                newGraphicsScene2->addPheTextIterm(i+10,pf);
+            }
+
+        }
+
+
+
+
+
+        if(static_cast<int>(PackageChecker::getInstance()->Options->ephDisplay())==0 )
+        {
+            newGraphicsScene->hidePheText();
+            newGraphicsScene2->hidePheText();
+        }
+
 #endif
 
         m_ViewArrSub[imgIdx]->setScene(newGraphicsScene);
@@ -414,7 +585,6 @@ void MainWindow::InitControl()
 
             this->m_ViewArrMain[imgIdx+2]->scaleto((double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i],
                                                    (double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i]);
-
             m_ViewArrMain[imgIdx+2]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
         }
     }
@@ -422,11 +592,10 @@ void MainWindow::InitControl()
 
 
     //模拟板 在加一个光电显示窗口
-    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+    if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20&&pc->ImgTobaccoRun->LstImgPro.size()==1 )
     {
-
-
         int imgIdx=(*(--pc->ImgTobaccoRun->LstImgPro.end()))->ImgIndex;
+
 
         int i=imgIdx-1;
         if(imgIdx==1)
@@ -461,24 +630,30 @@ void MainWindow::InitControl()
 #ifdef FALG_PHE
 
         newGraphicsScene->clearPheText();
+
+
+
         for(int i=0;i<6;i++)
         {
-            QPointF pf(m_phePosArr[0][2]*(i)+m_phePosArr[0][0],m_phePosArr[0][1]);
+            QPointF pf(m_phePosArr[imgIdx-2][0][2]*(i)+m_phePosArr[imgIdx-2][0][0],m_phePosArr[imgIdx-2][0][1]);
             newGraphicsScene->addPheTextIterm(i,pf);
             newGraphicsScene2->addPheTextIterm(i,pf);
         }
         for(int i=0;i<7;i++)
         {
-            QPointF pf(m_phePosArr[1][2]*(i)+m_phePosArr[1][0],m_phePosArr[1][1]);
+            QPointF pf(m_phePosArr[imgIdx-2][1][2]*(i)+m_phePosArr[imgIdx-2][1][0],m_phePosArr[imgIdx-2][1][1]);
             newGraphicsScene->addPheTextIterm(i+6,pf);
             newGraphicsScene2->addPheTextIterm(i+6,pf);
         }
         for(int i=0;i<7;i++)
         {
-            QPointF pf(m_phePosArr[2][2]*(i)+m_phePosArr[2][0],m_phePosArr[2][1]);
+            QPointF pf(m_phePosArr[imgIdx-2][2][2]*(i)+m_phePosArr[imgIdx-2][2][0],m_phePosArr[imgIdx-2][2][1]);
             newGraphicsScene->addPheTextIterm(i+13,pf);
             newGraphicsScene2->addPheTextIterm(i+13,pf);
         }
+
+
+
 
 #endif
         m_ViewArrSub[imgIdx]->setScene(newGraphicsScene);
@@ -519,23 +694,55 @@ void MainWindow::InitControl()
 
             m_ViewArrMain[imgIdx+2]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
         }
+
+        int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size()+1;
+        for (int i=1;i<=tmpCameraNum;++i)
+        {
+            if(i<=tmpCameraNum)
+            {
+                m_WidgetArr[i]->setVisible(true);
+                m_WidgetArr[i+2]->setVisible(true);
+            }
+            else
+            {
+                m_WidgetArr[i]->setVisible(false);
+                m_WidgetArr[i+2]->setVisible(false);
+            }
+        }
     }
 
-
-    int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size()+1;
-    for (int i=1;i<=tmpCameraNum;++i)
+    else
     {
-        if(i<=tmpCameraNum)
+        int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size();
+
+
+        if(tmpCameraNum==1)
         {
-            m_WidgetArr[i]->setVisible(true);
-            m_WidgetArr[i+2]->setVisible(true);
+            m_WidgetArr[1]->setVisible(true);
+            m_WidgetArr[3]->setVisible(true);
+
+            m_WidgetArr[2]->setVisible(false);
+            m_WidgetArr[4]->setVisible(false);
         }
-        else
-        {
-            m_WidgetArr[i]->setVisible(false);
-            m_WidgetArr[i+2]->setVisible(false);
-        }
+
+        //        for (int i=1;i<=tmpCameraNum;++i)
+        //        {
+        //            if(i<=tmpCameraNum)
+        //            {
+        //                m_WidgetArr[i]->setVisible(true);
+        //                m_WidgetArr[i+2]->setVisible(true);
+        //            }
+        //            else
+        //            {
+        //                m_WidgetArr[i]->setVisible(false);
+        //                m_WidgetArr[i+2]->setVisible(false);
+        //            }
+        //        }
+
     }
+
+
+
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -732,9 +939,10 @@ void MainWindow::onTimeout()
     //    }
 
 
-    //获取针脚电平信号
+    //    //获取针脚电平信号
     int getVal=-1;
     //获取输入0号针脚的电平值,缺支剔除异常
+
     PackageChecker* pc=PackageChecker::getInstance();
     pc->IOContol->getLevel(0x00,getVal);
     if(m_lastPinVal==1&&getVal==0)
@@ -745,15 +953,23 @@ void MainWindow::onTimeout()
     }
     m_lastPinVal=getVal;
 
+
+
+
     //获取输入1号针脚的电平值,空头剔除异常
     int getVal2=-1;
     pc->IOContol->getLevel(0x01,getVal2);
+
+    //    DSDEBUG<<"getPinVal: "<<getVal2<<endl;
+
     if(m_lastPinVal2==1&&getVal2==0)
     {
         //高电平，要报警
         m_Timer2->start(500);
         m_bIsWarning2=true;
     }
+
+
     m_lastPinVal2=getVal2;
 }
 
@@ -763,14 +979,14 @@ void MainWindow::onTimeout1()
     if( m_warningCnt1%2==0)
     {
         ui->label->setStyleSheet("color:rgb(255,0,0)");
-        ui->label->setText("剔除异常报警！");
+        ui->label->setText(tr("剔除异常报警！"));
         ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
     else
     {
 
         ui->label->setStyleSheet("color:rgb(255,0,255)");
-        ui->label->setText("点击消除报警");
+        ui->label->setText(tr("点击消除报警"));
         ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
 
@@ -782,13 +998,13 @@ void MainWindow::onTimeout2()
     if( m_warningCnt2%2==0)
     {
         ui->label->setStyleSheet("color:rgb(255,0,0)");
-        ui->label->setText("剔除异常报警！");
+        ui->label->setText(tr("剔除异常报警！"));
         ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
     else
     {
         ui->label->setStyleSheet("color:rgb(255,0,255)");
-        ui->label->setText("点击消除报警");
+        ui->label->setText(tr("点击消除报警"));
         ui->label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
     }
 
@@ -801,7 +1017,7 @@ void MainWindow::runDeleteImgs()
 {
     QVector<QString> files;
     //删除NG图像
-    QString saveName=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/";
+    QString saveName=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/";
     FileHelper::getAllFileFolder(saveName,files);
     QDate curDate=QDate::currentDate();
     int days=PackageChecker::getInstance()->Options->SaveDaysNum();
@@ -817,7 +1033,7 @@ void MainWindow::runDeleteImgs()
 
     //删除OK图像
     files.clear();
-    saveName=PackageChecker::getInstance()->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/OK/";
+    saveName=PackageChecker::getInstance()->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/OK/";
     FileHelper::getAllFileFolder(saveName,files);
     curDate=QDate::currentDate();
     days=PackageChecker::getInstance()->Options->SaveDaysNum();
@@ -916,13 +1132,20 @@ void MainWindow::buttonJudge(int idx)
     {
     case 1:
     {
+        if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
+        {
+            frmMessageBox *msg = new frmMessageBox;
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
+            msg->exec();
+            return;
+        }
 
         QString oldBrand=DSSystemParam::BrandName;
 
         if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_RUNNING)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("系统正在运行,请先停止运行!", 0);
+            msg->SetMessage(tr("系统正在运行,请先停止运行!"), 0);
             msg->exec();
             return;
         }
@@ -1008,6 +1231,156 @@ void MainWindow::buttonJudge(int idx)
         }
 
 
+
+
+
+        //模拟板 在加一个光电显示窗口
+
+        if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20&& PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size()==1)
+        {
+            PackageChecker* pc=  PackageChecker::getInstance();
+
+            int imgIdx=(*(--pc->ImgTobaccoRun->LstImgPro.end()))->ImgIndex;
+
+            int i=imgIdx-1;
+            if(imgIdx==1)
+                m_dScale=m_dScale1;
+            if(imgIdx==2)
+                m_dScale=m_dScale2;
+            imgIdx=imgIdx+1;
+            m_imgPhe=imgIdx;
+
+
+#ifdef IMG_TYPE_GRAY
+            GraphicsSceneMain* newGraphicsScene=new GraphicsSceneMain(
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageGray.ptr<uchar>(0),
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageGray.cols,
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageGray.rows,imgIdx);
+#endif
+#ifdef IMG_TYPE_RGB
+            GraphicsSceneMain* newGraphicsScene=new GraphicsSceneMain(
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageRGB.ptr<uchar>(0),
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageRGB.cols,
+                        PackageChecker::getInstance()->CurImage[imgIdx].ImageRGB.rows,imgIdx);
+
+            GraphicsSceneMain* newGraphicsScene2=new GraphicsSceneMain(
+                        PackageChecker::getInstance()->m_qmapCurBadImage[imgIdx].ImageRGB.ptr<uchar>(0),
+                        PackageChecker::getInstance()->m_qmapCurBadImage[imgIdx].ImageRGB.cols,
+                        PackageChecker::getInstance()->m_qmapCurBadImage[imgIdx].ImageRGB.rows,imgIdx);
+
+#endif
+            m_SceneArr[imgIdx]=newGraphicsScene;
+            m_SceneArr[imgIdx+2]=newGraphicsScene2;
+
+#ifdef FALG_PHE
+
+            newGraphicsScene->clearPheText();
+            for(int i=0;i<6;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-2][0][2]*(i)+m_phePosArr[imgIdx-2][0][0],m_phePosArr[imgIdx-2][0][1]);
+                newGraphicsScene->addPheTextIterm(i,pf);
+                newGraphicsScene2->addPheTextIterm(i,pf);
+            }
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-2][1][2]*(i)+m_phePosArr[imgIdx-2][1][0],m_phePosArr[imgIdx-2][1][1]);
+                newGraphicsScene->addPheTextIterm(i+6,pf);
+                newGraphicsScene2->addPheTextIterm(i+6,pf);
+            }
+            for(int i=0;i<7;i++)
+            {
+                QPointF pf(m_phePosArr[imgIdx-2][2][2]*(i)+m_phePosArr[imgIdx-2][2][0],m_phePosArr[imgIdx-2][2][1]);
+                newGraphicsScene->addPheTextIterm(i+13,pf);
+                newGraphicsScene2->addPheTextIterm(i+13,pf);
+            }
+
+#endif
+            m_ViewArrSub[imgIdx]->setScene(newGraphicsScene);
+            m_ViewArrMain[imgIdx]->setScene(newGraphicsScene);
+
+            m_ViewArrSub[imgIdx+2]->setScene(newGraphicsScene2);
+            m_ViewArrMain[imgIdx+2]->setScene(newGraphicsScene2);
+
+            DSDEBUG<<(double)PackageChecker::getInstance()->ImgHei<<"   "<<(double)MAINWINDOW_VIEWSUBWID/PackageChecker::getInstance()->ImgWid;
+            // if((double)PackageChecker::getInstance()->ImgHei/PackageChecker::getInstance()->ImgWid>(double)MAINWINDOW_VIEWSUBHEI/MAINWINDOW_VIEWSUBWID)
+            {
+                this->m_ViewArrSub[imgIdx]->scaleto(m_dScale,m_dScale);
+                m_ViewArrSub[imgIdx]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+                this->m_ViewArrSub[imgIdx+2]->scaleto(m_dScale,m_dScale);
+                m_ViewArrSub[imgIdx+2]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+            }
+
+
+            if((double)PackageChecker::getInstance()->ImgHeis[i]/PackageChecker::getInstance()->ImgWids[i]>(double)MAINWINDOW_VIEWMAINHEI/MAINWINDOW_VIEWMAINWID)
+            {
+                this->m_ViewArrMain[imgIdx]->scaleto((double)MAINWINDOW_VIEWMAINHEI/(double)PackageChecker::getInstance()->ImgHeis[i],
+                                                     (double)MAINWINDOW_VIEWMAINHEI/(double)PackageChecker::getInstance()->ImgHeis[i]);
+                m_ViewArrMain[imgIdx]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+                this->m_ViewArrMain[imgIdx+2]->scaleto((double)MAINWINDOW_VIEWMAINHEI/(double)PackageChecker::getInstance()->ImgHeis[i],
+                                                       (double)MAINWINDOW_VIEWMAINHEI/(double)PackageChecker::getInstance()->ImgHeis[i]);
+                m_ViewArrMain[imgIdx+2]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+            }
+            else
+            {
+                this->m_ViewArrMain[imgIdx]->scaleto((double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i],
+                                                     (double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i]);
+
+                m_ViewArrMain[imgIdx]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+
+
+                this->m_ViewArrMain[imgIdx+2]->scaleto((double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i],
+                                                       (double)MAINWINDOW_VIEWMAINWID/PackageChecker::getInstance()->ImgWids[i]);
+
+                m_ViewArrMain[imgIdx+2]->setSceneRect(QRectF(0,0,(double)PackageChecker::getInstance()->ImgWids[i],(double)PackageChecker::getInstance()->ImgHeis[i]));
+            }
+
+            int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size()+1;
+            for (int i=1;i<=tmpCameraNum;++i)
+            {
+                if(i<=tmpCameraNum)
+                {
+                    m_WidgetArr[i]->setVisible(true);
+                    m_WidgetArr[i+2]->setVisible(true);
+                }
+                else
+                {
+                    m_WidgetArr[i]->setVisible(false);
+                    m_WidgetArr[i+2]->setVisible(false);
+                }
+            }
+        }
+
+        else
+        {
+            int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size();
+
+            if(tmpCameraNum==1)
+            {
+                m_WidgetArr[1]->setVisible(true);
+                m_WidgetArr[3]->setVisible(true);
+
+                m_WidgetArr[2]->setVisible(false);
+                m_WidgetArr[4]->setVisible(false);
+            }
+
+
+            //            for (int i=1;i<=tmpCameraNum;++i)
+            //            {
+            //                if(i<=tmpCameraNum)
+            //                {
+            //                    m_WidgetArr[i]->setVisible(true);
+            //                    m_WidgetArr[i+2]->setVisible(true);
+            //                }
+            //                else
+            //                {
+            //                    m_WidgetArr[i]->setVisible(false);
+            //                    m_WidgetArr[i+2]->setVisible(false);
+            //                }
+            //            }
+
+        }
+
+
         for(int idx_r=0;idx_r<CAMERANUM_MAX;++idx_r)
         {
             for(int idx_c=0;idx_c<CHECKOPERATORNUM_MAX;++idx_c)
@@ -1030,21 +1403,9 @@ void MainWindow::buttonJudge(int idx)
                 itor.value()->updateRectState(PackageChecker::getInstance()->ErrMatrix[itor.key()],false);
             }
         }
-        int tmpCameraNum=PackageChecker::getInstance()->ImgTobaccoRun->LstImgPro.size();
-        for (int i=1;i<=2;++i) {
-            if(i<=tmpCameraNum)
-            {
-                m_WidgetArr[i]->setVisible(true);
-                m_WidgetArr[i+2]->setVisible(true);
 
-            }
-            else
-            {
-                m_WidgetArr[i]->setVisible(false);
-                m_WidgetArr[i+2]->setVisible(false);
-            }
 
-        }
+
 
         ui->lcdNumCalcuTime->display(QString::number(0));
         DSClsLastConfig * lastConfig=DSClsLastConfig::getInstance();
@@ -1058,7 +1419,7 @@ void MainWindow::buttonJudge(int idx)
         if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("请使用管理员账户登录!", 0);
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
             msg->exec();
             return;
         }
@@ -1078,7 +1439,7 @@ void MainWindow::buttonJudge(int idx)
         if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("请使用管理员账户登录!", 0);
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
             msg->exec();
             return;
         }
@@ -1097,7 +1458,7 @@ void MainWindow::buttonJudge(int idx)
         if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_RUNNING)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("系统正在运行,请先停止运行!", 0);
+            msg->SetMessage(tr("系统正在运行,请先停止运行!"), 0);
             msg->exec();
             //delete  msg;
             return;
@@ -1106,7 +1467,7 @@ void MainWindow::buttonJudge(int idx)
         if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("请使用管理员账户登录!", 0);
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
             msg->exec();
             //delete  msg;
             return;
@@ -1126,15 +1487,17 @@ void MainWindow::buttonJudge(int idx)
         break;
     case 7:
     {
+
         if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("请使用管理员账户登录!", 0);
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
             msg->exec();
             return;
         }
 
         DlgSystemConfig form;
+        connect(PackageChecker::getInstance()->m_cBaseServerTCP, SIGNAL(sendConnectStatus(int)), &form, SLOT(updateConncetStatus(int)));
         form.exec();
 
         m_MutexScene.lock();
@@ -1162,9 +1525,7 @@ void MainWindow::buttonJudge(int idx)
         break;
     case 8:
     {
-
         this->showMinimized();
-
     }
         break;
     case 9:
@@ -1177,6 +1538,7 @@ void MainWindow::buttonJudge(int idx)
                                                 "QPushButton#btnMainMax:hover{border-radius:0px;border-image:url(:/最大化.png); background-color:#5F5F5F;border-style:none;}");
             QMap<int,GraphicsView*>::iterator it= m_ViewArrSub.begin();
             for(;it!=m_ViewArrSub.end();++it)
+
             {
                 it.value()->scaleMin();
                 it.value()->scaleMin();
@@ -1184,18 +1546,16 @@ void MainWindow::buttonJudge(int idx)
             QMap<int,GraphicsView*>::iterator itmain= m_ViewArrMain.begin();
             for(;itmain!=m_ViewArrMain.end();++itmain)
             {
-                //                itmain.value()->scaleto(1,1);
+                //itmain.value()->scaleto(1,1);
                 itmain.value()->scaleMin();
                 itmain.value()->scaleMin();
             }
-
-
         }
         else {
             location = this->geometry();
             this->setGeometry(qApp->desktop()->availableGeometry());
 
-            ui->btnMainMax->setToolTip("还原");
+            ui->btnMainMax->setToolTip(tr("还原"));
             this->ui->btnMainMax->setStyleSheet("QPushButton#btnMainMax{border-radius:0px;border-image:url(:/最大化还原.png); background-color:transparent; border-style:none;}"
                                                 "QPushButton#btnMainMax:hover{border-radius:0px;border-image:url(:/最大化还原.png); background-color:#5F5F5F;border-style:none;}");
             QMap<int,GraphicsView*>::iterator it= m_ViewArrSub.begin();
@@ -1204,13 +1564,11 @@ void MainWindow::buttonJudge(int idx)
                 it.value()->scaleMax();
                 it.value()->scaleMax();
             }
-
             QMap<int,GraphicsView*>::iterator itmain= m_ViewArrMain.begin();
             for(;itmain!=m_ViewArrMain.end();++itmain)
             {
                 itmain.value()->scaleMax();
                 itmain.value()->scaleMax();
-
             }
         }
         max = !max;
@@ -1220,7 +1578,7 @@ void MainWindow::buttonJudge(int idx)
         if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_RUNNING)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("系统正在运行,请先停止运行!", 0);
+            msg->SetMessage(tr("系统正在运行,请先停止运行!"), 0);
             msg->exec();
             //delete  msg;
             return;
@@ -1234,7 +1592,7 @@ void MainWindow::buttonJudge(int idx)
         if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage("请使用管理员账户登录!", 0);
+            msg->SetMessage(tr("请使用管理员账户登录!"), 0);
             msg->exec();
             //delete  msg;
             return;
@@ -1479,38 +1837,47 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e)
 void MainWindow::mousePressEvent(QMouseEvent *e)
 {
 
-    if(ui->label->rect().contains(e->pos()))
-    {
+    //    if(ui->label->rect().contains(e->pos()))
+    //    {
 
-        qDebug()<<"lable Press";
+    //        QString strCommand="AA010E0000000000";
+    //        QByteArray receiveByQZ;
+    //        QByteArray receiveByKT;
+
+    //        if( m_bIsWarning1)
+    //        {
+    //            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
+    //           QThread::msleep(150);
+    //            ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
+
+    //            if(!ret)
+    //                return;
 
 
-        QString strCommand="AA010E0000000000";
-        QByteArray receiveByQZ;
-        QByteArray receiveByKT;
+    //            m_bIsWarning1=false;
+    //            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+    //            m_Timer1->stop();
+    //            m_warningCnt1=0;
+    //            ui->label->setText(" 大树智能烟支检测系统");
+    //            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+    //        }
+    //        if( m_bIsWarning2)
+    //        {
+    //            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+    //            QThread::msleep(150);
+    //            ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+    //            if(!ret)
+    //                return;
 
-        if( m_bIsWarning1)
-        {
-            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
-            m_bIsWarning1=false;
-            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
-            m_Timer1->stop();
-            m_warningCnt1=0;
-            ui->label->setText(" 大树智能烟支检测系统");
-            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-        }
-        if( m_bIsWarning2)
-        {
-            bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
-            m_bIsWarning2=false;
-            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
-            m_warningCnt2=0;
-            m_Timer2->stop();
-            ui->label->setText(" 大树智能烟支检测系统");
-            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
-        }
+    //            m_bIsWarning2=false;
+    //            ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+    //            m_warningCnt2=0;
+    //            m_Timer2->stop();
+    //            ui->label->setText(" 大树智能烟支检测系统");
+    //            ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+    //        }
 
-    }
+    //    }
 
     if (e->button() == Qt::LeftButton) {
         mousePressed = true;
@@ -1616,7 +1983,7 @@ void MainWindow::on_pushButtonRun_clicked()
             {
 
                 frmMessageBox *msg = new frmMessageBox;
-                msg->SetMessage(QString("相机%1无法打开,请检查相机是否连接!").arg(itor.key()), 0);
+                msg->SetMessage(QString(tr("相机%1无法打开,请检查相机是否连接!")).arg(itor.key()), 0);
                 msg->exec();
                 this->ui->pushButtonRun->setEnabled(true);
                 setCursor(Qt::ArrowCursor);
@@ -1648,7 +2015,7 @@ void MainWindow::on_pushButton_clicked()
     if(PackageChecker::getInstance()->user.UserGroup()==ENUMUSERGROUP_OPERATOR)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage("请使用管理员账户登录!", 0);
+        msg->SetMessage(tr("请使用管理员账户登录!"), 0);
         msg->exec();
         return;
     }
@@ -1682,3 +2049,60 @@ void MainWindow::on_pushButton_clicked()
 }
 
 
+
+void MainWindow::on_btnMainUnWarning_clicked()
+{
+
+    QString strCommand="AA010E0000000000";
+    QByteArray receiveByQZ;
+    QByteArray receiveByKT;
+
+
+    m_bIsWarning1=false;
+    ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+    m_Timer1->stop();
+    m_warningCnt1=0;
+    ui->label->setText(tr(" 大树智能烟支检测系统"));
+    ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+
+    m_bIsWarning2=false;
+    ui->label->setStyleSheet("color:rgb(252, 252, 0)");
+    m_warningCnt2=0;
+    m_Timer2->stop();
+    ui->label->setText(tr(" 大树智能烟支检测系统"));
+    ui->label->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
+
+
+
+
+    //            if( m_bIsWarning1)
+    {
+        bool ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
+        //                QThread::msleep(100);
+        //                ret= PackageChecker::getInstance()->m_pBaseCom->sendQZCommand(strCommand.toLatin1(),receiveByQZ);
+
+    }
+    //            if( m_bIsWarning2)
+    {
+        QThread::msleep(100);
+        bool ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+        //                QThread::msleep(100);
+        //                ret= PackageChecker::getInstance()->m_pBaseCom->sendKTCommand(strCommand.toLatin1(),receiveByKT);
+    }
+
+    ui->label->setFocus();
+
+}
+
+void MainWindow::onTimeoutShuCai()
+{
+    QString name=PackageChecker::getInstance()->Options->MachineName();
+    int total=PackageChecker::getInstance()->RunParam_CalcNumAllCams[0];
+    int quezhi=PackageChecker::getInstance()->RunParam_CalcNumNgCams[0];
+    int kongtou=PackageChecker::getInstance()->RunParam_CalcNumNgCams[1];
+
+    QString message=QString("%1,%2,%3,%4").arg(name).arg(total).arg(quezhi).arg(kongtou);
+    if(PackageChecker::getInstance()->m_cBaseServerTCP!=nullptr)
+        PackageChecker::getInstance()->m_cBaseServerTCP->sendMessage(message);
+}

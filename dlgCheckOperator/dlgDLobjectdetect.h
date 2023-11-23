@@ -90,7 +90,16 @@ private slots:
 
      void on_horizontalspinBoxGrayValUpLimit_valueChanged(int value);
 
+
+     void on_spinBoxCigaTotalNum_valueChanged(int arg1);
+
+     void on_horizontalSliderCigaTotalNum_valueChanged(int value);
+
+
+
+
      void on_radioButton_accuracyN_toggled(bool checked);
+
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

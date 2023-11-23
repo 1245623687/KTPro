@@ -31,7 +31,12 @@ void DSClsOptions::load()
         ENUMIOTYPE tmpIOType=ENUMIOTYPE_YANHUAGPIO;
         ENUMPROBNUM tmpProbNum=ENUMPROBNUM_3;
 
-        DlgSystemInit dlg(&tmpcameraType,&tmpcameraNum,&tmpIOType,&tmpProbNum);
+        ENUMARRANGETYPE tmpArrangeType=ENUMARRANGETYPE_677;
+        bool Com1=true;
+        bool Com2=true;
+        bool Com3=false;
+        bool Com4=false;
+        DlgSystemInit dlg(&tmpcameraType,&tmpcameraNum,&tmpIOType,&tmpProbNum,&tmpArrangeType,&Com1,&Com2,&Com3,&Com4);
         int ret=dlg.exec();
         if(!ret)
         {
@@ -44,8 +49,8 @@ void DSClsOptions::load()
         }
 
 
-//        FileHelper::createFile(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig,"Options(backup).ini");
-//        QThread::msleep(50);
+        //        FileHelper::createFile(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig,"Options(backup).ini");
+        //        QThread::msleep(50);
         FileHelper::createFile(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig,"Options.ini");
         this->m_IniFile.Open(name);
 
@@ -88,7 +93,7 @@ void DSClsOptions::load()
 
         tmpb=this->m_IniFile.GetValue("Options", "ImgSavePath", tmpval);
         if (tmpb) setImgSavePath(QString::fromStdString(tmpval));
-        else setImgSavePath(DSSystemParam::AppPath+"/图像保存");
+        else setImgSavePath(DSSystemParam::AppPath+tr("/图像保存"));
 
         tmpb = this->m_IniFile.GetValue("Options", "OutputType", tmpval);
         if (tmpb) setOutputType(static_cast<ENUMOUTPUTTYPE>(atoi(tmpval.c_str())));
@@ -131,7 +136,43 @@ void DSClsOptions::load()
         if (tmpb) setProbNum(static_cast<ENUMPROBNUM>(atoi(tmpval.c_str())));
         else setProbNum(tmpProbNum);
 
-       // savebackup();
+        tmpb = this->m_IniFile.GetValue("Options", "ArrangeType", tmpval);
+        if (tmpb) setArrangeType(static_cast<ENUMARRANGETYPE>(atoi(tmpval.c_str())));
+        else setArrangeType(tmpArrangeType);
+
+        tmpb = this->m_IniFile.GetValue("Options", "Com1State", tmpval);
+        if (tmpb) setCom1State((atoi(tmpval.c_str())));
+        else setCom1State(Com1);
+
+        tmpb = this->m_IniFile.GetValue("Options", "Com2State", tmpval);
+        if (tmpb) setCom2State((atoi(tmpval.c_str())));
+        else setCom2State(Com2);
+
+        tmpb = this->m_IniFile.GetValue("Options", "Com3State", tmpval);
+        if (tmpb) setCom3State((atoi(tmpval.c_str())));
+        else setCom3State(Com3);
+
+        tmpb = this->m_IniFile.GetValue("Options", "Com4State", tmpval);
+        if (tmpb) setCom4State((atoi(tmpval.c_str())));
+        else setCom4State(Com4);
+
+
+        //数据采集
+
+        tmpb=this->m_IniFile.GetValue("Options", "IPAddress", tmpval);
+        if (tmpb) setIPAddress(QString::fromStdString(tmpval));
+        else setIPAddress("192.168.10.11");
+
+        tmpb=this->m_IniFile.GetValue("Options", "IPPort", tmpval);
+        if (tmpb) setIPPort(atoi(tmpval.c_str()));
+        else setIPPort(5021);
+
+        tmpb=this->m_IniFile.GetValue("Options", "SendInverval", tmpval);
+        if (tmpb) setSendInterval(atoi(tmpval.c_str()));
+        else setSendInterval(1);
+
+
+        // savebackup();
         QThread::msleep(50);
         save();
     }
@@ -181,7 +222,7 @@ void DSClsOptions::load()
 
     b=this->m_IniFile.GetValue("Options", "ImgSavePath", val);
     if (b) setImgSavePath(QString::fromStdString(val));
-    else setImgSavePath(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+"/图像保存");
+    else setImgSavePath(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig+tr("/图像保存"));
 
 
     b = this->m_IniFile.GetValue("Options", "OutputType", val);
@@ -200,12 +241,12 @@ void DSClsOptions::load()
     else setShiftMorning(QTime(0,0,0));
 
     b = this->m_IniFile.GetValue("Shift", "ShiftAfternoon", val);
-     tmpTime2=QTime::fromString(QString::fromStdString(val),"hh:mm:ss");
+    tmpTime2=QTime::fromString(QString::fromStdString(val),"hh:mm:ss");
     if (b) setShiftAfternoon(tmpTime2);
     else setShiftAfternoon(QTime(0,0,0));
 
     b = this->m_IniFile.GetValue("Shift", "ShiftNight", val);
-     tmpTime2=QTime::fromString(QString::fromStdString(val),"hh:mm:ss");
+    tmpTime2=QTime::fromString(QString::fromStdString(val),"hh:mm:ss");
     if (b) setShiftNight(tmpTime2);
     else setShiftNight(QTime(0,0,0));
 
@@ -226,6 +267,42 @@ void DSClsOptions::load()
     if (b) setProbNum(static_cast<ENUMPROBNUM>(atoi(val.c_str())));
     else setProbNum(ENUMPROBNUM_3);
 
+
+    b = this->m_IniFile.GetValue("Options", "ArrangeType", val);
+    if (b) setArrangeType(static_cast<ENUMARRANGETYPE>(atoi(val.c_str())));
+    else setArrangeType(ENUMARRANGETYPE::ENUMARRANGETYPE_767);
+
+    b = this->m_IniFile.GetValue("Options", "Com1State", val);
+    if (b) setCom1State((atoi(val.c_str())));
+    else setCom1State(true);
+
+    b = this->m_IniFile.GetValue("Options", "Com2State", val);
+    if (b) setCom2State((atoi(val.c_str())));
+    else setCom2State(true);
+
+    b = this->m_IniFile.GetValue("Options", "Com3State", val);
+    if (b) setCom3State((atoi(val.c_str())));
+    else setCom3State(false);
+
+    b = this->m_IniFile.GetValue("Options", "Com4State", val);
+    if (b) setCom4State((atoi(val.c_str())));
+    else setCom4State(false);
+
+
+    //数据采集
+
+    b=this->m_IniFile.GetValue("Options", "IPAddress", val);
+    if (b) setIPAddress(QString::fromStdString(val));
+    else setIPAddress("192.168.10.11");
+
+    b=this->m_IniFile.GetValue("Options", "IPPort", val);
+    if (b) setIPPort(atoi(val.c_str()));
+    else setIPPort(5021);
+
+    b=this->m_IniFile.GetValue("Options", "SendInverval", val);
+    if (b) setSendInterval(atoi(val.c_str()));
+    else setSendInterval(1);
+
 }
 
 
@@ -239,7 +316,7 @@ void DSClsOptions::save()
         FileHelper::createFile(DSSystemParam::AppPath+"/"+DSSystemParam::ParamsConfig,"Options.ini");
     }
 
-   // QTextCodec *code = QTextCodec::codecForName("GB2312");
+    // QTextCodec *code = QTextCodec::codecForName("GB2312");
     std::string name = path.toStdString();
     this->m_IniFile2.Open(path);
 
@@ -270,6 +347,18 @@ void DSClsOptions::save()
     m_IniFile2.SetValue("Options", "EphDisplay",QString::number((int)this->ephDisplay()));
 
     m_IniFile2.SetValue("Options", "ProbNum",QString::number((int)this->getProbNum()));
+
+
+    m_IniFile2.SetValue("Options", "ArrangeType",QString::number((int)this->getArrangeType()));
+    m_IniFile2.SetValue("Options", "Com1State",QString::number((int)this->getCom1State()));
+    m_IniFile2.SetValue("Options", "Com2State",QString::number((int)this->getCom2State()));
+    m_IniFile2.SetValue("Options", "Com3State",QString::number((int)this->getCom3State()));
+    m_IniFile2.SetValue("Options", "Com4State",QString::number((int)this->getCom4State()));
+
+
+    m_IniFile2.SetValue("Options", "IPAddress", this->getIPAddress());
+    m_IniFile2.SetValue("Options", "IPPort", QString::number(this->m_IpPort));
+    m_IniFile2.SetValue("Options", "SendInverval", QString::number(this->m_iInterval));
 
 
     m_IniFile2.Save();

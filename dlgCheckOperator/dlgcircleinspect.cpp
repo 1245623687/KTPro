@@ -257,7 +257,7 @@ void DlgCircleInspect::initControl()
     this->m_ModelHPos=new QStandardItemModel;
     this->m_ModelVPos=new QStandardItemModel;
     QStringList listmodelMain;
-    listmodelMain<<" "<<"类型"<<"顺序";
+    listmodelMain<<" "<<tr("类型")<<tr("顺序");
     this->m_ModelHPos->setHorizontalHeaderLabels(listmodelMain);
     this->m_ModelVPos->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewH->setModel(this->m_ModelHPos);
@@ -382,7 +382,7 @@ void DlgCircleInspect::loadHVPos()
     this->m_ModelHPos->clear();
     this->m_ModelVPos->clear();
     QStringList listmodelMain;
-    listmodelMain<<" "<<"类型"<<"顺序";
+    listmodelMain<<" "<<tr("类型")<<tr("顺序");
     this->m_ModelHPos->setHorizontalHeaderLabels(listmodelMain);
     this->m_ModelVPos->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewH->setModel(this->m_ModelHPos);

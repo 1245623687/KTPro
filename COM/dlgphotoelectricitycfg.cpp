@@ -78,10 +78,10 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     connect(PackageChecker::getInstance()->m_pBaseCom,&BaseCom::sendCommandRet,this,&dlgphotoelectricitycfg::updateTipText);
 
 
-  if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
-  {
+    //if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+    {
         connect(PackageChecker::getInstance()->m_pBaseCom,&BaseCom::updateCheckRetSig,this,&dlgphotoelectricitycfg::upDateCheckRet);
-  }
+    }
 
 
 
@@ -186,18 +186,7 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->tableViewKT->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
     ui->tableViewKT->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
 
-    //    ui->tableViewKT->setColumnWidth(0,30);
-    //    ui->tableViewKT->setColumnWidth(1,140);
 
-
-
-
-    //初始化
-    //    for (int i=0;i<20;i++)
-    //    {
-    //        m_mapValKT.insert(0,0);
-    //        m_mapValQZ.insert(0,0);
-    //    }
     m_vecValKT.fill(0,20);
     m_vecValQZ.fill(0,20);
 
@@ -230,12 +219,6 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->radioButton_qzcurvalRec->setChecked(true);
 
 
-    //加入模拟板之后，控制板中的门槛值和系数丢弃不用
-    //    ui->groupBox_8->setVisible(false);
-    //    ui->groupBox_12->setVisible(false);
-    //    ui->groupBox_25->setVisible(false);
-    //    ui->groupBox_27->setVisible(false);
-
     //
     ui->groupBox_16->setVisible(false);
     ui->groupBox_33->setVisible(false);
@@ -244,11 +227,63 @@ dlgphotoelectricitycfg::dlgphotoelectricitycfg(QWidget *parent) :
     ui->groupBox_19->setVisible(false);
     ui->groupBox_34->setVisible(false);
 
-    //    ui->pushButton_ktcurrent->setEnabled(false);
-    //    ui->pushButton_qzcurrent->setEnabled(false);
+
+
+    //烟支排序
+    if(  PackageChecker::getInstance()->Options->getArrangeType()==ENUMARRANGETYPE::ENUMARRANGETYPE_677)
+    {
+        ui->horizontalLayout_33->removeWidget(ui->label_qz7);
+        ui-> horizontalLayout_34->insertWidget(1,ui->label_qz7);
+
+
+        ui->horizontalLayout_68->removeWidget(ui->label_qzsim7);
+        ui->horizontalLayout_69->insertWidget(1,ui->label_qzsim7);
+
+        ui->horizontalLayout_50->removeWidget(ui->label_qz7_2);
+        ui->horizontalLayout_53->insertWidget(1,ui->label_qz7_2);
+
+
+        ui->horizontalLayout_37->removeWidget(ui->label_kt7);
+        ui-> horizontalLayout_45->insertWidget(1,ui->label_kt7);
+
+        ui->horizontalLayout_74->removeWidget(ui->label_ktsim7);
+        ui-> horizontalLayout_75->insertWidget(1,ui->label_ktsim7);
+
+        ui->horizontalLayout_55->removeWidget(ui->label_qz7_3);
+        ui-> horizontalLayout_56->insertWidget(1,ui->label_qz7_3);
+    }
+
+    if(  PackageChecker::getInstance()->Options->getArrangeType()==ENUMARRANGETYPE::ENUMARRANGETYPE_1010)
+    {
+
+//        ui->horizontalLayout_33->removeWidget(ui->label_qz7);
+//        ui-> horizontalLayout_34->insertWidget(1,ui->label_qz7);
+
+
+//        ui->horizontalLayout_68->removeWidget(ui->label_qzsim7);
+//        ui->horizontalLayout_69->insertWidget(1,ui->label_qzsim7);
+
+//        ui->horizontalLayout_50->removeWidget(ui->label_qz7_2);
+//        ui->horizontalLayout_53->insertWidget(1,ui->label_qz7_2);
 
 
 
+
+//        ui->horizontalLayout_37->removeWidget(ui->label_kt7);
+//        ui-> horizontalLayout_45->insertWidget(1,ui->label_kt7);
+
+//        ui->horizontalLayout_74->removeWidget(ui->label_ktsim7);
+//        ui-> horizontalLayout_75->insertWidget(1,ui->label_ktsim7);
+
+//        ui->horizontalLayout_55->removeWidget(ui->label_qz7_3);
+//        ui-> horizontalLayout_56->insertWidget(1,ui->label_qz7_3);
+
+        InitArrangement();
+
+    }
+
+    on_pushButtonQZRun_clicked();
+    on_pushButtonKTRun_clicked();
 }
 
 dlgphotoelectricitycfg::~dlgphotoelectricitycfg()
@@ -267,9 +302,13 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         //        QThread::msleep(5);
         //        DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet QZ Ret:"<<endl;
         //        return;
-
         if(!PackageChecker::getInstance()->m_pBaseCom->m_QZPort.isOpen())
-            return;
+        {
+            DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet QZ Ret COM is not open :"<<endl;
+             return;
+        }
+
+
 
         bool ret;
         QVector<int> retVec;
@@ -277,11 +316,16 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
         ret=PackageChecker::getInstance()->m_pBaseCom->getQZData(retVec);
         DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet QZ Ret:"<<ret<<endl;
-        memset(PackageChecker::getInstance()->RetPheQZ,0,sizeof (int)*20);
+
+
+        memset(PackageChecker::getInstance()->RetPheQZ,0,sizeof (int)*21);
+        memset(PackageChecker::getInstance()->RetMapPheQZ,0,sizeof (int)*20);
 
         if(!ret)
         {
-            //PackageChecker::getInstance()->m_MutexRetPheQZ.unlock();
+            m_lqzTotalNum++;
+            ui->label_qzTotalNum->setText(QString::number(m_lqzTotalNum));
+            emit updateMainSceenSig();
             return;
         }
 
@@ -305,6 +349,8 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             {
                 checkRet=true;
                 m_vecKickValQZ[i-2]++;
+                 PackageChecker::getInstance()->RetMapPheQZ[i-2]=true;
+
 
                 m_qzLabels[i-2]->setStyleSheet("color:rgb(200,0,0);font:18pt;");
                 QPair<int ,int> tmpPari(i-1,retVec[i]);
@@ -355,28 +401,46 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
 
         m_mutexMap.unlock();
+
+
+
+        PackageChecker::getInstance()->m_MutexRetPheQZ.lock();
+
+        std::vector<int> verTmp(PackageChecker::getInstance()->RetPheQZ,PackageChecker::getInstance()->RetPheQZ+(sizeof(PackageChecker::getInstance()->RetPheQZ))/sizeof(int));
+         PackageChecker::getInstance()->QueRetPheQZ.push(verTmp);
+
+         std::vector<int> verTmp2(PackageChecker::getInstance()->RetMapPheQZ,PackageChecker::getInstance()->RetMapPheQZ+(sizeof(PackageChecker::getInstance()->RetMapPheQZ))/sizeof(int));
+         PackageChecker::getInstance()->QueRetMapPheQZ.push(verTmp2);
+
+        PackageChecker::getInstance()->m_MutexRetPheQZ.unlock();
     }
 
 
     if(type==2)
     {
-
         //        QThread::msleep(5);
         //        DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet KT Ret:"<<endl;
         //        return;
-
         if(!PackageChecker::getInstance()->m_pBaseCom->m_KTPort.isOpen())
+        {
+            DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet KT Ret COM is not open :"<<endl;
             return;
+        }
 
         bool ret;
         QVector<int> retVec;
-
         ret=PackageChecker::getInstance()->m_pBaseCom->getKTData(retVec);
         DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet KT Ret :"<<ret<<endl;
+
+
         memset(PackageChecker::getInstance()->RetPheKT,0,sizeof (int)*21);
+        memset(PackageChecker::getInstance()->RetMapPheKT,0,sizeof (int)*20);
+
         if(!ret)
         {
-            //PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+            m_lktTotalNum++;
+            ui->label_ktTotalNum->setText(QString::number(m_lktTotalNum));
+            emit updateMainSceenSig();
             return;
         }
 
@@ -398,6 +462,8 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
             if(retVec[i]<thresh)
             {
                 checkRet=true;
+                PackageChecker::getInstance()-> RetMapPheKT[i-2]=true;
+
                 m_vecKickValKT[i-2]++;
 
                 m_ktLabels[i-2]->setStyleSheet("color:rgb(200,0,0);font:18pt;");
@@ -435,7 +501,6 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
             retVec.erase(retVec.begin(),retVec.begin()+2);
 
-
             QString date=QDateTime::currentDateTime().toString("yyyyMMdd-HHmmsszzz");
             m_ktMap.insert(date,retVec);
             if(m_ktMap.size()>20)
@@ -450,6 +515,19 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         ui->label_ktNGRatio->setText(QString::number(ratio,'f',2));
 
         m_mutexMapKT.unlock();
+
+
+
+        PackageChecker::getInstance()->m_MutexRetPheKT.lock();
+        std::vector<int> verTmp(PackageChecker::getInstance()->RetPheKT,PackageChecker::getInstance()->RetPheKT+(sizeof(PackageChecker::getInstance()->RetPheKT))/sizeof(int));
+         PackageChecker::getInstance()->QueRetPheKT.push(verTmp);
+
+         std::vector<int> verTmp2(PackageChecker::getInstance()->RetMapPheKT,PackageChecker::getInstance()->RetMapPheKT+(sizeof(PackageChecker::getInstance()->RetMapPheKT))/sizeof(int));
+         PackageChecker::getInstance()->QueRetMapPheKT.push(verTmp2);
+
+        PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+
+
     }
 
 
@@ -458,7 +536,11 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         //PackageChecker::getInstance()->m_MutexRetPheKT.lock();
 
         if(!PackageChecker::getInstance()->m_pBaseCom->m_QZPortSim.isOpen())
-            return;
+        {
+            DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet KTSim Ret COM is not open :"<<endl;
+             return;
+        }
+
 
         bool ret;
         QVector<int> retVecTmp;
@@ -470,7 +552,9 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         memset(PackageChecker::getInstance()->RetPheQZ,0,sizeof (int)*21);
         if(!ret)
         {
-            //PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+            m_lqzTotalNum++;
+            ui->label_qzTotalNum->setText(QString::number(m_lqzTotalNum));
+            emit updateMainSceenSig();
             return;
         }
 
@@ -568,6 +652,17 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
         ui->label_qzNGRatio->setText(QString::number(ratio,'f',2));
 
         m_mutexMap.unlock();
+
+
+        PackageChecker::getInstance()->m_MutexRetPheQZ.lock();
+
+        std::vector<int> verTmp(PackageChecker::getInstance()->RetPheQZ,PackageChecker::getInstance()->RetPheQZ+(sizeof(PackageChecker::getInstance()->RetPheQZ))/sizeof(int));
+         PackageChecker::getInstance()->QueRetPheQZ.push(verTmp);
+
+         std::vector<int> verTmp2(PackageChecker::getInstance()->RetMapPheQZ,PackageChecker::getInstance()->RetMapPheQZ+(sizeof(PackageChecker::getInstance()->RetMapPheQZ))/sizeof(int));
+         PackageChecker::getInstance()->QueRetMapPheQZ.push(verTmp2);
+
+        PackageChecker::getInstance()->m_MutexRetPheQZ.unlock();
     }
 
     if(type==4)
@@ -589,7 +684,11 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
 
         if(!PackageChecker::getInstance()->m_pBaseCom->m_KTPortSim.isOpen())
+        {
+            DSDEBUG_<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"upDateCheckRet KT Ret COM is not open :"<<endl;
             return;
+        }
+
 
         bool ret;
         QVector<int> retVecTmp;
@@ -603,7 +702,6 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
         if(!ret)
         {
-
             m_lktTotalNum++;
             ui->label_ktTotalNum->setText(QString::number(m_lktTotalNum));
             emit updateMainSceenSig();
@@ -713,6 +811,22 @@ void dlgphotoelectricitycfg::upDateCheckRet(int type)
 
         m_mutexMapKT.unlock();
         emit updateMainSceenSig();
+
+
+
+         PackageChecker::getInstance()->m_MutexRetPheKT.lock();
+
+         std::vector<int> verTmp(PackageChecker::getInstance()->RetPheKT,PackageChecker::getInstance()->RetPheKT+(sizeof(PackageChecker::getInstance()->RetPheKT))/sizeof(int));
+          PackageChecker::getInstance()->QueRetPheKT.push(verTmp);
+
+          std::vector<int> verTmp2(PackageChecker::getInstance()->RetMapPheKT,PackageChecker::getInstance()->RetMapPheKT+(sizeof(PackageChecker::getInstance()->RetMapPheKT))/sizeof(int));
+          PackageChecker::getInstance()->QueRetMapPheKT.push(verTmp2);
+
+
+
+         PackageChecker::getInstance()->m_MutexRetPheKT.unlock();
+
+
 
     }
 
@@ -1219,6 +1333,8 @@ void dlgphotoelectricitycfg::InitControl()
 
     }
 }
+
+
 
 void dlgphotoelectricitycfg::appendInfoText(QString settingName,bool ret,QByteArray text,QByteArray Receivetext)
 {
@@ -2038,12 +2154,41 @@ void dlgphotoelectricitycfg::on_comboBox_ktprob_currentIndexChanged(int index)
 void dlgphotoelectricitycfg::on_pushButtonQZRun_clicked()
 {
     ui->stackedWidget_QZ2->setCurrentIndex(0);
+
+    this->ui->pushButtonQZRun->setStyleSheet("QPushButton#pushButtonQZRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                               "QPushButton#pushButtonQZRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonQZRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZRecord->setStyleSheet("QPushButton#pushButtonQZRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                "QPushButton#pushButtonQZRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonQZRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZResetNum->setStyleSheet("QPushButton#pushButtonQZResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                  "QPushButton#pushButtonQZResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonQZResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+
+
 }
 
 void dlgphotoelectricitycfg::on_pushButtonQZRecord_clicked()
 {
     ui->stackedWidget_QZ2->setCurrentIndex(1);
     on_pushButtonQZRefresh_clicked();
+
+    this->ui->pushButtonQZRun->setStyleSheet("QPushButton#pushButtonQZRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                               "QPushButton#pushButtonQZRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonQZRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZRecord->setStyleSheet("QPushButton#pushButtonQZRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                                "QPushButton#pushButtonQZRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonQZRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZResetNum->setStyleSheet("QPushButton#pushButtonQZResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                  "QPushButton#pushButtonQZResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonQZResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+
 }
 
 void dlgphotoelectricitycfg::on_pushButtonQZResetNum_clicked()
@@ -2059,19 +2204,60 @@ void dlgphotoelectricitycfg::on_pushButtonQZResetNum_clicked()
     m_vecValQZ.fill(0,20);
     m_vecKickValQZ.fill(0,20);
     m_mutexMap.unlock();
+
+    this->ui->pushButtonQZRun->setStyleSheet("QPushButton#pushButtonQZRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                               "QPushButton#pushButtonQZRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonQZRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZRecord->setStyleSheet("QPushButton#pushButtonQZRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                "QPushButton#pushButtonQZRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonQZRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonQZResetNum->setStyleSheet("QPushButton#pushButtonQZResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                                  "QPushButton#pushButtonQZResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonQZResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
 }
 
 void dlgphotoelectricitycfg::on_pushButtonKTRun_clicked()
 {
     ui->stackedWidget_KT2->setCurrentIndex(0);
+
+
+    this->ui->pushButtonKTRun->setStyleSheet("QPushButton#pushButtonKTRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                               "QPushButton#pushButtonKTRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonKTRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTRecord->setStyleSheet("QPushButton#pushButtonKTRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                "QPushButton#pushButtonKTRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonKTRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTResetNum->setStyleSheet("QPushButton#pushButtonKTResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                  "QPushButton#pushButtonKTResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonKTResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+
+
 }
 
 void dlgphotoelectricitycfg::on_pushButtonKTRecord_clicked()
 {
 
     ui->stackedWidget_KT2->setCurrentIndex(1);
-
     on_pushButtonKTRefresh_clicked();
+    this->ui->pushButtonKTRun->setStyleSheet("QPushButton#pushButtonKTRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                               "QPushButton#pushButtonKTRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonKTRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTRecord->setStyleSheet("QPushButton#pushButtonKTRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                                "QPushButton#pushButtonKTRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonKTRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTResetNum->setStyleSheet("QPushButton#pushButtonKTResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                  "QPushButton#pushButtonKTResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonKTResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+
 }
 
 void dlgphotoelectricitycfg::on_pushButtonKTResetNum_clicked()
@@ -2088,7 +2274,22 @@ void dlgphotoelectricitycfg::on_pushButtonKTResetNum_clicked()
     m_vecValKT.fill(0,20);
     m_vecKickValKT.fill(0,20);
     m_mutexMapKT.unlock();
+
+    this->ui->pushButtonKTRun->setStyleSheet("QPushButton#pushButtonKTRun{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                               "QPushButton#pushButtonKTRun:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                               "QPushButton#pushButtonKTRun:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTRecord->setStyleSheet("QPushButton#pushButtonKTRecord{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929); }"
+                                                "QPushButton#pushButtonKTRecord:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                "QPushButton#pushButtonKTRecord:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
+    this->ui->pushButtonKTResetNum->setStyleSheet("QPushButton#pushButtonKTResetNum{border-style: none;border: 0px;color: #F0F0F0;padding: 0px;	min-height: 16px;border-radius:3px;background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #777777); }"
+                                                  "QPushButton#pushButtonKTResetNum:hover{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #636363, stop:1 #575757);}"
+                                                  "QPushButton#pushButtonKTResetNum:pressed{ background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #4D4D4D, stop:1 #292929);}");
+
 }
+
+
 
 void dlgphotoelectricitycfg::on_pushButtonQZRefresh_clicked()
 {
@@ -2112,7 +2313,20 @@ void dlgphotoelectricitycfg::on_pushButtonQZRefresh_clicked()
 
     for (int i=0;i<itor.value().size();i++)
     {
-        unsigned int thresh=pheConfig->getProThreshold(1,i)*pheConfig->getRatio(1);
+
+
+        unsigned int thresh=0;
+
+
+        if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+        {
+             thresh=pheConfig->getProThresholdSim(1, m_mapProbVal[i+1]-1)*pheConfig->getRatioSim(1);
+        }
+        if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
+        {
+            thresh=pheConfig->getProThreshold(1,i)*pheConfig->getRatio(1);
+        }
+
 
         m_qzLabels2[i]->setText(QString("%1").arg(itor.value()[i],4,10,QLatin1Char('0')));
         m_qzLabels2[i]->setStyleSheet("color:rgb(0,0,0);font:16pt;");
@@ -2184,9 +2398,23 @@ void dlgphotoelectricitycfg::on_pushButtonKTRefresh_clicked()
 
     for (int i=0;i<itor.value().size();i++)
     {
-        unsigned int thresh=pheConfig->getProThreshold(2,i)*pheConfig->getRatio(2);
-        m_ktLabels2[i]->setText(QString("%1").arg(itor.value()[i],4,10,QLatin1Char('0')));
 
+         unsigned int thresh=0;
+
+
+         if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_20)
+         {
+              thresh=pheConfig->getProThresholdSim(2, m_mapProbVal[i+1]-1)*pheConfig->getRatioSim(2);
+         }
+         if(PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
+         {
+             thresh=pheConfig->getProThreshold(2,i)*pheConfig->getRatio(2);
+         }
+
+
+         DSDEBUG__<<QString("m_ktLabels2: %1  ").arg(i+1)<<itor.value()[i]<<endl;
+
+        m_ktLabels2[i]->setText(QString("%1").arg(itor.value()[i],4,10,QLatin1Char('0')));
         m_ktLabels2[i]->setStyleSheet("color:rgb(0,0,0);font:16pt;");
         if(itor.value()[i]<thresh)
         {
@@ -3142,4 +3370,267 @@ void dlgphotoelectricitycfg::on_comboBox_ktcurrentCodeVal_currentIndexChanged(in
     ClsPhototElecConfig *pheConfig=PackageChecker::getInstance()->PhotoElecConfig;
 
     ui->lineEdit_ktcurrentCodeVal->setText(QString::number(pheConfig->getProCurrentCodeValSim(2,m_mapProbVal[index+1]-1)));
+}
+
+void dlgphotoelectricitycfg::InitArrangement()
+{
+
+    //缺支控制板
+    QVector<QLabel*> verLables;
+
+    verLables.push_back(ui->label_qz1);
+    verLables.push_back(ui->label_qz2);
+    verLables.push_back(ui->label_qz3);
+    verLables.push_back(ui->label_qz4);
+    verLables.push_back(ui->label_qz5);
+    verLables.push_back(ui->label_qz6);
+    verLables.push_back(ui->label_qz7);
+    verLables.push_back(ui->label_qz8);
+    verLables.push_back(ui->label_qz9);
+    verLables.push_back(ui->label_qz10);
+    verLables.push_back(ui->label_qz11);
+    verLables.push_back(ui->label_qz12);
+    verLables.push_back(ui->label_qz13);
+    verLables.push_back(ui->label_qz14);
+    verLables.push_back(ui->label_qz15);
+    verLables.push_back(ui->label_qz16);
+    verLables.push_back(ui->label_qz17);
+    verLables.push_back(ui->label_qz18);
+    verLables.push_back(ui->label_qz19);
+    verLables.push_back(ui->label_qz20);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(55, 48));
+        verLables[i] ->setMaximumSize(QSize(55, 48));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 16pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+    ui->horizontalLayout_33->setSpacing(5);
+    ui->horizontalLayout_35->setSpacing(5);
+    ui->verticalLayout_4->removeItem(ui->horizontalLayout_34);
+
+    ui->horizontalLayout_33->insertWidget(8,ui->label_qz8);
+    ui->horizontalLayout_33->insertWidget(9,ui->label_qz9);
+    ui->horizontalLayout_33->insertWidget(10,ui->label_qz10);
+
+    ui-> horizontalLayout_35->insertWidget(1,ui->label_qz11);
+    ui-> horizontalLayout_35->insertWidget(2,ui->label_qz12);
+    ui-> horizontalLayout_35->insertWidget(3,ui->label_qz13);
+
+
+    //空头控制板
+    verLables.clear();
+    verLables.push_back(ui->label_kt1);
+    verLables.push_back(ui->label_kt2);
+    verLables.push_back(ui->label_kt3);
+    verLables.push_back(ui->label_kt4);
+    verLables.push_back(ui->label_kt5);
+    verLables.push_back(ui->label_kt6);
+    verLables.push_back(ui->label_kt7);
+    verLables.push_back(ui->label_kt8);
+    verLables.push_back(ui->label_kt9);
+    verLables.push_back(ui->label_kt10);
+    verLables.push_back(ui->label_kt11);
+    verLables.push_back(ui->label_kt12);
+    verLables.push_back(ui->label_kt13);
+    verLables.push_back(ui->label_kt14);
+    verLables.push_back(ui->label_kt15);
+    verLables.push_back(ui->label_kt16);
+    verLables.push_back(ui->label_kt17);
+    verLables.push_back(ui->label_kt18);
+    verLables.push_back(ui->label_kt19);
+    verLables.push_back(ui->label_kt20);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(55, 48));
+        verLables[i] ->setMaximumSize(QSize(55, 48));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 16pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+    ui->horizontalLayout_37->setSpacing(5);
+    ui->horizontalLayout_36->setSpacing(5);
+    ui->verticalLayout_16->removeItem(ui->horizontalLayout_45);
+
+    ui->horizontalLayout_37->insertWidget(8,ui->label_kt8);
+    ui->horizontalLayout_37->insertWidget(9,ui->label_kt9);
+    ui->horizontalLayout_37->insertWidget(10,ui->label_kt10);
+
+    ui-> horizontalLayout_36->insertWidget(1,ui->label_kt11);
+    ui-> horizontalLayout_36->insertWidget(2,ui->label_kt12);
+    ui-> horizontalLayout_36->insertWidget(3,ui->label_kt13);
+
+
+
+    //缺支模拟板
+    verLables.clear();
+
+    verLables.push_back(ui->label_qzsim1);
+    verLables.push_back(ui->label_qzsim2);
+    verLables.push_back(ui->label_qzsim3);
+    verLables.push_back(ui->label_qzsim4);
+    verLables.push_back(ui->label_qzsim5);
+    verLables.push_back(ui->label_qzsim6);
+    verLables.push_back(ui->label_qzsim7);
+    verLables.push_back(ui->label_qzsim8);
+    verLables.push_back(ui->label_qzsim9);
+    verLables.push_back(ui->label_qzsim10);
+    verLables.push_back(ui->label_qzsim11);
+    verLables.push_back(ui->label_qzsim12);
+    verLables.push_back(ui->label_qzsim13);
+    verLables.push_back(ui->label_qzsim14);
+    verLables.push_back(ui->label_qzsim15);
+    verLables.push_back(ui->label_qzsim16);
+    verLables.push_back(ui->label_qzsim17);
+    verLables.push_back(ui->label_qzsim18);
+    verLables.push_back(ui->label_qzsim19);
+    verLables.push_back(ui->label_qzsim20);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(55, 48));
+        verLables[i] ->setMaximumSize(QSize(55, 48));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 16pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+    ui->horizontalLayout_68->setSpacing(5);
+    ui->horizontalLayout_73->setSpacing(5);
+    ui->verticalLayout_32->removeItem(ui->horizontalLayout_69);
+
+    ui->horizontalLayout_68->insertWidget(8,ui->label_qzsim8);
+    ui->horizontalLayout_68->insertWidget(9,ui->label_qzsim9);
+    ui->horizontalLayout_68->insertWidget(10,ui->label_qzsim10);
+
+    ui-> horizontalLayout_73->insertWidget(1,ui->label_qzsim11);
+    ui-> horizontalLayout_73->insertWidget(2,ui->label_qzsim12);
+    ui-> horizontalLayout_73->insertWidget(3,ui->label_qzsim13);
+
+
+    //空头模拟板
+    verLables.clear();
+
+    verLables.push_back(ui->label_ktsim1);
+    verLables.push_back(ui->label_ktsim2);
+    verLables.push_back(ui->label_ktsim3);
+    verLables.push_back(ui->label_ktsim4);
+    verLables.push_back(ui->label_ktsim5);
+    verLables.push_back(ui->label_ktsim6);
+    verLables.push_back(ui->label_ktsim7);
+    verLables.push_back(ui->label_ktsim8);
+    verLables.push_back(ui->label_ktsim9);
+    verLables.push_back(ui->label_ktsim10);
+    verLables.push_back(ui->label_ktsim11);
+    verLables.push_back(ui->label_ktsim12);
+    verLables.push_back(ui->label_ktsim13);
+    verLables.push_back(ui->label_ktsim14);
+    verLables.push_back(ui->label_ktsim15);
+    verLables.push_back(ui->label_ktsim16);
+    verLables.push_back(ui->label_ktsim17);
+    verLables.push_back(ui->label_ktsim18);
+    verLables.push_back(ui->label_ktsim19);
+    verLables.push_back(ui->label_ktsim20);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(55, 48));
+        verLables[i] ->setMaximumSize(QSize(55, 48));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 16pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+    ui->horizontalLayout_74->setSpacing(5);
+    ui->horizontalLayout_76->setSpacing(5);
+    ui->verticalLayout_33->removeItem(ui->horizontalLayout_75);
+
+
+
+    ui->horizontalLayout_74->insertWidget(8,ui->label_ktsim8);
+    ui->horizontalLayout_74->insertWidget(9,ui->label_ktsim9);
+    ui->horizontalLayout_74->insertWidget(10,ui->label_ktsim10);
+
+    ui-> horizontalLayout_76->insertWidget(1,ui->label_ktsim11);
+    ui-> horizontalLayout_76->insertWidget(2,ui->label_ktsim12);
+    ui-> horizontalLayout_76->insertWidget(3,ui->label_ktsim13);
+
+
+    //缺支记录
+    verLables.clear();
+
+    verLables.push_back(ui->label_qz1_2);
+    verLables.push_back(ui->label_qz2_2);
+    verLables.push_back(ui->label_qz3_2);
+    verLables.push_back(ui->label_qz4_2);
+    verLables.push_back(ui->label_qz5_2);
+    verLables.push_back(ui->label_qz6_2);
+    verLables.push_back(ui->label_qz7_2);
+    verLables.push_back(ui->label_qz8_2);
+    verLables.push_back(ui->label_qz9_2);
+    verLables.push_back(ui->label_qz10_2);
+    verLables.push_back(ui->label_qz11_2);
+    verLables.push_back(ui->label_qz12_2);
+    verLables.push_back(ui->label_qz13_2);
+    verLables.push_back(ui->label_qz14_2);
+    verLables.push_back(ui->label_qz15_2);
+    verLables.push_back(ui->label_qz16_2);
+    verLables.push_back(ui->label_qz17_2);
+    verLables.push_back(ui->label_qz18_2);
+    verLables.push_back(ui->label_qz19_2);
+    verLables.push_back(ui->label_qz20_2);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(42, 40));
+        verLables[i] ->setMaximumSize(QSize(42, 40));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 12pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+    ui->verticalLayout_44->removeItem(ui->horizontalLayout_53);
+
+    ui->horizontalLayout_50->insertWidget(8,ui->label_qz8_2);
+    ui->horizontalLayout_50->insertWidget(9,ui->label_qz9_2);
+    ui->horizontalLayout_50->insertWidget(10,ui->label_qz10_2);
+
+    ui-> horizontalLayout_54->insertWidget(1,ui->label_qz11_2);
+    ui-> horizontalLayout_54->insertWidget(2,ui->label_qz12_2);
+    ui-> horizontalLayout_54->insertWidget(3,ui->label_qz13_2);
+
+
+    //空头记录
+    verLables.clear();
+
+    verLables.push_back(ui->label_qz1_3);
+    verLables.push_back(ui->label_qz2_3);
+    verLables.push_back(ui->label_qz3_3);
+    verLables.push_back(ui->label_qz4_3);
+    verLables.push_back(ui->label_qz5_3);
+    verLables.push_back(ui->label_qz6_3);
+    verLables.push_back(ui->label_qz7_3);
+    verLables.push_back(ui->label_qz8_3);
+    verLables.push_back(ui->label_qz9_3);
+    verLables.push_back(ui->label_qz10_3);
+    verLables.push_back(ui->label_qz11_3);
+    verLables.push_back(ui->label_qz12_3);
+    verLables.push_back(ui->label_qz13_3);
+    verLables.push_back(ui->label_qz14_3);
+    verLables.push_back(ui->label_qz15_3);
+    verLables.push_back(ui->label_qz16_3);
+    verLables.push_back(ui->label_qz17_3);
+    verLables.push_back(ui->label_qz18_3);
+    verLables.push_back(ui->label_qz19_3);
+    verLables.push_back(ui->label_qz20_3);
+
+    for(int i=0;i<20;i++)
+    {
+        verLables[i] ->setMinimumSize(QSize(42, 40));
+        verLables[i] ->setMaximumSize(QSize(42, 40));
+        verLables[i] ->setStyleSheet(QString::fromUtf8("font: 12pt \"\345\276\256\350\275\257\351\233\205\351\273\221\";"));
+    }
+
+    ui->verticalLayout_43->removeItem(ui->horizontalLayout_56);
+
+
+
+    ui->horizontalLayout_55->insertWidget(8,ui->label_qz8_3);
+    ui->horizontalLayout_55->insertWidget(9,ui->label_qz9_3);
+    ui->horizontalLayout_55->insertWidget(10,ui->label_qz10_3);
+
+    ui-> horizontalLayout_57->insertWidget(1,ui->label_qz11_3);
+    ui-> horizontalLayout_57->insertWidget(2,ui->label_qz12_3);
+    ui-> horizontalLayout_57->insertWidget(3,ui->label_qz13_3);
+
 }

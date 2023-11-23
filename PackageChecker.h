@@ -17,6 +17,7 @@
 #include"Camera/ccarshuixingmer231c.h"
 #include"IO/ciobase.h"
 #include"COM/basecom.h"
+#include"TCP/cbaseserver.h"
 
 #include <iostream>
 #include<string>
@@ -33,7 +34,7 @@ class PackageChecker: public QObject
     Q_OBJECT
 
 signals:
-   // void updateCheckRetSig(int,QVector<int>&);
+    // void updateCheckRetSig(int,QVector<int>&);
 
     void updateCheckRetSig(int);
     void sendCheckCommandSig(int);
@@ -123,7 +124,7 @@ public:
 private slots:
     void timerlog();
 private:
-   static std::mutex m_Mutex;
+    static std::mutex m_Mutex;
 
 
 
@@ -149,7 +150,7 @@ private:
     PackageChecker();
 
 
-       QMap<int ,int> m_mapProbVal;
+    QMap<int ,int> m_mapProbVal;
 
 public:
     CIOBase * IOContol;
@@ -173,7 +174,7 @@ public:
     QMap<int,CCameraBase*> Cameras;
     ClsCameraConfig * CameraConfig;
 
-     ClsPhototElecConfig* PhotoElecConfig;
+    ClsPhototElecConfig* PhotoElecConfig;
 
 
     ImgTobacco * ImgTobaccoAnalysis=nullptr;
@@ -231,18 +232,30 @@ public:
     static int RetPheQZ[21];
     static int RetMapPheQZ[20];
 
-   static QMutex m_MutexRetPheQZ;
-   static QMutex m_MutexRetPheKT;
+    static QMutex m_MutexRetPheQZ;
+    static QMutex m_MutexRetPheKT;
 
     static int RetPheKT[21];
-
     static int RetMapPheKT[20];
+
+
+    static std::queue<std::vector<int>>  QueRetPheKT;
+    static std::queue<std::vector<int>>   QueRetMapPheKT;
+
+    static std::queue<std::vector<int>>   QueRetPheQZ;
+    static std::queue<std::vector<int>>  QueRetMapPheQZ;
+
+
+
+
 
 
 
     static bool DynamicGrab;
 
     bool m_isUpdateEPH;
+
+    CBaseServer *m_cBaseServerTCP=nullptr;
 public:
 
     static QDateTime m_TimeSystemStart;

@@ -370,8 +370,8 @@ void cCarShuixingMer231C::OnFrameCallbackFun(GX_FRAME_CALLBACK_PARAM *pFrame)
     memcpy(tmp.ptr<uchar>(0), pFrame->pImgBuf, pFrame->nImgSize);
 
 
-//     cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2BGR);
-      cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2RGB);
+     cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2BGR);
+//      cv::cvtColor(tmp, tmp, cv::COLOR_BayerRG2RGB);
 
     //    std::string imgName=(this->m_szIPAddress)+"_.bmp";
     //    cv::imwrite(imgName,tmp);

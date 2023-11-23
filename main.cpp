@@ -7,12 +7,12 @@
 #include"packagechecker.h"
 #include"params/clscommoninput.h"
 #include<QSplashScreen>
+#include <QTranslator>
 #include <tchar.h>
 #include <windows.h>
 #include <DbgHelp.h>
 #include"qtCommon/frmmessagebox.h"
 #include<vector>
-
 #include "board/Xmodem.h"
 #include "board/SerialCom.h"
 #include "board/CMDHost.h"
@@ -96,11 +96,33 @@ int main(int argc, char *argv[])
 //            }
 
 
+    //测试
+//    std::vector<int> verTmp;
+//    std::vector<int> verTmp2;
+//        for (int i=0;i<20;i++)
+//        {
+//            verTmp.push_back(i);
+//            verTmp2.push_back(i);
+//        }
+//        verTmp.push_back(1);
+//        PackageChecker::getInstance()->QueRetPheKT.push(verTmp);
+
+//        PackageChecker::getInstance()->QueRetMapPheKT.push(verTmp2);
+
+
 
 
     SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
     google::InitGoogleLogging(argv[0]);
     QApplication a(argc, argv);
+
+
+    QTranslator *trans = new QTranslator();
+    //注意路径的反斜线，翻译文件加载错误将不会翻译
+    QString qm_path = a.applicationDirPath() + "/Language/English.qm";
+    trans->load(qm_path);
+    a.installTranslator(trans);
+
 
     if(!checkCurrent())
     {
@@ -187,10 +209,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-
-
-
-
+//  QString st=QString(tr("中文"));
     MainWindow w;
     splash.finish(&w);
     w.show();

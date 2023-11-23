@@ -11,7 +11,10 @@
 #include"dsdebug.h"
 #include"CheckOperator/ImageBase.hpp"
 #include "glog/logging.h"
+
+
 #include"Onnx.h"
+
 
 
 
@@ -1750,19 +1753,19 @@ public:
             }
 
             //轮廓点少于60判定为异常轮廓，删除
-//                        std::vector<vector<cv::Point>>::iterator itConter;
-//                        for (itConter = contours.begin(); itConter != contours.end();)
-//                        {
-//                            //if (itConter->size()<40)siping
-//                            if (itConter->size() < 100)//wuzhong
-//                            {
-//                                itConter = contours.erase(itConter);
-//                            }
-//                            else
-//                            {
-//                                itConter++;
-//                            }
-//                        }
+            //                        std::vector<vector<cv::Point>>::iterator itConter;
+            //                        for (itConter = contours.begin(); itConter != contours.end();)
+            //                        {
+            //                            //if (itConter->size()<40)siping
+            //                            if (itConter->size() < 100)//wuzhong
+            //                            {
+            //                                itConter = contours.erase(itConter);
+            //                            }
+            //                            else
+            //                            {
+            //                                itConter++;
+            //                            }
+            //                        }
 
 
             //先考虑轮廓为1的情况
@@ -2502,19 +2505,19 @@ public:
             }
 
             //轮廓点少于60判定为异常轮廓，删除
-//            std::vector<vector<cv::Point>>::iterator itConter;
-//            for (itConter = contours.begin(); itConter != contours.end();)
-//            {
-//                //if (itConter->size()<40)siping
-//                if (itConter->size() < 100)//wuzhong
-//                {
-//                    itConter = contours.erase(itConter);
-//                }
-//                else
-//                {
-//                    itConter++;
-//                }
-//            }
+            //            std::vector<vector<cv::Point>>::iterator itConter;
+            //            for (itConter = contours.begin(); itConter != contours.end();)
+            //            {
+            //                //if (itConter->size()<40)siping
+            //                if (itConter->size() < 100)//wuzhong
+            //                {
+            //                    itConter = contours.erase(itConter);
+            //                }
+            //                else
+            //                {
+            //                    itConter++;
+            //                }
+            //            }
 
 
             //先考虑轮廓为1的情况
@@ -2869,6 +2872,9 @@ public:
         XmlHelper::GetElementTextFromParent("AccuracyType", pEleParent, temp);
         this->ClsCheckOperatorDLObjectDetect->m_iaccuracyType = atoi(temp.c_str());
 
+        XmlHelper::GetElementTextFromParent("CigaTotalNum", pEleParent, temp);
+        this->ClsCheckOperatorDLObjectDetect->m_iCigaTotalNum = atoi(temp.c_str());
+
 
         this->ClsCheckOperatorDLObjectDetect->CheckType=static_cast<ENUMCHECKOPERATORTYPE>(type);
         XMLElement * eleBasic = XmlHelper::GetElementByParent("Basic", pEleParent);
@@ -2900,6 +2906,10 @@ public:
         eleAccuracyTyoe->SetText(this->ClsCheckOperatorDLObjectDetect->m_iaccuracyType);
 
 
+        XMLElement* eleCigaTotalNum = doc.NewElement("CigaTotalNum");
+        eleCigaTotalNum->SetText(this->ClsCheckOperatorDLObjectDetect->m_iCigaTotalNum);
+
+
 
 
         StuCheckOperatorBasicControl *  stuStuCheckOperatorBasicControl = new StuCheckOperatorBasicControl(this->ClsCheckOperatorDLObjectDetect->stu_CheckOperatorBasic);
@@ -2911,6 +2921,7 @@ public:
         eleCheckNo->InsertEndChild(eleMinGrayVal);
         eleCheckNo->InsertEndChild(eleMinPercent);
         eleCheckNo->InsertEndChild(eleAccuracyTyoe);
+        eleCheckNo->InsertEndChild(eleCigaTotalNum);
 
         eleCheckNo->InsertEndChild(eleBasic);
         return eleCheckNo;
@@ -2968,6 +2979,8 @@ public:
         labels.convertTo(dstImage, CV_8U);
     }
 
+
+
     virtual int calculate(cv::Mat& ref, cv::Mat cur,BBoxInfo& bboxInfo)
     {
 
@@ -3022,9 +3035,8 @@ public:
                     res=0;
                     return  res;
                 }
-
             }
-            if((bboxInfo.prob>this->ClsCheckOperatorDLObjectDetect->m_iConfidence/100.0)&&bboxInfo.classId==1)
+           if((bboxInfo.prob>this->ClsCheckOperatorDLObjectDetect->m_iConfidence/100.0)&&bboxInfo.classId==1)
             {
                 res=1;
                 return res;
@@ -3033,13 +3045,15 @@ public:
         return res;
     }
 
-    virtual int debugCalculator(cv::Mat& ref, cv::Mat cur,cv::Mat& dst, cv::Rect rect, int confidence,int minArea,int minGrayVal,int GrayValUpLimit,int accuracyType,int * pDefectNum,int *pKtArea,int *pKtPercent)
+    virtual int debugCalculator(cv::Mat& ref, cv::Mat cur,cv::Mat& dst, cv::Rect rect, int confidence,int minArea,int minGrayVal,int GrayValUpLimit,int accuracyType,int CigaTotalNum,int * pDefectNum,int *pKtArea,int *pKtPercent,int* pCigaTotalNum)
     {
         //cv::imwrite(".test.bmp",cur);
 
 
         int defectNum=0;
         int okNum=0;
+        int ngNum=0;
+        int totalNum=0;
 
         int outminArea=999999999;
         int outminPercent=999999999;
@@ -3093,7 +3107,6 @@ public:
         int camIdx= this->ClsCheckOperatorDLObjectDetect->stu_CheckOperatorBasic->CamIdx;
 
 
-
         OnnxGloable::getInstance()->m_onnxMutex[camIdx-1].lock();
         OnnxGloable::getInstance()->onnxArray[camIdx-1].setConfidence(0.1);
         vector<vector<BBoxInfo>> vec_batch_result;
@@ -3126,17 +3139,17 @@ public:
         }
 
 
+
+
         for(int i=0;i<vecBBoxInfo.size();i++)
         {
 
             if((vecBBoxInfo[i].prob>confidence/100.0)&&vecBBoxInfo[i].classId==0)
             {
-                //
-                //                    defectNum++;
-                //                    cv::rectangle(dst,vecBBoxInfo[i].rect,cv::Scalar(255,0,0),1);
-                //                    ret=1;
+                ngNum++;
+                ret=1;
 
-                //按面积筛查一次
+                //                //按面积筛查一次
                 BBoxInfo r = vecBBoxInfo[i];
                 cv::Rect temp=r.rect &rect;
                 if(temp.area()>r.rect.area()/2)
@@ -3208,18 +3221,90 @@ public:
                             }
                         }
                 }
+
             }
 
             if((vecBBoxInfo[i].prob>confidence/100.0)&&vecBBoxInfo[i].classId==1)
             {
-                  okNum++;
-//                  cv::rectangle(dst,vecBBoxInfo[i].rect,cv::Scalar(0,255,0),1);
+                okNum++;
+                //cv::rectangle(dst,vecBBoxInfo[i].rect,cv::Scalar(0,255,0),1);
             }
-
         }
 
 
-        if(ret==1)
+
+
+        //计算完之后再剔除重叠部分
+        //剔除重叠的部分
+        std::vector<BBoxInfo> vecBBoxFilter,vecBBoxFilterTmp;
+        for(int i=0;i<vecBBoxInfo.size();i++)
+        {
+            vecBBoxFilterTmp.clear();
+            for(int j=0;j<vecBBoxInfo.size();j++)
+            {
+                if(i!=j)
+                {
+                    cv::Rect interRect=vecBBoxInfo[i].rect&vecBBoxInfo[j].rect;
+                    double per=interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area());
+
+                    double per2=interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()));
+
+                    if(interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area())>0.3)
+
+                        //if(interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()))>0.5)
+                    {
+                        vecBBoxFilterTmp.push_back(vecBBoxInfo[j]);
+                    }
+                }
+
+
+            }
+            vecBBoxFilterTmp.push_back(vecBBoxInfo[i]);
+            //把最大的置信度选出来
+
+            float tenpprob=0;
+            int maxprobID=0;
+            for(int k=0;k<vecBBoxFilterTmp.size();k++)
+            {
+                if(vecBBoxFilterTmp[k].prob>tenpprob)
+                {
+                    tenpprob=vecBBoxFilterTmp[k].prob;
+                    maxprobID=k;
+                }
+            }
+            vecBBoxFilter.push_back(vecBBoxFilterTmp[maxprobID]);
+        }
+        //剔除相同的ID
+        std::vector<BBoxInfo> vecBBoxInfoTemp;
+        vecBBoxInfo.swap(vecBBoxInfoTemp);
+        for(int m=0;m<vecBBoxInfoTemp.size();m++)
+        {
+            for(int n=0;n<vecBBoxFilter.size();n++ )
+            {
+                if(vecBBoxFilter[n].boxID==m)
+                {
+                    vecBBoxInfo.push_back(vecBBoxFilter[n]);
+                    break;
+                }
+            }
+        }
+
+
+          for(int i=0;i<vecBBoxInfo.size();i++)
+          {
+               if((vecBBoxInfo[i].prob>50/100.0))
+               {
+                   totalNum++;
+
+               }
+          }
+
+
+
+
+        *pCigaTotalNum=totalNum;
+
+        if(defectNum>0)
         {
             outminArea=ktAreaMax;
             outminPercent=0;
@@ -3229,14 +3314,26 @@ public:
             return ret;
 
         }
-        if(camIdx==1&&okNum<20)
+        else
         {
-            ret=1;
-            *pDefectNum=20-okNum;
             * pKtArea=0;
             *pKtPercent=0;
             return ret;
         }
+
+
+
+
+
+
+        //        if(camIdx==1&&okNum<20)
+        //        {
+        //            ret=1;
+        //            *pDefectNum=20-okNum;
+        //            * pKtArea=0;
+        //            *pKtPercent=0;
+        //            return ret;
+        //        }
 
         return  ret;
 
@@ -3246,6 +3343,10 @@ public:
 public:
     CheckOperatorDLObjectDetect *ClsCheckOperatorDLObjectDetect;
 };
+
+
+
+
 
 
 //缺陷检查算子

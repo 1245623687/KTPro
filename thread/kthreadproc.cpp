@@ -162,12 +162,21 @@ void KThreadProc::run()
             }
         }
 
-
         //发送心跳信号
         {
             emit sigupdateGPIO(prsPin ,0x00);
-            msleep(1);
+//            if(IdxCamera==2)
+//            {
+//                //4号口是什么作用
+//                emit sigupdateGPIO(4 ,0x00);
+//            }
+            msleep(4);
             emit sigupdateGPIO(prsPin ,0xFF);
+
+//            if(IdxCamera==2)
+//            {
+//                emit sigupdateGPIO(4 ,0xFF);
+//            }
         }
 
         pc->Cameras[IdxCamera]->HasImage(pc->CurImage[IdxCamera].ImageRGB.ptr(0));
@@ -203,13 +212,6 @@ void KThreadProc::run()
             msleep(0);
 
         //DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"before emit "<<endl;
-
-
-        //使用3个探头时，与大理使用20个探头更新光电结果信号发送模式不同
-        if(IdxCamera==2&&PackageChecker::getInstance()->Options->getProbNum()==ENUMPROBNUM_3)
-        {
-           emit PackageChecker::getInstance()->updateCheckRetSig(2);
-        }
 #endif
 
         // DSDEBUG_<<IdxCamera<<","<<QTime::currentTime().toString("HH-mm-ss-zzz")<<","<<"emit Finished "<<endl;
@@ -222,8 +224,7 @@ void KThreadProc::run()
                 pc->RunParam_CalcNumNgGDs[IdxCamera-1]++;
             }
 
-            retType =getLogicRet(errAllNum,phe);
-            if(retType)
+            if(errAllNum)
             {
                 pc->RunParam_CalcNumNgTotals[IdxCamera-1]++;
 
@@ -258,7 +259,7 @@ void KThreadProc::run()
         //save img begin
         if(PackageChecker::DynamicGrab)
         {
-            QString saveName=pc->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/分析图像/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera);
+            QString saveName=pc->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+tr("/分析图像/")+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera);
             threadSave->addImg(saveName,pc->CurImage[IdxCamera]);
         }
 
@@ -270,23 +271,23 @@ void KThreadProc::run()
             break;
         case ENUMIMGSAVETYPE_ALL:
         {
-            if(retType>0)
+            if(errAllNum>0)
             {
-                QString saveName=pc->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
+                QString saveName=pc->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
                 threadSave->addImg(saveName,pc->CurImage[IdxCamera]);
             }
             else
             {
-                QString saveName=pc->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/OK/"+QString("Camera%1").arg(IdxCamera)+"/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
+                QString saveName=pc->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/OK/"+QString("Camera%1").arg(IdxCamera)+"/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
                 threadSave->addImg(saveName,pc->CurImage[IdxCamera]);
             }
         }
             break;
         case  ENUMIMGSAVETYPE_NG:
         {
-            if(retType>0)
+            if(errAllNum>0)
             {
-                QString saveName=pc->Options->ImgSavePath()+"/图像保存/"+DSSystemParam::BrandName+"/NG/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
+                QString saveName=pc->Options->ImgSavePath()+tr("/图像保存/")+DSSystemParam::BrandName+"/NG/"+QDateTime::currentDateTime().toString("yyyy-MM-dd")+"/"+QDateTime::currentDateTime().toString("yyyyMMdd-hhmmss-zzz")+QString("_%1_%2_%3.bmp").arg(DSSystemParam::getCurrentShift()).arg(IdxCamera).arg(retType);
                 threadSave->addImg(saveName,pc->CurImage[IdxCamera]);
             }
         }

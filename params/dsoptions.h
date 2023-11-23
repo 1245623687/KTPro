@@ -8,8 +8,9 @@
 #include"common/infile2.h"
 #include"dssystemparam.h"
 #include"DSDebug.h"
-class DSClsOptions
+class DSClsOptions:public QObject
 {
+    Q_OBJECT
 public:
 
     static DSClsOptions* getInstance();
@@ -83,6 +84,33 @@ public:
     ENUMPROBNUM getProbNum(){return m_ProbNum;}
 
 
+    void setArrangeType(ENUMARRANGETYPE mode){this->m_ArrangeType=mode;}
+    ENUMARRANGETYPE getArrangeType(){return m_ArrangeType;}
+
+    void setCom1State(int  state){this->m_Com1=state;}
+    int getCom1State(){return m_Com1;}
+
+    void setCom2State(int  state){this->m_Com2=state;}
+    int getCom2State(){return m_Com2;}
+
+    void setCom3State(int  state){this->m_Com3=state;}
+    int getCom3State(){return m_Com3;}
+
+    void setCom4State(int  state){this->m_Com4=state;}
+    int getCom4State(){return m_Com4;}
+
+
+    //数据采集
+    void setIPAddress(QString ipAddress){this->m_strIpAddress=ipAddress;}
+    QString getIPAddress(){return  this->m_strIpAddress;}
+
+    void setIPPort(uint16_t port){this->m_IpPort=port;}
+    uint16_t getIPPort(){return  this->m_IpPort;}
+
+    void setSendInterval(int interval){this->m_iInterval=interval;}
+    int getSendInterval(){return  this->m_iInterval;}
+
+
 
     ~DSClsOptions()
     {
@@ -140,7 +168,7 @@ private:
     ENUMCHECKMODETYPE m_CheckModeType;
     ENUMEPHDISPLAYTYPE m_EphDispType;
 
-        ENUMPROBNUM m_ProbNum;
+    ENUMPROBNUM m_ProbNum;
 
     int m_MaxCameraNum;
     QString m_ImgSavePath;
@@ -148,6 +176,15 @@ private:
     ENUMDISPLAYTYPE m_DisplayType;
     int m_SaveDaysNum=30;
     int m_WaitTime;
+
+
+    int m_Com1,m_Com2,m_Com3,m_Com4;
+     ENUMARRANGETYPE m_ArrangeType;
+
+
+     QString m_strIpAddress;
+     uint16_t m_IpPort;
+     int m_iInterval;
 
 
     QTime m_ShiftMorning;

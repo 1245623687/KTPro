@@ -83,10 +83,10 @@ void RecordDialog::loadPage()
 
     QStringList listmodelMain;
     //listmodelMain<<"日期"<<"班次"<<"牌号"<<"检测总数"<<"剔除总数"<<"No";
-    listmodelMain<<"日期"<<"班次"<<"牌号"<<"检测总数";
+    listmodelMain<<tr("日期")<<tr("班次")<<tr("牌号")<<tr("检测总数");
     for(int i=0;i<DSSystemParam::CameraNum;i++)
     {
-        listmodelMain<<QString("相机%1剔除数").arg(i+1);
+        listmodelMain<<QString(tr("相机%1剔除数")).arg(i+1);
     }
     listmodelMain<<"No";
 
@@ -404,7 +404,7 @@ void RecordDialog::initModel()
     //mainrecord的model
     modelMain = new QStandardItemModel(1,1,this);
     QStringList listmodelMain;
-    listmodelMain<<"日期"<<"班次"<<"牌号"<<"检测总数"<<"剔除总数"<<"No";
+    listmodelMain<<tr("日期")<<tr("班次")<<tr("牌号")<<tr("检测总数")<<tr("剔除总数")<<"No";
     modelMain->setHorizontalHeaderLabels(listmodelMain);
     //    modelMain->setHorizontalHeaderItem(0,new QStandardItem("日期"));
     //    modelMain->setHorizontalHeaderItem(1,new QStandardItem("班次"));

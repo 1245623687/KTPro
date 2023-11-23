@@ -22,6 +22,9 @@ public:
     int setLevel(unsigned char iPin,unsigned int idTypeVal,unsigned int setVal);
 
 
+        int getLevel(int iPin, int &pvalue) override;
+
+
 private:
     uint32_t get_level(
         __IN EApiId_t Id, /* GPIO Id */

@@ -504,7 +504,7 @@ void DlgCameraConfig::on_toolButtonCapture_clicked()
         if(! pc->Cameras[m_CurCameraNo]->IsOpen())
         {
             frmMessageBox *msg = new frmMessageBox;
-            msg->SetMessage(QString("相机%1无法打开,请检查相机是否连接!").arg(m_CurCameraNo), 0);
+            msg->SetMessage(QString(tr("相机%1无法打开,请检查相机是否连接!")).arg(m_CurCameraNo), 0);
             msg->exec();
             this->ui->toolButtonCapture->setEnabled(true);
             setCursor(Qt::ArrowCursor);

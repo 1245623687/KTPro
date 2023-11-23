@@ -301,7 +301,7 @@
                  <number>1</number>
                 </property>
                 <widget class="QWidget" name="page_qztest">
-                 <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1">
+                 <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
                   <property name="spacing">
                    <number>1</number>
                   </property>
@@ -1071,6 +1071,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1095,6 +1098,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1121,6 +1127,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1145,6 +1154,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1171,6 +1183,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1195,6 +1210,37 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="label_qz7">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::Box</enum>
+                             </property>
+                             <property name="text">
+                              <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1232,31 +1278,6 @@ QPushButton#pushButtonQZResetNum:pressed{
                             </spacer>
                            </item>
                            <item>
-                            <widget class="QLabel" name="label_qz7">
-                             <property name="minimumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
                             <widget class="QLabel" name="label_qz8">
                              <property name="minimumSize">
                               <size>
@@ -1278,6 +1299,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1304,6 +1328,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1328,6 +1355,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1354,6 +1384,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1379,6 +1412,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1403,6 +1439,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1462,6 +1501,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1486,6 +1528,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1512,6 +1557,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1536,6 +1584,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1562,6 +1613,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1587,6 +1641,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -1611,6 +1668,9 @@ QPushButton#pushButtonQZResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -1875,7 +1935,7 @@ color: rgb(200, 0, 0);</string>
                         <property name="styleSheet">
                          <string notr="true">background-color: rgb(159, 159, 159);</string>
                         </property>
-                        <layout class="QVBoxLayout" name="verticalLayout_26" stretch="0,1,1,1">
+                        <layout class="QVBoxLayout" name="verticalLayout_26" stretch="0,1">
                          <property name="spacing">
                           <number>1</number>
                          </property>
@@ -1983,489 +2043,690 @@ color: rgb(200, 0, 0);</string>
                           </widget>
                          </item>
                          <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_50">
-                           <property name="spacing">
-                            <number>2</number>
+                          <widget class="QWidget" name="widget_59" native="true">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>180</height>
+                            </size>
                            </property>
-                           <item>
-                            <spacer name="horizontalSpacer_49">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz1_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz2_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz3_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz4_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz5_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz6_2">
-                             <property name="minimumSize">
-                              <size>
-                               <width>0</width>
-                               <height>0</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_50">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_53">
-                           <property name="spacing">
-                            <number>2</number>
-                           </property>
-                           <item>
-                            <spacer name="horizontalSpacer_51">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz7_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz8_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz9_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz10_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz11_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz12_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz13_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_52">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_54">
-                           <property name="spacing">
-                            <number>2</number>
-                           </property>
-                           <item>
-                            <spacer name="horizontalSpacer_53">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz14_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz15_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz16_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz17_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz18_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz19_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz20_2">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_54">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
+                           <layout class="QVBoxLayout" name="verticalLayout_44">
+                            <property name="spacing">
+                             <number>1</number>
+                            </property>
+                            <property name="leftMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>1</number>
+                            </property>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_50">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_49">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz1_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz2_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz3_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz4_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz5_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz6_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz7_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_50">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_53">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_51">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz8_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz9_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz10_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz11_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz12_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz13_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_52">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_54">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_53">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz14_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz15_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz16_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz17_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz18_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz19_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz20_2">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_54">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
                          </item>
                         </layout>
                        </widget>
@@ -2724,7 +2985,7 @@ QPushButton#pushButtonQZRefresh:pressed{
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(175, 175, 175);</string>
                     </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_32" stretch="1,0,1,0">
+                    <layout class="QVBoxLayout" name="verticalLayout_32" stretch="1,1,1,0">
                      <property name="spacing">
                       <number>1</number>
                      </property>
@@ -2741,7 +3002,7 @@ QPushButton#pushButtonQZRefresh:pressed{
                       <number>1</number>
                      </property>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_68" stretch="0,1,1,1,1,1,1,0">
+                      <layout class="QHBoxLayout" name="horizontalLayout_68" stretch="0,0,0,0,0,0,0,0,0">
                        <property name="spacing">
                         <number>10</number>
                        </property>
@@ -2781,6 +3042,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -2805,6 +3069,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -2831,6 +3098,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -2855,6 +3125,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -2881,6 +3154,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -2905,6 +3181,37 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_qzsim7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Box</enum>
+                         </property>
+                         <property name="text">
+                          <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -2942,31 +3249,6 @@ QPushButton#pushButtonQZRefresh:pressed{
                         </spacer>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_qzsim7">
-                         <property name="minimumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::Box</enum>
-                         </property>
-                         <property name="text">
-                          <string>0000</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
                         <widget class="QLabel" name="label_qzsim8">
                          <property name="minimumSize">
                           <size>
@@ -2988,6 +3270,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3014,6 +3299,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -3038,6 +3326,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3064,6 +3355,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -3088,6 +3382,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3119,6 +3416,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3163,6 +3463,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -3178,6 +3484,9 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -3187,6 +3496,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
                          </property>
                          <property name="maximumSize">
                           <size>
@@ -3213,6 +3528,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -3237,6 +3558,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
                          </property>
                          <property name="maximumSize">
                           <size>
@@ -3325,6 +3652,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -3364,6 +3697,12 @@ QPushButton#pushButtonQZRefresh:pressed{
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>37</height>
+                        </size>
                        </property>
                        <property name="maximumSize">
                         <size>
@@ -4569,13 +4908,13 @@ QPushButton#pushButton_qzfaultsigset:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
                           <property name="maximumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>16777215</height>
                            </size>
                           </property>
@@ -4803,7 +5142,7 @@ QPushButton#pushButton_qzcurrent:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -5037,7 +5376,7 @@ QPushButton#pushButton_qzcurrentRatio:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -5271,7 +5610,7 @@ QPushButton:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -5496,7 +5835,7 @@ QPushButton#pushButton_qzgain:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -7418,7 +7757,7 @@ QPushButton#pushButtonKTResetNum:pressed{
                           <number>1</number>
                          </property>
                          <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_37" stretch="0,1,1,1,1,1,1,0">
+                          <layout class="QHBoxLayout" name="horizontalLayout_37" stretch="0,0,0,0,0,0,0,0,0">
                            <property name="spacing">
                             <number>10</number>
                            </property>
@@ -7458,6 +7797,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7482,6 +7824,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7508,6 +7853,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7532,6 +7880,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7558,6 +7909,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7582,6 +7936,37 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="label_kt7">
+                             <property name="minimumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="maximumSize">
+                              <size>
+                               <width>70</width>
+                               <height>59</height>
+                              </size>
+                             </property>
+                             <property name="styleSheet">
+                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                             </property>
+                             <property name="frameShape">
+                              <enum>QFrame::Box</enum>
+                             </property>
+                             <property name="text">
+                              <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7619,31 +8004,6 @@ QPushButton#pushButtonKTResetNum:pressed{
                             </spacer>
                            </item>
                            <item>
-                            <widget class="QLabel" name="label_kt7">
-                             <property name="minimumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
                             <widget class="QLabel" name="label_kt8">
                              <property name="minimumSize">
                               <size>
@@ -7665,6 +8025,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7691,6 +8054,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7715,6 +8081,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7741,6 +8110,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7765,6 +8137,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7796,6 +8171,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7861,6 +8239,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7891,6 +8272,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7923,6 +8307,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -7953,6 +8340,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -7985,6 +8375,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -8016,6 +8409,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              <property name="text">
                               <string>0000</string>
                              </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
+                             </property>
                             </widget>
                            </item>
                            <item>
@@ -8046,6 +8442,9 @@ QPushButton#pushButtonKTResetNum:pressed{
                              </property>
                              <property name="text">
                               <string>0000</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignCenter</set>
                              </property>
                             </widget>
                            </item>
@@ -8276,7 +8675,7 @@ color: rgb(200, 0, 0);</string>
                         <property name="styleSheet">
                          <string notr="true">background-color: rgb(159, 159, 159);</string>
                         </property>
-                        <layout class="QVBoxLayout" name="verticalLayout_29" stretch="0,1,1,1">
+                        <layout class="QVBoxLayout" name="verticalLayout_29" stretch="0,1">
                          <property name="spacing">
                           <number>1</number>
                          </property>
@@ -8378,489 +8777,690 @@ color: rgb(200, 0, 0);</string>
                           </widget>
                          </item>
                          <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_55">
-                           <property name="spacing">
-                            <number>2</number>
+                          <widget class="QWidget" name="widget_58" native="true">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>200</height>
+                            </size>
                            </property>
-                           <item>
-                            <spacer name="horizontalSpacer_55">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz1_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz2_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz3_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz4_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz5_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz6_3">
-                             <property name="minimumSize">
-                              <size>
-                               <width>0</width>
-                               <height>0</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_56">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_56">
-                           <property name="spacing">
-                            <number>2</number>
-                           </property>
-                           <item>
-                            <spacer name="horizontalSpacer_57">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz7_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz8_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz9_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz10_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz11_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz12_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz13_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_58">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_57">
-                           <property name="spacing">
-                            <number>2</number>
-                           </property>
-                           <item>
-                            <spacer name="horizontalSpacer_59">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz14_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz15_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz16_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz17_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz18_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz19_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QLabel" name="label_qz20_3">
-                             <property name="maximumSize">
-                              <size>
-                               <width>70</width>
-                               <height>59</height>
-                              </size>
-                             </property>
-                             <property name="styleSheet">
-                              <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
-                             </property>
-                             <property name="frameShape">
-                              <enum>QFrame::Box</enum>
-                             </property>
-                             <property name="text">
-                              <string>0000</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <spacer name="horizontalSpacer_60">
-                             <property name="orientation">
-                              <enum>Qt::Horizontal</enum>
-                             </property>
-                             <property name="sizeHint" stdset="0">
-                              <size>
-                               <width>40</width>
-                               <height>20</height>
-                              </size>
-                             </property>
-                            </spacer>
-                           </item>
-                          </layout>
+                           <layout class="QVBoxLayout" name="verticalLayout_43">
+                            <property name="spacing">
+                             <number>1</number>
+                            </property>
+                            <property name="leftMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>1</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>1</number>
+                            </property>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_55">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_55">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz1_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz2_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz3_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz4_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz5_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz6_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz7_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_56">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_56">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_57">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz8_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz9_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz10_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz11_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz12_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz13_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_58">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                            <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_57">
+                              <property name="spacing">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <spacer name="horizontalSpacer_59">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz14_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz15_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz16_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz17_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz18_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>70</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz19_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QLabel" name="label_qz20_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>61</width>
+                                  <height>59</height>
+                                 </size>
+                                </property>
+                                <property name="styleSheet">
+                                 <string notr="true">font: 16pt &quot;微软雅黑&quot;;</string>
+                                </property>
+                                <property name="frameShape">
+                                 <enum>QFrame::Box</enum>
+                                </property>
+                                <property name="text">
+                                 <string>0000</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <spacer name="horizontalSpacer_60">
+                                <property name="orientation">
+                                 <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                 <size>
+                                  <width>40</width>
+                                  <height>20</height>
+                                 </size>
+                                </property>
+                               </spacer>
+                              </item>
+                             </layout>
+                            </item>
+                           </layout>
+                          </widget>
                          </item>
                         </layout>
                        </widget>
@@ -9142,7 +9742,7 @@ QPushButton#pushButtonKTRefresh:pressed{
                       <number>1</number>
                      </property>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="0,1,1,1,1,1,1,0">
+                      <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="0,0,0,0,0,0,0,0,0">
                        <property name="spacing">
                         <number>10</number>
                        </property>
@@ -9182,6 +9782,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9206,6 +9809,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9232,6 +9838,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9256,6 +9865,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9282,6 +9894,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9306,6 +9921,37 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_ktsim7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Box</enum>
+                         </property>
+                         <property name="text">
+                          <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9343,31 +9989,6 @@ QPushButton#pushButtonKTRefresh:pressed{
                         </spacer>
                        </item>
                        <item>
-                        <widget class="QLabel" name="label_ktsim7">
-                         <property name="minimumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>70</width>
-                           <height>59</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 18pt &quot;微软雅黑&quot;;</string>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::Box</enum>
-                         </property>
-                         <property name="text">
-                          <string>0000</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
                         <widget class="QLabel" name="label_ktsim8">
                          <property name="minimumSize">
                           <size>
@@ -9389,6 +10010,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9415,6 +10039,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9439,6 +10066,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9465,6 +10095,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9489,6 +10122,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9520,6 +10156,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9564,6 +10203,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -9578,6 +10223,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9589,6 +10237,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -9603,6 +10257,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9614,6 +10271,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -9628,6 +10291,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9639,6 +10305,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>70</width>
@@ -9653,6 +10325,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9685,6 +10360,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9716,6 +10394,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <property name="text">
                           <string>0000</string>
                          </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -9725,6 +10406,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>59</height>
+                          </size>
                          </property>
                          <property name="maximumSize">
                           <size>
@@ -9740,6 +10427,9 @@ QPushButton#pushButtonKTRefresh:pressed{
                          </property>
                          <property name="text">
                           <string>0000</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -9765,6 +10455,12 @@ QPushButton#pushButtonKTRefresh:pressed{
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>37</height>
+                        </size>
                        </property>
                        <property name="maximumSize">
                         <size>
@@ -10973,7 +11669,7 @@ QPushButton#pushButton_ktfaultsigset:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -11207,7 +11903,7 @@ QPushButton#pushButton_ktcurrent:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -11441,7 +12137,7 @@ QPushButton#pushButton_ktcurrentRatio:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -11675,7 +12371,7 @@ QPushButton:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>
@@ -11900,7 +12596,7 @@ QPushButton#pushButton_ktgain:pressed{
                           </property>
                           <property name="minimumSize">
                            <size>
-                            <width>125</width>
+                            <width>135</width>
                             <height>0</height>
                            </size>
                           </property>

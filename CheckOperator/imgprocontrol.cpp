@@ -2041,20 +2041,20 @@ int ImgProControl::calculateCV(unsigned char errArr[])
         }
             break;
 
+#ifdef FLAG_KONGTOU
         case ENUMCHECKOPERATORTYPE_DLOBJECTDETECT://目标检测
         {
+
+
             //LOG(INFO)<<"开始异形检测,相机:"<<this->ClsImgPro->ImgIndex<<" 编号"<< (*itor)->stu_CheckOperatorBasic->Index;
             CheckOperatorDLObjectDetect * pCheckOperatorDLObjectDetect= dynamic_cast<CheckOperatorDLObjectDetect*>((*itor));
             CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
 
-//            accuracyType=pCheckOperatorDLObjectDetect->m_iaccuracyType;
-
-//            if(this->ClsImgPro->ImgIndex==2)
-
+            //            accuracyType=pCheckOperatorDLObjectDetect->m_iaccuracyType;
+            //            if(this->ClsImgPro->ImgIndex==2)
 
             DSDEBUG<<"开始推理  camera:"<<this->ClsImgPro->ImgIndex<<endl;
-
-             if(OnnxGloable::getInstance()->onnxArray[this->ClsImgPro->ImgIndex-1].m_bIsValid)
+            if(OnnxGloable::getInstance()->onnxArray[this->ClsImgPro->ImgIndex-1].m_bIsValid)
             {
                 //            this->ClsImgPro->CurBadOpencvImage.ImageRGB=this->ClsImgPro->CalcOpencvImage.ImageRGB;
                 std::vector<BBoxInfo> vecBBoxInfo;
@@ -2119,6 +2119,10 @@ int ImgProControl::calculateCV(unsigned char errArr[])
                 list<CheckOperatorBasic*>::iterator itor = this->ClsImgPro->LstCheckOperator.begin();
                 list<CheckOperatorBasic*>::iterator itorMax;
                 int OKBoxs=0;
+                int NGBoxs=0;
+                int CigaTotalNum=0;
+
+                int totalNum=0;
 
                 for(int i=0;i<vecBBoxInfo.size();i++)
                 {
@@ -2198,38 +2202,107 @@ int ImgProControl::calculateCV(unsigned char errArr[])
                         CheckOperatorDLObjectDetectControl control(pCheckOperatorDLObjectDetect);
                         // errArr[errIndex]=0;
 
+                        CigaTotalNum=   pCheckOperatorDLObjectDetect->m_iCigaTotalNum;
                         cv::Rect interRect=vecBBoxInfo[i].rect&rectCropMap;
                         int res=-1;
                         if(interRect.area()>vecBBoxInfo[i].rect.area()/2)
                         {
                             res=control.calculate(this->ClsImgPro->CalcOpencvImage.ImageRGB, curTmp,vecBBoxInfo[i]);
 
-
                             if (res == 0)
                             {
                                 cv::rectangle(this->ClsImgPro->CurBadOpencvImage.ImageRGB,vecBBoxInfo[i].rect,cv::Scalar(255,0,0),3);
-
                                 errArr[errIndex]=1;
                                 ret++;
+                                NGBoxs++;
                             }
                             if(res==1)
                             {
                                 OKBoxs++;
                             }
                         }
-
                     }
                 }
-                if(OKBoxs<20&&this->ClsImgPro->ImgIndex==1)
+
+
+                //计算完之后再剔除重叠部分
+                //剔除重叠的部分
+                std::vector<BBoxInfo> vecBBoxFilter,vecBBoxFilterTmp;
+                for(int i=0;i<vecBBoxInfo.size();i++)
                 {
-                      ret++;
-                      errArr[errIndex]=1;
+                    vecBBoxFilterTmp.clear();
+                    for(int j=0;j<vecBBoxInfo.size();j++)
+                    {
+                        if(i!=j)
+                        {
+                            cv::Rect interRect=vecBBoxInfo[i].rect&vecBBoxInfo[j].rect;
+                            double per=interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area());
+
+                            double per2=interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()));
+
+                            if(interRect.area()/double((vecBBoxInfo[i].rect.area()+vecBBoxInfo[j].rect.area())-interRect.area())>0.3)
+
+                                //if(interRect.area()/double(qMax(vecBBoxInfo[i].rect.area(),vecBBoxInfo[j].rect.area()))>0.5)
+                            {
+                                vecBBoxFilterTmp.push_back(vecBBoxInfo[j]);
+                            }
+                        }
+
+
+                    }
+                    vecBBoxFilterTmp.push_back(vecBBoxInfo[i]);
+                    //把最大的置信度选出来
+
+                    float tenpprob=0;
+                    int maxprobID=0;
+                    for(int k=0;k<vecBBoxFilterTmp.size();k++)
+                    {
+                        if(vecBBoxFilterTmp[k].prob>tenpprob)
+                        {
+                            tenpprob=vecBBoxFilterTmp[k].prob;
+                            maxprobID=k;
+                        }
+                    }
+                    vecBBoxFilter.push_back(vecBBoxFilterTmp[maxprobID]);
+                }
+                //剔除相同的ID
+                std::vector<BBoxInfo> vecBBoxInfoTemp;
+                vecBBoxInfo.swap(vecBBoxInfoTemp);
+                for(int m=0;m<vecBBoxInfoTemp.size();m++)
+                {
+                    for(int n=0;n<vecBBoxFilter.size();n++ )
+                    {
+                        if(vecBBoxFilter[n].boxID==m)
+                        {
+                            vecBBoxInfo.push_back(vecBBoxFilter[n]);
+                            break;
+                        }
+                    }
+                }
+
+
+                for(int i=0;i<vecBBoxInfo.size();i++)
+                {
+                    if((vecBBoxInfo[i].prob>50/100.0))
+                    {
+                        totalNum++;
+                    }
+                }
+
+
+                if(totalNum< pCheckOperatorDLObjectDetect->m_iCigaTotalNum)
+                {
+                    ret++;
+                    errArr[errIndex]=1;
                 }
 
             }
 
         }
             break;
+
+#endif
+
         case ENUMCHECKOPERATORTYPE_ASSOCIATEDINSPECT2://关联检测
         {
             //LOG(INFO)<<"开始异形检测,相机:"<<this->ClsImgPro->ImgIndex<<" 编号"<< (*itor)->stu_CheckOperatorBasic->Index;

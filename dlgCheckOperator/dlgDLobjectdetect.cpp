@@ -196,6 +196,9 @@ void DlgDLObjectDetect::updateCheckRes()
     int singleMaxArea=0;
     int ktArea=0;
     int ktPercent=0;
+    int cigaTotalNum=0;
+
+    int CigaTotalNum=ui->spinBoxCigaTotalNum->value();
 
 
 
@@ -219,7 +222,7 @@ void DlgDLObjectDetect::updateCheckRes()
     // cv::cvtColor(imgGray,imgGray,cv::COLOR_BGR2GRAY);
     // cv::Mat dstMat;
     bool res=checkOperatorDLObjectDetectControl.debugCalculator(imgGray,imgGray,imgRes.ImageRGB,m_curRect,ui->spinBoxConfidence->value(),
-                                                                ui->spinBoxKtMinArea->value(),ui->spinBoxGrayVal->value(),ui->spinBoxGrayValUpLimit->value(),accuracyType,&defectNum ,&ktArea,&ktPercent);
+                                                                ui->spinBoxKtMinArea->value(),ui->spinBoxGrayVal->value(),ui->spinBoxGrayValUpLimit->value(),ui->spinBoxCigaTotalNum->value(),accuracyType,&defectNum ,&ktArea,&ktPercent,&cigaTotalNum);
 #endif
 
     this->m_ItemImage->reLoadImage(imgRes,imgRes.ImageRGB.cols,imgRes.ImageRGB.rows);
@@ -231,7 +234,11 @@ void DlgDLObjectDetect::updateCheckRes()
 
     this->ui->labelDefectNum->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
 
-    if(!res) {
+
+    this->ui->labelCigaTotalNum->setText(QString::number(cigaTotalNum));
+    this->ui->labelCigaTotalNum->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
+
+    if(defectNum==0) {
         ui->labelResult->setText("OK");
         this->ui->labelResult->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
         this->ui->labelDefectNum->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
@@ -243,6 +250,22 @@ void DlgDLObjectDetect::updateCheckRes()
         this->ui->labelResult->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
         this->ui->labelDefectNum->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
         m_Res=-1;
+    }
+
+
+    if(cigaTotalNum<CigaTotalNum)
+    {
+        ui->labelResultCigaTotalNum->setText("NG");
+        this->ui->labelResultCigaTotalNum->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
+        this->ui->labelCigaTotalNum->setStyleSheet("background-color: rgb(255, 0, 0);font: 12pt \"微软雅黑\";");
+
+    }
+    else
+    {
+        ui->labelResultCigaTotalNum->setText("OK");
+        this->ui->labelResultCigaTotalNum->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
+        this->ui->labelCigaTotalNum->setStyleSheet("background-color: rgb(0, 255, 0);font: 12pt \"微软雅黑\";");
+
     }
 
 }
@@ -286,7 +309,7 @@ void DlgDLObjectDetect::loadHVPos()
     this->m_ModelHPos->clear();
     this->m_ModelVPos->clear();
     QStringList listmodelMain;
-    listmodelMain<<" "<<"类型"<<"顺序";
+    listmodelMain<<" "<<tr("类型")<<tr("顺序");
     this->m_ModelHPos->setHorizontalHeaderLabels(listmodelMain);
     this->m_ModelVPos->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewH->setModel(this->m_ModelHPos);
@@ -480,7 +503,7 @@ void DlgDLObjectDetect::initControl()
     this->m_ModelHPos=new QStandardItemModel;
     this->m_ModelVPos=new QStandardItemModel;
     QStringList listmodelMain;
-    listmodelMain<<" "<<"类型"<<"顺序";
+    listmodelMain<<" "<<tr("类型")<<tr("顺序");
     this->m_ModelHPos->setHorizontalHeaderLabels(listmodelMain);
     this->m_ModelVPos->setHorizontalHeaderLabels(listmodelMain);
     ui->tableViewH->setModel(this->m_ModelHPos);
@@ -536,11 +559,15 @@ void DlgDLObjectDetect::initControl()
         ui->radioButton_accuracyH->setChecked(true);
     }
 
+     ui->spinBoxCigaTotalNum->setValue(m_CheckOperator->m_iCigaTotalNum);
+
 
     connect(ui->spinBoxConfidence,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
     connect(ui->spinBoxKtMinArea,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
     connect(ui->spinBoxGrayVal,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
     connect(ui->spinBoxGrayValUpLimit,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
+
+    connect(ui->spinBoxCigaTotalNum,SIGNAL(clicked(KControlsBase* )),this,SLOT(showKeyBoard(KControlsBase* )));
 
 
     ui->lineEditImageArea->setEnabled(false);
@@ -641,6 +668,8 @@ void DlgDLObjectDetect::saveParam()
     this->m_CheckOperator->m_iMinArea=ui->spinBoxKtMinArea->value();
     this->m_CheckOperator->m_iMinGrayVal=ui->spinBoxGrayVal->value();
     this->m_CheckOperator->m_iValUpLimt=ui->spinBoxGrayValUpLimit->value();
+
+    this->m_CheckOperator->m_iCigaTotalNum=ui->spinBoxCigaTotalNum->value();
 
 
     int accuracyType=0;
@@ -831,6 +860,17 @@ void DlgDLObjectDetect::on_spinBoxGrayValUpLimit_valueChanged(int arg1)
 void DlgDLObjectDetect::on_horizontalspinBoxGrayValUpLimit_valueChanged(int value)
 {
     ui->spinBoxGrayValUpLimit->setValue(value);
+}
+
+void DlgDLObjectDetect::on_spinBoxCigaTotalNum_valueChanged(int arg1)
+{
+    ui->horizontalSliderCigaTotalNum->setValue(arg1);
+    updateCheckRes();
+}
+
+void DlgDLObjectDetect::on_horizontalSliderCigaTotalNum_valueChanged(int value)
+{
+    ui->spinBoxCigaTotalNum->setValue(value);
 }
 
 void DlgDLObjectDetect::on_radioButton_accuracyN_toggled(bool checked)

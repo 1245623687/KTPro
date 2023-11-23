@@ -176,7 +176,7 @@ void DlgBrandManage::loadTableModel()
 {
     m_Model->clear();
     QStringList listmodelMain;
-    listmodelMain<<"编号"<<"品牌"<<"相机数";
+    listmodelMain<<tr("编号")<<tr("品牌")<<tr("相机数");
     m_Model->setHorizontalHeaderLabels(listmodelMain);
 
     QVector<QString> floders;
@@ -262,7 +262,7 @@ void DlgBrandManage::on_pushButtonDelBrand_clicked()
     if(row<0)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage("请选择要删除的产品!", 0);
+        msg->SetMessage(tr("请选择要删除的产品!"), 0);
         msg->exec();
         return;
     }
@@ -280,9 +280,8 @@ void DlgBrandManage::on_pushButtonChange_clicked()
     if(DSSystemParam::SystemState==DSSystemParam::ENUMSYSTEMSTATE_RUNNING)
     {
 
-
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage("系统正在运行，无法切换品牌，请先停止运行！", 0);
+        msg->SetMessage(tr("系统正在运行，无法切换品牌，请先停止运行！"), 0);
         msg->exec();
 
         return;
@@ -294,7 +293,7 @@ void DlgBrandManage::on_pushButtonChange_clicked()
     if(row<0)
     {
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage("请选择要导入的产品！", 0);
+        msg->SetMessage(tr("请选择要导入的产品！"), 0);
         msg->exec();
 
         return;
@@ -305,7 +304,7 @@ void DlgBrandManage::on_pushButtonChange_clicked()
     {
 
         frmMessageBox *msg = new frmMessageBox;
-        msg->SetMessage(QString("当前牌号为: "+DSSystemParam::BrandName+"，无需切换!"), 0);
+        msg->SetMessage(QString(tr("当前牌号为: ")+DSSystemParam::BrandName+tr("，无需切换!")), 0);
         msg->exec();
 
         return;
@@ -314,7 +313,7 @@ void DlgBrandManage::on_pushButtonChange_clicked()
     // int res=QMessageBox::question(NULL,"确认","\n是否切换为:    "+this->m_Model->data(m_Model->index(row,1)).toString()+"    ?         ",QMessageBox::Yes,QMessageBox::No);
 
     frmMessageBox *msg = new frmMessageBox;
-    msg->SetMessage(QString("是否切换为:    "+this->m_Model->data(m_Model->index(row,1)).toString()+"    ?         "), 1);
+    msg->SetMessage(QString(tr("是否切换为:    ")+this->m_Model->data(m_Model->index(row,1)).toString()+"    ?         "), 1);
     int res= msg->exec();
 
     //DSDEBUG<<"res:"<<res;
